@@ -1,0 +1,29 @@
+signUp: POST /api/signup
+	req:
+		{
+			nickname: "",
+			email:	  "",
+			password: "",
+		}
+	res model:
+		status: int
+		messege: string
+	res codes:
+		400: Wrong request
+		409: User already exist
+		201: OK
+
+signIn: POST /api/signin
+	req:
+		{
+			nickname: "",
+			password: "",
+		}
+	res model:
+		status: int
+		messege: string
+	res codes:
+		400: Wrong request
+		409: User already exist
+		201: OK
+		

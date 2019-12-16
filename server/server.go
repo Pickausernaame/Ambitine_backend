@@ -2,35 +2,71 @@ package server
 
 import (
 	"fmt"
+
+	db "github.com/Pickausernaame/Ambitine_backend/server/db"
 	"github.com/gin-gonic/gin"
+	"github.com/jackc/pgx"
 )
 
 type App struct {
-	Server *gin.Engine
+	Router *gin.Engine
+	DB     *db.DBHandler
+}
+
+func (instance *App) initializeRoutes() {
+	api := instance.Router.Group("/api")
+	{
+		api.GET("/hello", HelloFunc)
+		api.POST("/signin", instance.SignInHand)
+		api.POST("/signup", instance.SignUpHand)
+	}
 }
 
 func New() *App {
-	a := App{Server: gin.New()}
+	a := App{Router: gin.New()}
 
-	a.Server.Use(gin.Recovery())
-	a.Server.Use(gin.Logger())
+	a.initializeRoutes()
 
-	a.Server.GET("/hello", HelloFunc)
+	a.Router.Use(gin.Recovery())
+	a.Router.Use(gin.Logger())
 
 	return &a
 }
 
-func (s *App) Run(port string) {
-	err := s.Server.Run(port)
+func (instance *App) InitDB(dbCfg string) (err error) {
+	var (
+		pgxCfg pgx.ConnConfig
+	)
+
+	pgxCfg, err = pgx.ParseURI(dbCfg)
+
+	if err != nil {
+		fmt.Println("Unable to parse database config:", err)
+		return
+	}
+
+	conn, err := pgx.NewConnPool(pgx.ConnPoolConfig{
+		ConnConfig:     pgxCfg,
+		MaxConnections: 128,
+	})
+
+	if err != nil {
+		fmt.Println("Unbable to build new database connection pool:", err)
+		return
+	}
+
+	instance.DB = &db.DBHandler{Connection: conn}
+
+	err = instance.DB.ResetDB()
+
+	if err != nil {
+		fmt.Println("Unable to create database tables:", err)
+	}
+
+	return
+}
+
+func (instance *App) Run(port string) {
+	err := instance.Router.Run(port)
 	fmt.Print(err)
-}
-
-type Hello struct {
-	Msg string `json:"msg"`
-}
-
-func HelloFunc(c *gin.Context) {
-	res := Hello{Msg: "Hi nigga"}
-	fmt.Print(res)
-	c.JSON(200, res)
 }

@@ -34,12 +34,14 @@ EXPOSE 9090
 
 RUN go get -u
 
-#USER postgres
-#RUN /etc/init.d/postgresql start &&\
-#    psql --command "CREATE USER sayonara WITH SUPERUSER PASSWORD 'boy';" &&\
-#    createdb -O sayonara random &&\
-#    psql random < agregator/migrations.sql &&\
-#    /etc/init.d/postgresql stop
+USER postgres
+
+RUN /etc/init.d/postgresql start &&\
+    psql -c "CREATE USER ambitine WITH SUPERUSER PASSWORD '1488';" &&\
+    createdb -O ambitine ambitine &&\
+    psql -c "GRANT ALL ON DATABASE ambitine TO ambitine;" &&\
+    psql -d forum -c "CREATE EXTENSION IF NOT EXISTS citext;" &&\
+    /etc/init.d/postgresql stop
 
 USER root
 
