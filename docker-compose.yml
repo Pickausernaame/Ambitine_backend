@@ -1,6 +1,7 @@
 version: '3'
 services:
   ambitine:
+    container_name: ambitine
     build: .
     ports:
       - "9090:9090"
