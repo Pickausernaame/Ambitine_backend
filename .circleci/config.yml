@@ -24,7 +24,7 @@ jobs:
             ssh ntn@35.228.98.103 "cd Ambitine_backend; git pull"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker stop ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker rm ambitine || true"
-            ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker-compose build -d"
+            ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker-compose up --build -d"
 
 
 
