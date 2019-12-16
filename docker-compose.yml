@@ -1,7 +1,26 @@
 version: '3'
 services:
+
+  postgres:
+    image: postgres:10
+    container_name: ambitine_db
+    environment:
+      - POSTGRES_USER=ambiuser
+      - POSTGRES_PASSWORD=1488
+      - POSTGRES_DB=ambitine
+    ports:
+      - "54321:5432"
+
   ambitine:
     container_name: ambitine
     build: .
     ports:
       - "9090:9090"
+    environment:
+      P_HOST: postgres
+      P_LOGIN: ambiuser
+      P_PASSWORD: 1488
+      P_DB: ambitine
+      P_PORT: 5432
+    depends_on:
+        - postgres

@@ -11,6 +11,8 @@ type DBHandler struct {
 
 func (instance *DBHandler) ResetDB() (err error) {
 	sql := `
+		CREATE EXTENSION IF NOT EXISTS CITEXT;
+
 		DROP TABLE IF EXISTS "users" CASCADE;
 
 		CREATE TABLE "users" (

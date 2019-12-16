@@ -2,22 +2,17 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/Pickausernaame/Ambitine_backend/server"
 )
 
 func main() {
+	// Создание приложения
 	app := server.New()
-
 	if app == nil {
-		fmt.Println("Unable to create server")
+		fmt.Println("Unable to create app")
+		os.Exit(1)
 	}
-
-	err := app.InitDB("postgres://ambitine:1488@localhost:5432")
-
-	if err != nil {
-		fmt.Println("Unable to init database:", err)
-	}
-
 	app.Run(":9090")
 }

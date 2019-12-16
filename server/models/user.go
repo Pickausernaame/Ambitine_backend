@@ -1,5 +1,7 @@
 package models
 
+import "time"
+
 type UserStruct struct {
 	Nickname string `json:"nickname"`
 	Email    string `json:"email"`
@@ -20,6 +22,14 @@ type SignUpUserStruct struct {
 type SignInUserStruct struct {
 	Nickname string `json:"nickname"`
 	Password string `json:"password"`
+}
+
+type FeedPromiseResponse struct {
+	Nickname    string    `json:"nickname"`
+	ImgUrl      string    `json:"img_url"`
+	Description string    `json:"description"`
+	Pastdue     time.Time `json:"pastdue"`
+	Deposit     int       `json:"deposit"`
 }
 
 func (u *SignUpUserStruct) Validation() bool {
