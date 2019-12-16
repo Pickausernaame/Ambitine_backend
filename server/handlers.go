@@ -15,7 +15,7 @@ type Hello struct {
 }
 
 func HelloFunc(c *gin.Context) {
-	res := Hello{Msg: "Hi nigga"}
+	res := Hello{Msg: "Hi, my dear friend!"}
 	c.JSON(200, res)
 }
 
