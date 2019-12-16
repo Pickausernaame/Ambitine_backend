@@ -17,15 +17,17 @@ jobs:
       - checkout
       - add_ssh_keys:
             fingerprints:
-              - "tqx2+uoXCLuDy5AVaoXwtPyfP6eNAFwz6A0Dcg7xe+E"
+              - "5c:04:27:28:22:31:b0:bc:62:5b:24:56:1e:16:5b:c0"
       - run:
           name: Deploy Over SSH
           command: |
             ssh root@104.248.254.28 "cd Ambitine_backend; git pull"
-            ssh root@104.248.254.28 "cd Ambitine_backend; sudo docker-compose up --no-deps --build -d ambitine"
-            ssh root@104.248.254.28 'cd Ambitine_backend; sudo docker rmi $(sudo docker images -f "dangling=true" -q)'
+            ssh root@104.248.254.28 "cd Ambitine_backend; sudo docker kill ambitine_backend_ambitine_1"
+            ssh root@104.248.254.28 'cd Ambitine_backend; sudo docker rm ambitine_backend_ambitine_1'
+            ssh root@104.248.254.28 "cd Ambitine_backend; sudo docker-compose up -d"
 
 
+# again
 #            ssh ntn@35.228.75.3 git clone https://github.com/Pickausernaame/Ambitine_backend.git
 
 
