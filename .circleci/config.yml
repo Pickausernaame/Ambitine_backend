@@ -17,7 +17,7 @@ jobs:
       - checkout
       - add_ssh_keys:
             fingerprints:
-              - "43:57:31:94:df:f1:77:18:ed:2b:73:16:41:b8:ec:7c"
+              - "34:c9:75:9a:d3:2c:35:50:14:5e:ec:88:e0:15:bb:25"
       - run:
           name: Deploy Over SSH
           command: |
