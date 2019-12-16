@@ -24,6 +24,17 @@ func (instance *DBHandler) ResetDB() (err error) {
 			"about" text,
 			"imgurl" text
 		);
+
+		CREATE TABLE "promise" (
+			"id" BIGSERIAL PRIMARY KEY,
+			"owner" citext NOT NULL UNIQUE,
+			"nickname" citext NOT NULL UNIQUE,
+			"description" text,
+			"deposit" integer,
+			"pastdue" TIMESTAMP,
+			"imgurl" text
+		);
+		
 	`
 	_, err = instance.Connection.Exec(sql)
 	return

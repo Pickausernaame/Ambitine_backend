@@ -3,11 +3,14 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/Pickausernaame/Ambitine_backend/server"
 )
 
 func main() {
+	// Пауза для полноценного запуска контейнера бд
+	time.Sleep(5 * time.Second)
 	// Создание приложения
 	app := server.New()
 	if app == nil {
