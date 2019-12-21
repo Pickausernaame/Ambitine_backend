@@ -124,7 +124,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 			"imgurl",
 			"accepted"
 		FROM "promise"
-		ORDER BY pastdue DESC;
+		ORDER BY pastdue ASC;
 `
 	pastdue := time.Time{}
 	rows, err := db.Connection.Query(sql)
