@@ -3,6 +3,7 @@ package db
 import (
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/jackc/pgx"
+	"time"
 )
 
 type DBHandler struct {
@@ -104,9 +105,10 @@ func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 		)
 		VALUES ($1, $2, $3, $4, $5, $6, $7);
 	`
+	pastdue := time.Unix(promise.Pastdue, 0)
 	_, err = db.Connection.Query(sql, promise.Author, promise.Receiver,
 		promise.Description, promise.Deposit,
-		promise.Pastdue,
+		pastdue,
 		promise.ImgUrl, promise.Accepted)
 	return
 }
@@ -124,13 +126,15 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 		FROM "promise"
 		ORDER BY pastdue DESC;
 `
+	pastdue := time.Time{}
 	rows, err := db.Connection.Query(sql)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &p.Pastdue, &p.ImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
+		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
 	return promise, nil

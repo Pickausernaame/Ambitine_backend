@@ -1,7 +1,5 @@
 package models
 
-import "time"
-
 type UserStruct struct {
 	Nickname string `json:"nickname"`
 	Email    string `json:"email"`
@@ -25,13 +23,13 @@ type SignInUserStruct struct {
 }
 
 type Promise struct {
-	Author      string    `json:"author_username"`
-	Receiver    string    `json:"reciever_username"`
-	ImgUrl      string    `json:"img_url"`
-	Description string    `json:"description"`
-	Pastdue     time.Time `json:"pastdue"`
-	Deposit     int       `json:"deposit"`
-	Accepted    bool      `json:"accepted"`
+	Author      string `json:"author_username"`
+	Receiver    string `json:"reciever_username"`
+	ImgUrl      string `json:"img_url"`
+	Description string `json:"description"`
+	Pastdue     int64  `json:"pastdue"`
+	Deposit     int    `json:"deposit"`
+	Accepted    bool   `json:"accepted"`
 }
 
 type FeedPromise []Promise

@@ -3,7 +3,6 @@ package db
 import (
 	"fmt"
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
-	"time"
 )
 
 type Mocker struct {
@@ -52,7 +51,7 @@ func (m *Mocker) Mock() {
 		Receiver:    "ntn",
 		ImgUrl:      "https://cdn5.vectorstock.com/i/1000x1000/51/99/icon-of-user-avatar-for-web-site-or-mobile-app-vector-3125199.jpg",
 		Description: "Do this feed right now",
-		Pastdue:     time.Unix(1576417777, 0),
+		Pastdue:     1576417777,
 		Deposit:     1000,
 		Accepted:    false,
 	}
@@ -64,7 +63,7 @@ func (m *Mocker) Mock() {
 		Receiver:    "tim",
 		ImgUrl:      "https://cdn5.vectorstock.com/i/1000x1000/51/99/icon-of-user-avatar-for-web-site-or-mobile-app-vector-3125199.jpg",
 		Description: "Okay we try do the best",
-		Pastdue:     time.Unix(1588417777, 0),
+		Pastdue:     1588417777,
 		Deposit:     23000,
 		Accepted:    false,
 	}
@@ -75,7 +74,7 @@ func (m *Mocker) Mock() {
 		Receiver:    "ntn",
 		ImgUrl:      "https://www.freelogodesign.org/Content/img/logo-samples/sophia.png",
 		Description: "Lets get my honey, bro",
-		Pastdue:     time.Unix(1688417777, 0),
+		Pastdue:     1688417777,
 		Deposit:     230,
 		Accepted:    false,
 	}
@@ -87,7 +86,7 @@ func (m *Mocker) Mock() {
 		Receiver:    "ntn",
 		ImgUrl:      "https://media.kidozi.com/unsafe/600x600/img.kidozi.com/design/600/600/0a0909/74062/c6ba04a076242d3249b240eae6461f09.png.jpg",
 		Description: "Subscribe for GGG !",
-		Pastdue:     time.Unix(1788417777, 0),
+		Pastdue:     1788417777,
 		Deposit:     29000,
 		Accepted:    false,
 	}
@@ -98,7 +97,7 @@ func (m *Mocker) Mock() {
 		Receiver:    "gelo",
 		ImgUrl:      "https://cdn-prod.medicalnewstoday.com/content/images/articles/234/234239/cocaine-drug.jpg",
 		Description: "Lets do something great!",
-		Pastdue:     time.Unix(1888417777, 0),
+		Pastdue:     1888417777,
 		Deposit:     300000,
 		Accepted:    false,
 	}
