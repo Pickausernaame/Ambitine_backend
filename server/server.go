@@ -3,6 +3,7 @@ package server
 import (
 	"errors"
 	"fmt"
+	"github.com/Pickausernaame/Ambitine_backend/server/middleware"
 	"os"
 	"strconv"
 
@@ -28,8 +29,14 @@ func (instance *App) initializeRoutes() {
 	api := instance.Router.Group("/api")
 	{
 		api.GET("/hello", HelloFunc)
+		api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
+
 		api.POST("/signin", instance.SignInHand)
 		api.POST("/signup", instance.SignUpHand)
+
+		api.POST("/logout", middleware.AuthMiddleware(instance.Logout))
+		api.POST("/new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
+
 	}
 }
 

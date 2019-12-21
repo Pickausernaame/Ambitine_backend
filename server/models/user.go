@@ -25,6 +25,15 @@ type SignInUserStruct struct {
 }
 
 type FeedPromiseResponse struct {
+	Author      string    `json:"author"`
+	Receiver    string    `json:"receiver"`
+	ImgUrl      string    `json:"img_url"`
+	Description string    `json:"description"`
+	Pastdue     time.Time `json:"pastdue"`
+	Deposit     int       `json:"deposit"`
+}
+
+type FeedPromiseCreate struct {
 	Nickname    string    `json:"nickname"`
 	ImgUrl      string    `json:"img_url"`
 	Description string    `json:"description"`

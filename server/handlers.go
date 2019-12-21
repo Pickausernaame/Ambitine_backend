@@ -47,6 +47,18 @@ func (instance *App) SignInHand(c *gin.Context) {
 	c.Status(201)
 }
 
+func (instance *App) Logout(c *gin.Context) {
+
+}
+
+func (instance *App) GetPromises(c *gin.Context) {
+
+}
+
+func (instance *App) CreateNewPromise(c *gin.Context) {
+
+}
+
 func (instance *App) SignUpHand(c *gin.Context) {
 	var (
 		newUser   models.SignUpUserStruct
