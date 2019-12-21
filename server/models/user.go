@@ -26,7 +26,7 @@ type Promise struct {
 	Author      string `json:"author_username"`
 	Receiver    string `json:"reciever_username"`
 	ImgUrl      string `json:"img_url"`
-	Description string `json:"description"`
+	Description string `json:"promise_description"`
 	Pastdue     int64  `json:"pastdue"`
 	Deposit     int    `json:"deposit"`
 	Accepted    bool   `json:"accepted"`
