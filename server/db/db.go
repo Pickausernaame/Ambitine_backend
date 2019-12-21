@@ -151,7 +151,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (
 			"imgurl",
 			"accepted"
 		FROM "promise"
-		WHERE "author" = $1 ORDER BY pastdue DESC LIMIT $2 OFFSET $3;
+		WHERE "author" = $1 ORDER BY pastdue ASC LIMIT $2 OFFSET $3;
 `
 	rows, err := db.Connection.Query(sql, author, limit, offset)
 	for rows.Next() {
