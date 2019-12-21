@@ -139,7 +139,8 @@ func (instance *App) SignUpHand(c *gin.Context) {
 
 func (instance *App) GetAllUsers(c *gin.Context) {
 	id, _ := c.Get("id")
-	users, err := instance.DB.GetUsers(int(id.(float64)), "")
+	users, err := instance.DB.GetUsers(int(id.(float64)), "-")
+	fmt.Println(users)
 	if err != nil {
 		c.Status(404)
 	}
@@ -148,6 +149,7 @@ func (instance *App) GetAllUsers(c *gin.Context) {
 	for _, u := range users {
 		resp = append(resp, u.Nickname)
 	}
+	fmt.Println(resp)
 	c.JSON(200, resp)
 }
 

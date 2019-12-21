@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/jackc/pgx"
 	"time"
@@ -198,19 +199,22 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 
 func (db *DBHandler) GetUsers(id int, query string) (users []models.AutoComplete, err error) {
 	sql := ""
-	if query == "" {
+	if query == "-" {
+		fmt.Println("GETTING ALL USERS")
 		sql = `
-			SELECT nickname, imgurl FROM users WHERE nickname != $1; `
+			SELECT nickname FROM users WHERE id <> $1; `
 		rows, err := db.Connection.Query(sql, id)
 		for rows.Next() {
 			var u models.AutoComplete
-			err = rows.Scan(&u.Nickname, &u.Img)
+			err = rows.Scan(&u.Nickname)
 			if err != nil {
+				fmt.Println(err)
 				return nil, err
 			}
 			users = append(users, u)
 		}
 	}
+
 	return users, nil
 }
 
