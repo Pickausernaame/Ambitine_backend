@@ -47,6 +47,13 @@ func (m *Mocker) Mock() {
 	}
 	m.createUser(oleg)
 
+	oleg_full := models.SignUpUserStruct{
+		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
+		//Email:    "lolo@ya.ru",
+		Password: "DROIDEK",
+	}
+	m.createUser(oleg_full)
+
 	p := models.Promise{
 		Author:      "evv",
 		Receiver:    "ntn",
