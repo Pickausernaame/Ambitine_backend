@@ -98,8 +98,53 @@ func (m *Mocker) Mock() {
 		ImgUrl:      "https://cdn-prod.medicalnewstoday.com/content/images/articles/234/234239/cocaine-drug.jpg",
 		Description: "Lets do something great!",
 		Pastdue:     1888417777,
-		Deposit:     300000,
+		Deposit:     5300000,
 		Accepted:    false,
 	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "gelo",
+		Receiver:    "evv",
+		ImgUrl:      "https://d.newsweek.com/en/full/1176971/obesity-meme.png",
+		Description: "Lets go in mumu!",
+		Pastdue:     1818417777,
+		Deposit:     300232100,
+		Accepted:    false,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "tim",
+		Receiver:    "evv",
+		ImgUrl:      "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description: "Я, бл***, в своём познании настолько преисполнился, что я как будто бы уже 100 триллионов миллиардов лет, бл***, проживаю на триллионах и триллионах таких же планет, понимаешь? Как эта Земля. Мне уже этот мир абсолютно понятен, и я здесь ищу только одного: покоя, умиротворения и вот этой гармонии от слияния с бесконечно вечным.",
+		Pastdue:     1828417777,
+		Deposit:     300231000,
+		Accepted:    false,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "ntn",
+		Receiver:    "evv",
+		ImgUrl:      "https://bostonglobe-prod.cdn.arcpublishing.com/resizer/RHDkOXAijJlc7rv8Owlk19kcyt4=/1440x0/arc-anglerfish-arc2-prod-bostonglobe.s3.amazonaws.com/public/Y5GUIDYVWJGVFP5MWNYJR5375I.png",
+		Description: "CREATE NEW MEMES PLS",
+		Pastdue:     1928417777,
+		Deposit:     30230,
+		Accepted:    false,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "ntn",
+		Receiver:    "evv",
+		ImgUrl:      "https://memepedia.ru/wp-content/uploads/2017/08/%D1%81%D0%BC%D0%B5%D1%85-%D0%B4%D0%B6%D0%B5%D0%B9%D0%BC%D1%81%D0%BE%D0%BD%D0%B0.jpg",
+		Description: "CREATE NEW MEMES PLS",
+		Pastdue:     1428417777,
+		Deposit:     30034000,
+		Accepted:    false,
+	}
+
 	m.createPromise(p)
 }
