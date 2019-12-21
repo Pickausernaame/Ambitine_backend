@@ -85,12 +85,13 @@ func (instance *App) GetReceiverPromises(c *gin.Context) {
 		return
 	}
 	fmt.Println(nickname)
-	ps, err := instance.DB.GetPromisesByAuthor(nickname)
+	ps, err := instance.DB.GetPromisesByReceiver(nickname)
 	if err != nil {
 		fmt.Println("Getting feed error: ", err)
 		c.Status(404)
 		return
 	}
+	fmt.Println(ps)
 	if len(ps) == 0 {
 		c.Status(404)
 		return
