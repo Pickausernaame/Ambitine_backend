@@ -137,6 +137,20 @@ func (instance *App) SignUpHand(c *gin.Context) {
 	c.Status(201)
 }
 
+func (instance *App) GetAllUsers(c *gin.Context) {
+	id, _ := c.Get("id")
+	users, err := instance.DB.GetUsers(int(id.(float64)), "")
+	if err != nil {
+		c.Status(404)
+	}
+
+	var resp []string
+	for _, u := range users {
+		resp = append(resp, u.Nickname)
+	}
+	c.JSON(200, resp)
+}
+
 func (instance *App) createSessionId(id int) string {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"id": id,

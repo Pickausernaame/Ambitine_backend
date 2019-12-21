@@ -196,6 +196,24 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 	return promise, nil
 }
 
+func (db *DBHandler) GetUsers(id int, query string) (users []models.AutoComplete, err error) {
+	sql := ""
+	if query == "" {
+		sql = `
+			SELECT nickname, imgurl FROM users WHERE nickname != $1; `
+		rows, err := db.Connection.Query(sql, id)
+		for rows.Next() {
+			var u models.AutoComplete
+			err = rows.Scan(&u.Nickname, &u.Img)
+			if err != nil {
+				return nil, err
+			}
+			users = append(users, u)
+		}
+	}
+	return users, nil
+}
+
 func (db *DBHandler) GetNicknameById(id int) (nickname string, err error) {
 	sql := `
 		SELECT nickname FROM "users" 

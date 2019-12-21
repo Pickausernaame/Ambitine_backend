@@ -22,6 +22,11 @@ type SignInUserStruct struct {
 	Password string `json:"password"`
 }
 
+type AutoComplete struct {
+	Nickname string `json:"username"`
+	Img      string `json:"img_url"`
+}
+
 type Promise struct {
 	Author      string `json:"author_username"`
 	Receiver    string `json:"reciever_username"`

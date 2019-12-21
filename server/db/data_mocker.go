@@ -18,6 +18,7 @@ func (m *Mocker) createPromise(p models.Promise) {
 }
 
 func (m *Mocker) Mock() {
+
 	evv := models.SignUpUserStruct{
 		Nickname: "evv",
 		//Email:    "ya_eb@gmail.com",
