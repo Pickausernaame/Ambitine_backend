@@ -26,11 +26,16 @@ type App struct {
 }
 
 func (instance *App) initializeRoutes() {
+
+	instance.Router.Use(gin.Recovery())
+	instance.Router.Use(gin.Logger())
+
 	api := instance.Router.Group("/api")
 	{
 		api.GET("/hello", HelloFunc)
 		//api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
-		api.GET("/get_promises", instance.GetPromises)
+		api.GET("/get_export_promises", middleware.AuthMiddleware(instance.GetAuthorPromises))
+		api.GET("/get_import_promises", middleware.AuthMiddleware(instance.GetReceiverPromises))
 
 		api.POST("/signin", instance.SignInHand)
 		api.POST("/signup", instance.SignUpHand)

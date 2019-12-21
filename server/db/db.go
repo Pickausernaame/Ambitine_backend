@@ -19,7 +19,7 @@ func (db *DBHandler) ResetDB() (err error) {
 		
 		CREATE TABLE "users" (
 			"id" BIGSERIAL PRIMARY KEY,
-			"email" citext NOT NULL UNIQUE,
+			"email" citext NOT NULL,
 			"nickname" citext UNIQUE,	
 			"password" text NOT NULL,
 			"fullname" text,
@@ -43,13 +43,13 @@ func (db *DBHandler) ResetDB() (err error) {
 	return
 }
 
-func (db *DBHandler) CheckUserExist(nickname string, email string) (err error, id int) {
+func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	sql := `
 		SELECT id 
 		FROM "users"
-		WHERE nickname = $1 OR email = $2;
+		WHERE nickname = $1;
 	`
-	err = db.Connection.QueryRow(sql, nickname, email).Scan(&id)
+	err = db.Connection.QueryRow(sql, nickname).Scan(&id)
 
 	if err != nil {
 		return err, -1
@@ -140,7 +140,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 	return promise, nil
 }
 
-func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (promise models.FeedPromise, err error) {
+func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedPromise, err error) {
 	sql := `
 		SELECT 
 			"author", 
@@ -151,16 +151,56 @@ func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (
 			"imgurl",
 			"accepted"
 		FROM "promise"
-		WHERE "author" = $1 ORDER BY pastdue ASC LIMIT $2 OFFSET $3;
+		WHERE "author" = $1 ORDER BY pastdue ASC;
 `
-	rows, err := db.Connection.Query(sql, author, limit, offset)
+	// LIMIT $2 OFFSET $3
+	pastdue := time.Time{}
+	rows, err := db.Connection.Query(sql, author)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &p.Pastdue, &p.ImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
+		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
 	return promise, nil
+}
+
+func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.FeedPromise, err error) {
+	sql := `
+		SELECT 
+			"author", 
+			"receiver", 
+			"description",
+			"deposit",
+			"pastdue",
+			"imgurl",
+			"accepted"
+		FROM "promise"
+		WHERE "receiver" = $1 ORDER BY pastdue ASC;
+`
+	// LIMIT $2 OFFSET $3
+	pastdue := time.Time{}
+	rows, err := db.Connection.Query(sql, receiver)
+	for rows.Next() {
+		var p models.Promise
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ImgUrl, &p.Accepted)
+		if err != nil {
+			return nil, err
+		}
+		p.Pastdue = pastdue.Unix()
+		promise = append(promise, p)
+	}
+	return promise, nil
+}
+
+func (db *DBHandler) GetNicknameById(id int) (nickname string, err error) {
+	sql := `
+		SELECT nickname FROM "users" 
+			WHERE id = $1;
+`
+	err = db.Connection.QueryRow(sql, id).Scan(&nickname)
+	return
 }

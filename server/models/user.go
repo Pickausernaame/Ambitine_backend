@@ -34,10 +34,10 @@ type Promise struct {
 
 type FeedPromise []Promise
 
-func (u *SignUpUserStruct) Validation() bool {
-	if u.Email == "" || u.Nickname == "" || u.Password == "" {
-		return false
-	}
-
-	return true
-}
+//func (u *SignUpUserStruct) Validation() bool {
+//	if u.Email == "" || u.Nickname == "" || u.Password == "" {
+//		return false
+//	}
+//
+//	return true
+//}

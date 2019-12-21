@@ -48,18 +48,54 @@ func (instance *App) SignInHand(c *gin.Context) {
 }
 
 func (instance *App) Logout(c *gin.Context) {
-
+	c.Status(666)
 }
 
-func (instance *App) GetPromises(c *gin.Context) {
+func (instance *App) GetAuthorPromises(c *gin.Context) {
+	id, _ := c.Get("id")
 
-	ps, err := instance.DB.GetAllPromises()
+	nickname, err := instance.DB.GetNicknameById(int(id.(float64)))
 	if err != nil {
-		fmt.Println("Getting feed error: ", err)
-		c.Status(409)
+		fmt.Println("Getting nickname error: ", nickname)
+		c.Status(404)
 		return
 	}
+	fmt.Println(nickname)
+	ps, err := instance.DB.GetPromisesByAuthor(nickname)
+	if err != nil {
+		fmt.Println("Getting feed error: ", err)
+		c.Status(404)
+		return
+	}
+	if len(ps) == 0 {
+		c.Status(404)
+		return
+	}
+	fmt.Println(ps)
+	c.JSON(200, ps)
+}
 
+func (instance *App) GetReceiverPromises(c *gin.Context) {
+	id, _ := c.Get("id")
+
+	nickname, err := instance.DB.GetNicknameById(int(id.(float64)))
+	if err != nil {
+		fmt.Println("Getting nickname error: ", nickname)
+		c.Status(404)
+		return
+	}
+	fmt.Println(nickname)
+	ps, err := instance.DB.GetPromisesByAuthor(nickname)
+	if err != nil {
+		fmt.Println("Getting feed error: ", err)
+		c.Status(404)
+		return
+	}
+	if len(ps) == 0 {
+		c.Status(404)
+		return
+	}
+	fmt.Println(ps)
 	c.JSON(200, ps)
 }
 
@@ -68,15 +104,12 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 }
 
 func (instance *App) SignUpHand(c *gin.Context) {
-	var (
-		newUser   models.SignUpUserStruct
-		loginUser models.SignInUserStruct
-	)
 
+	newUser := models.SignUpUserStruct{}
 	decoder := json.NewDecoder(c.Request.Body)
-	decoder.DisallowUnknownFields()
+	//decoder.DisallowUnknownFields()
 	err := decoder.Decode(&newUser)
-	if err != nil || !newUser.Validation() {
+	if err != nil {
 		fmt.Println("Unable to decode SignUp request: ", err)
 		c.Status(400)
 		return
@@ -90,10 +123,7 @@ func (instance *App) SignUpHand(c *gin.Context) {
 		return
 	}
 
-	loginUser.Nickname = newUser.Nickname
-	loginUser.Password = newUser.Password
-
-	err, id := instance.DB.CheckUserExist(newUser.Nickname, newUser.Email)
+	err, id := instance.DB.CheckUserExist(newUser.Nickname)
 
 	if err != nil {
 		fmt.Println("Unable to check user existing:", err)
@@ -102,7 +132,7 @@ func (instance *App) SignUpHand(c *gin.Context) {
 	}
 
 	sessionId := instance.createSessionId(id)
-	c.SetCookie("session_id", sessionId, 3600, "/", "", false, false)
+	c.SetCookie("session_id", sessionId, 3600, "/p", "", false, false)
 	c.Status(201)
 }
 

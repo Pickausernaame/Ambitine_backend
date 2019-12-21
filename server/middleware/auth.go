@@ -30,9 +30,12 @@ func CheckAuth(cookie *http.Cookie) (jwt.MapClaims, error) {
 
 func AuthMiddleware(handlerFunc gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
+		fmt.Println(c.Request.Header)
 		cookie, err := c.Request.Cookie("session_id")
+
 		if err != nil {
-			c.AbortWithStatus(404)
+
+			c.AbortWithStatus(403)
 			fmt.Println(err)
 			return
 		}

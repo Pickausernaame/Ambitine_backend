@@ -20,28 +20,28 @@ func (m *Mocker) createPromise(p models.Promise) {
 func (m *Mocker) Mock() {
 	evv := models.SignUpUserStruct{
 		Nickname: "evv",
-		Email:    "ya_eb@gmail.com",
+		//Email:    "ya_eb@gmail.com",
 		Password: "bmstu",
 	}
 	m.createUser(evv)
 
 	ntn := models.SignUpUserStruct{
 		Nickname: "ntn",
-		Email:    "ebaboba@gmail.com",
+		//Email:    "ebaboba@gmail.com",
 		Password: "1488",
 	}
 	m.createUser(ntn)
 
 	tim := models.SignUpUserStruct{
 		Nickname: "tim",
-		Email:    "kazik@mail.ru",
+		//Email:    "kazik@mail.ru",
 		Password: "urus",
 	}
 	m.createUser(tim)
 
 	oleg := models.SignUpUserStruct{
 		Nickname: "gelo",
-		Email:    "lolo@ya.ru",
+		//Email:    "lolo@ya.ru",
 		Password: "qwerty",
 	}
 	m.createUser(oleg)
