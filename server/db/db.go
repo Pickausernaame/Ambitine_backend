@@ -14,7 +14,8 @@ func (db *DBHandler) ResetDB() (err error) {
 		CREATE EXTENSION IF NOT EXISTS CITEXT;
 
 		DROP TABLE IF EXISTS "users" CASCADE;
-
+		DROP TABLE IF EXISTS "promise" CASCADE;
+		
 		CREATE TABLE "users" (
 			"id" BIGSERIAL PRIMARY KEY,
 			"email" citext NOT NULL UNIQUE,
@@ -27,12 +28,13 @@ func (db *DBHandler) ResetDB() (err error) {
 
 		CREATE TABLE "promise" (
 			"id" BIGSERIAL PRIMARY KEY,
-			"author" citext NOT NULL UNIQUE,
-			"receiver" citext NOT NULL UNIQUE,
+			"author" citext NOT NULL,
+			"receiver" citext NOT NULL,
 			"description" text,
 			"deposit" integer,
 			"pastdue" TIMESTAMP,
-			"imgurl" text
+			"imgurl" text,
+			"accepted" bool
 		);
 		
 	`
@@ -89,25 +91,27 @@ func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct) (err error) {
 	return
 }
 
-func (db *DBHandler) SetNewPromise(promise models.FeedPromiseResponse) (err error) {
+func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 	sql := `
 		INSERT INTO "promise" (
-			"author", 
-			"receiver", 
-			"description",
-			"deposit",
-			"pastdue",
-			"imgurl"
+		author, 
+		receiver, 
+		description,
+		deposit,
+		pastdue,
+		imgurl,
+		accepted
 		)
-		VALUES ($1, $2, $3, $4, $5, $6);
+		VALUES ($1, $2, $3, $4, $5, $6, $7);
 	`
 	_, err = db.Connection.Query(sql, promise.Author, promise.Receiver,
 		promise.Description, promise.Deposit,
-		promise.Pastdue, promise.ImgUrl)
+		promise.Pastdue,
+		promise.ImgUrl, promise.Accepted)
 	return
 }
 
-func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (promise []models.FeedPromiseResponse, err error) {
+func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 	sql := `
 		SELECT 
 			"author", 
@@ -115,14 +119,40 @@ func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (
 			"description",
 			"deposit",
 			"pastdue",
-			"imgurl"
+			"imgurl",
+			"accepted"
 		FROM "promise"
-		WHERE "author" = $1 ORDER BY id DESC LIMIT $2 OFFSET $3;
+		ORDER BY pastdue DESC;
+`
+	rows, err := db.Connection.Query(sql)
+	for rows.Next() {
+		var p models.Promise
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &p.Pastdue, &p.ImgUrl, &p.Accepted)
+		if err != nil {
+			return nil, err
+		}
+		promise = append(promise, p)
+	}
+	return promise, nil
+}
+
+func (db *DBHandler) GetPromisesByAuthor(author string, limit int, offset int) (promise models.FeedPromise, err error) {
+	sql := `
+		SELECT 
+			"author", 
+			"receiver", 
+			"description",
+			"deposit",
+			"pastdue",
+			"imgurl",
+			"accepted"
+		FROM "promise"
+		WHERE "author" = $1 ORDER BY pastdue DESC LIMIT $2 OFFSET $3;
 `
 	rows, err := db.Connection.Query(sql, author, limit, offset)
 	for rows.Next() {
-		var p models.FeedPromiseResponse
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &p.Pastdue, &p.ImgUrl)
+		var p models.Promise
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &p.Pastdue, &p.ImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}

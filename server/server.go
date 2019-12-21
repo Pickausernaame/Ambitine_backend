@@ -29,7 +29,8 @@ func (instance *App) initializeRoutes() {
 	api := instance.Router.Group("/api")
 	{
 		api.GET("/hello", HelloFunc)
-		api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
+		//api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
+		api.GET("/get_promises", instance.GetPromises)
 
 		api.POST("/signin", instance.SignInHand)
 		api.POST("/signup", instance.SignUpHand)
@@ -112,12 +113,17 @@ func (instance *App) InitDB() (err error) {
 
 	instance.DB = &db.DBHandler{Connection: conn}
 
-	err = instance.DB.ResetDB()
-
-	if err != nil {
-		fmt.Println("Unable to create database tables:", err)
-		return err
+	// ##################################################
+	{
+		err = instance.DB.ResetDB()
+		if err != nil {
+			fmt.Println("Unable to create database tables:", err)
+			return err
+		}
+		mocker := db.Mocker{DB: instance.DB}
+		mocker.Mock()
 	}
+	// ##################################################
 
 	return nil
 }

@@ -53,6 +53,14 @@ func (instance *App) Logout(c *gin.Context) {
 
 func (instance *App) GetPromises(c *gin.Context) {
 
+	ps, err := instance.DB.GetAllPromises()
+	if err != nil {
+		fmt.Println("Getting feed error: ", err)
+		c.Status(409)
+		return
+	}
+
+	c.JSON(200, ps)
 }
 
 func (instance *App) CreateNewPromise(c *gin.Context) {

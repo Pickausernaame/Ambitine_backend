@@ -24,22 +24,17 @@ type SignInUserStruct struct {
 	Password string `json:"password"`
 }
 
-type FeedPromiseResponse struct {
-	Author      string    `json:"author"`
-	Receiver    string    `json:"receiver"`
+type Promise struct {
+	Author      string    `json:"author_username"`
+	Receiver    string    `json:"reciever_username"`
 	ImgUrl      string    `json:"img_url"`
 	Description string    `json:"description"`
 	Pastdue     time.Time `json:"pastdue"`
 	Deposit     int       `json:"deposit"`
+	Accepted    bool      `json:"accepted"`
 }
 
-type FeedPromiseCreate struct {
-	Nickname    string    `json:"nickname"`
-	ImgUrl      string    `json:"img_url"`
-	Description string    `json:"description"`
-	Pastdue     time.Time `json:"pastdue"`
-	Deposit     int       `json:"deposit"`
-}
+type FeedPromise []Promise
 
 func (u *SignUpUserStruct) Validation() bool {
 	if u.Email == "" || u.Nickname == "" || u.Password == "" {
