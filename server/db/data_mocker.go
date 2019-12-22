@@ -30,14 +30,14 @@ func (m *Mocker) Mock() {
 
 	ntn := models.SignUpUserStruct{
 		Nickname: "ntn",
-		//Email:    "ebaboba@gmail.com",
+		Email:    "ebaboba@gmail.com",
 		Password: "1488",
 	}
 	m.createUser(ntn)
 
 	tim := models.SignUpUserStruct{
 		Nickname: "tim",
-		//Email:    "kazik@mail.ru",
+		Email:    "kazik@mail.ru",
 		Password: "urus",
 	}
 	m.createUser(tim)
@@ -52,7 +52,7 @@ func (m *Mocker) Mock() {
 
 	oleg_full := models.SignUpUserStruct{
 		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
-		//Email:    "lolo@ya.ru",
+		Email:    "lolo@ya.ru",
 		Password: "DROIDEK",
 	}
 	m.createUser(oleg_full)
