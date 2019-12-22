@@ -14,17 +14,18 @@ func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 		description,
 		deposit,
 		pastdue,
-		reciver_img_url,
+		receiver_img_url,
 		author_img_url,
 		accepted
 		)
 		VALUES ($1, $2, $3, $4, $5, $6, $7, $8);
 	`
 	pastdue := time.Unix(promise.Pastdue, 0)
+
 	_, err = db.Connection.Query(sql, promise.Author, promise.Receiver,
 		promise.Description, promise.Deposit,
 		pastdue,
-		promise.ReciverImgUrl, promise.AuthorImgUrl, promise.Accepted)
+		promise.ReceiverImgUrl, promise.AuthorImgUrl, 0)
 	return
 }
 
@@ -36,7 +37,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 			"description",
 			"deposit",
 			"pastdue",
-			"reciver_img_url",
+			"receiver_img_url",
 			"author_img_url",
 			"accepted"
 		FROM "promise"
@@ -46,7 +47,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 	rows, err := db.Connection.Query(sql)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReciverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
@@ -64,7 +65,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 			"description",
 			"deposit",
 			"pastdue",
-			"reciver_img_url",
+			"receiver_img_url",
 			"author_img_url",
 			"accepted"
 		FROM "promise"
@@ -75,7 +76,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 	rows, err := db.Connection.Query(sql, author)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReciverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
@@ -93,7 +94,7 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 			"description",
 			"deposit",
 			"pastdue",
-			"reciver_img_url",
+			"receiver_img_url",
 			"author_img_url",
 			"accepted"
 		FROM "promise"
@@ -104,7 +105,7 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 	rows, err := db.Connection.Query(sql, receiver)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReciverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}

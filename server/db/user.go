@@ -33,12 +33,11 @@ func (db *DBHandler) ResetDB() (err error) {
 			"id" BIGSERIAL PRIMARY KEY,
 			"author" citext NOT NULL,
 			"receiver" citext NOT NULL,
-			"reciver_img_url" text NOT NULL,
+			"receiver_img_url" text NOT NULL,
 			"author_img_url" text NOT NULL,
 			"description" text,
 			"deposit" integer,
 			"pastdue" TIMESTAMP,
-			"imgurl" text,
 			"accepted" int
 		);
 	`
@@ -118,6 +117,15 @@ func (db *DBHandler) GetUsers(id int, query string) (users []models.AutoComplete
 	}
 
 	return users, nil
+}
+
+func (db *DBHandler) GetImgUrlByNickname(nickname string) (imgUrl string, err error) {
+	sql := `
+		SELECT imgurl FROM "users" 
+			WHERE nickname = $1;
+`
+	err = db.Connection.QueryRow(sql, nickname).Scan(&imgUrl)
+	return
 }
 
 func (db *DBHandler) GetNicknameById(id int) (nickname string, err error) {

@@ -44,6 +44,32 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
+	id, _ := c.Get("id")
+
+	p.Author, err = instance.DB.GetNicknameById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("Unable to get promise author nickname by id :", err)
+		c.Status(400)
+		return
+	}
+
+	p.AuthorImgUrl, err = instance.DB.GetImgUrlByNickname(p.Author)
+
+	if err != nil {
+		fmt.Println("Unable to get authorImgUrl by nickname :", err)
+		c.Status(400)
+		return
+	}
+
+	p.ReceiverImgUrl, err = instance.DB.GetImgUrlByNickname(p.Receiver)
+
+	if err != nil {
+		fmt.Println("Unable to get authorImgUrl by nickname :", err)
+		c.Status(400)
+		return
+	}
+
 	err = instance.DB.SetNewPromise(p)
 
 	if err != nil {

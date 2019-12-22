@@ -38,7 +38,7 @@ func (instance *App) initializeRoutes() {
 		api.GET("/get_export_promises", middleware.AuthMiddleware(instance.GetAuthorPromises))
 		api.GET("/get_import_promises", middleware.AuthMiddleware(instance.GetReceiverPromises))
 
-		api.POST("/set_new_promis", instance.CreateNewPromise)
+		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
 
 		api.GET("/users_autocomplete", middleware.AuthMiddleware(instance.GetAllUsers))
 
@@ -47,7 +47,6 @@ func (instance *App) initializeRoutes() {
 
 		api.POST("/logout", middleware.AuthMiddleware(instance.Logout))
 		api.POST("/new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
-
 	}
 }
 
