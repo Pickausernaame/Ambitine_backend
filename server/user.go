@@ -36,7 +36,13 @@ func (instance *App) SignInHand(c *gin.Context) {
 
 	err = instance.DB.UpdateUserToken(loginUser.Nickname, loginUser.Token)
 
-	fmt.Print(loginUser.Nickname, " token: \n", loginUser.Token, "\n\n")
+	if err != nil {
+		fmt.Println("Unable to update token:", err)
+		c.Status(400)
+		return
+	}
+
+	fmt.Print("SINGIN ", loginUser.Nickname, " token: \n", loginUser.Token, "\n\n")
 
 	id, err := instance.DB.GetUserIdByNicknameAndPassword(loginUser)
 
