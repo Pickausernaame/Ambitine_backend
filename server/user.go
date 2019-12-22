@@ -34,7 +34,7 @@ func (instance *App) GetUserBalance(c *gin.Context) {
 
 	_, balance, _ := instance.WM.CheckBalance(addr)
 
-	c.JSON(200, gin.H{"balance": balance} )
+	c.JSON(200, gin.H{"balance": balance})
 }
 
 func (instance *App) SignInHand(c *gin.Context) {
@@ -177,10 +177,13 @@ func (instance *App) UserInfo(c *gin.Context) {
 	u, err := instance.DB.GetUserInfo(int(id.(float64)))
 	if err != nil {
 		fmt.Println("Getting user's info error: ", err)
+		c.Status(409)
 		return
 	}
 
-	_, u.Balance, _ = instance.WM.CheckBalance(u.Wallet)
+	_, balance, _ := instance.WM.CheckBalance(u.Wallet)
+	u.Balance, _ = balance.Float64()
+	print(u)
 	c.JSON(200, u)
 	return
 }
