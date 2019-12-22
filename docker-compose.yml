@@ -12,6 +12,13 @@ services:
     ports:
       - "54321:5432"
 
+  gorush:
+    container_name: gorush
+    build: ./gorush/
+    ports:
+      - "8088:8088"
+
+
   ambitine:
     container_name: ambitine
     build: .

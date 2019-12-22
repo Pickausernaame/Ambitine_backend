@@ -3,9 +3,10 @@ package server
 import (
 	"errors"
 	"fmt"
-	"github.com/Pickausernaame/Ambitine_backend/server/middleware"
 	"os"
 	"strconv"
+
+	"github.com/Pickausernaame/Ambitine_backend/server/middleware"
 
 	db "github.com/Pickausernaame/Ambitine_backend/server/db"
 	"github.com/gin-gonic/gin"
@@ -32,10 +33,12 @@ func (instance *App) initializeRoutes() {
 
 	api := instance.Router.Group("/api")
 	{
-		api.GET("/hello", HelloFunc)
+		// api.GET("/hello", instance.HelloFunc)
 		//api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
 		api.GET("/get_export_promises", middleware.AuthMiddleware(instance.GetAuthorPromises))
 		api.GET("/get_import_promises", middleware.AuthMiddleware(instance.GetReceiverPromises))
+
+		api.POST("/set_new_promis", middleware.AuthMiddleware(instance.CreateNewPromise))
 
 		api.GET("/users_autocomplete", middleware.AuthMiddleware(instance.GetAllUsers))
 
@@ -120,6 +123,8 @@ func (instance *App) InitDB() (err error) {
 
 	instance.DB = &db.DBHandler{Connection: conn}
 
+	fmt.Println("Before reset")
+
 	// ##################################################
 	{
 		err = instance.DB.ResetDB()
@@ -127,11 +132,13 @@ func (instance *App) InitDB() (err error) {
 			fmt.Println("Unable to create database tables:", err)
 			return err
 		}
+
+		fmt.Println("Before mock")
 		mocker := db.Mocker{DB: instance.DB}
 		mocker.Mock()
 	}
 	// ##################################################
-
+	fmt.Println("After reset")
 	return nil
 }
 
