@@ -135,6 +135,23 @@ func (db *DBHandler) GetUserInfo(id int) (u models.UserInfo, err error) {
 	if err != nil {
 		return
 	}
+
+	sql = `
+		SELECT COALESCE(sum(deposit), 0) AS val FROM promise
+		WHERE author = $1 AND accepted = $2;
+	`
+	err = db.Connection.QueryRow(sql, u.Nickname, ACCEPTED).Scan(&u.AcceptedAmout)
+	if err != nil {
+		return
+	}
+	err = db.Connection.QueryRow(sql, u.Nickname, PROCESSING).Scan(&u.ProcessingAmount)
+	if err != nil {
+		return
+	}
+	err = db.Connection.QueryRow(sql, u.Nickname, DECLINED).Scan(&u.DeclinedAmount)
+	if err != nil {
+		return
+	}
 	return
 }
 

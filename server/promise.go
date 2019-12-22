@@ -141,16 +141,24 @@ func (instance *App) Solution(c *gin.Context) {
 		c.Status(400)
 		return
 	}
-	exist, err := instance.DB.IsUserReceiverOfPromise(nickname, int(id.(float64)))
+
+	exist, err := instance.DB.IsUserReceiverOfPromise(nickname, sol.Promise_id)
 	if !exist || err != nil {
 		if err != nil {
 			fmt.Println("Unable to check exist:", err)
 		} else {
-			fmt.Println("This user is not author of promise")
+			fmt.Println("This user is not receiver of promise")
 		}
 		c.Status(400)
 		return
 	}
+	isAccepted, err := instance.DB.IsPromiseAccepted(sol.Promise_id)
+	if isAccepted {
+		fmt.Println("Promise is already accepted:", err)
+		c.Status(400)
+		return
+	}
+
 	if sol.Accepted == 1 {
 		_, err := instance.DB.UpdatePromiseStatus(sol)
 		if err != nil {
@@ -187,14 +195,24 @@ func (instance *App) Solution(c *gin.Context) {
 			return
 		}
 
-		_, balance, _ := instance.WM.CheckBalance(fromWallet)
+		_, balance, err := instance.WM.CheckBalance(fromWallet)
+		if err != nil {
+			fmt.Println("Unable to get Balance:", err)
+			c.Status(400)
+			return
+		}
 		bal, _ := balance.Float64()
 		bal = bal * kanzler.EtherPerUsd()
 		if bal < p.Deposit {
 			c.Status(408)
 			return
 		} else {
-			instance.WM.MakeTransaction(from, to, p.Deposit)
+			err = instance.WM.MakeTransaction(from, to, p.Deposit/kanzler.EtherPerUsd())
+			if err != nil {
+				fmt.Println("Unable to make transaction:", err)
+				c.Status(400)
+				return
+			}
 		}
 		_, err = instance.DB.UpdatePromiseStatus(sol)
 		if err != nil {

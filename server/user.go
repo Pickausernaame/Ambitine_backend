@@ -3,12 +3,16 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
+	"io"
 	"io/ioutil"
 	"os"
-	"io"
 	"strconv"
 
+<<<<<<< HEAD
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
+=======
+>>>>>>> d72182e96f4e4bb5fb719282e1cb430b85a3f82a
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -25,7 +29,7 @@ func HelloFunc(c *gin.Context) {
 
 func (instance *App) UploadImg(c *gin.Context) {
 	err := c.Request.ParseMultipartForm(32 << 20)
-	
+
 	if err != nil {
 		fmt.Println("Upload error: ", err)
 		c.Status(400)
@@ -38,7 +42,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 		c.Status(400)
 		return
 	}
-	
+
 	defer file.Close()
 	id, _ := c.Get("id")
 
@@ -221,10 +225,14 @@ func (instance *App) UserInfo(c *gin.Context) {
 	u, err := instance.DB.GetUserInfo(int(id.(float64)))
 	if err != nil {
 		fmt.Println("Getting user's info error: ", err)
+		c.Status(409)
 		return
 	}
 
-	_, u.Balance, _ = instance.WM.CheckBalance(u.Wallet)
+	_, balance, _ := instance.WM.CheckBalance(u.Wallet)
+	u.Balance, _ = balance.Float64()
+	u.Balance = u.Balance * kanzler.EtherPerUsd()
+	fmt.Println(u)
 	c.JSON(200, u)
 	return
 }

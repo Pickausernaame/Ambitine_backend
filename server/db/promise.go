@@ -25,7 +25,7 @@ func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 	_, err = db.Connection.Query(sql, promise.Author, promise.Receiver,
 		promise.Description, promise.Deposit,
 		pastdue,
-		promise.ReceiverImgUrl, promise.AuthorImgUrl, 0)
+		promise.ReceiverImgUrl, promise.AuthorImgUrl, promise.Accepted)
 	return
 }
 
@@ -71,20 +71,50 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 			"author_img_url",
 			"accepted"
 		FROM "promise"
-		WHERE "author" = $1 ORDER BY pastdue ASC;
+		WHERE "author" = $1 and accepted = 0 ORDER BY pastdue ASC;
 `
 	// LIMIT $2 OFFSET $3
 	pastdue := time.Time{}
-	rows, err := db.Connection.Query(sql, author)
+	rows, err1 := db.Connection.Query(sql, author)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
-		if err != nil {
-			return nil, err
-		}
+		err1 = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		//if err != nil {
+		//	return nil, err
+		//}
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
+	sql = `
+		SELECT 
+			"id",
+			"author", 
+			"receiver", 
+			"description",
+			"deposit",
+			"pastdue",
+			"receiver_img_url",
+			"author_img_url",
+			"accepted"
+		FROM "promise"
+		WHERE "author" = $1 and accepted <> 0 ORDER BY pastdue ASC;
+`
+
+	rows, err2 := db.Connection.Query(sql, author)
+	for rows.Next() {
+		var p models.Promise
+		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		//if err != nil {
+		//	return nil, err
+		//}
+		p.Pastdue = pastdue.Unix()
+		promise = append(promise, p)
+	}
+
+	if err1 != nil && err2 != nil {
+		return nil, err1
+	}
+
 	return promise, nil
 }
 
@@ -123,36 +153,73 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 			"author_img_url",
 			"accepted"
 		FROM "promise"
-		WHERE "receiver" = $1 ORDER BY pastdue ASC;
+		WHERE "receiver" = $1 and accepted = 0 ORDER BY pastdue ASC;
 `
 	// LIMIT $2 OFFSET $3
 	pastdue := time.Time{}
-	rows, err := db.Connection.Query(sql, receiver)
+	rows, err1 := db.Connection.Query(sql, receiver)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
-		if err != nil {
-			return nil, err
-		}
+		err1 = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		//if err != nil {
+		//	return nil, err
+		//}
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
+	sql = `
+		SELECT 
+			"id",
+			"author", 
+			"receiver", 
+			"description",
+			"deposit",
+			"pastdue",
+			"receiver_img_url",
+			"author_img_url",
+			"accepted"
+		FROM "promise"
+		WHERE "receiver" = $1 and accepted <> 0 ORDER BY pastdue ASC;
+`
+
+	rows, err2 := db.Connection.Query(sql, receiver)
+	for rows.Next() {
+		var p models.Promise
+		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		//if err != nil {
+		//	return nil, err
+		//}
+		p.Pastdue = pastdue.Unix()
+		promise = append(promise, p)
+	}
+
+	if err1 != nil && err2 != nil {
+		return nil, err1
+	}
+
 	return promise, nil
 }
 
 func (db *DBHandler) IsUserReceiverOfPromise(nickname string, id int) (exist bool, err error) {
 	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND receiver = $2);`
+
 	err = db.Connection.QueryRow(sql, id, nickname).Scan(&exist)
 	return
 }
 
 func (db *DBHandler) UpdatePromiseStatus(sol models.Solution) (p models.Promise, err error) {
 	sql := `
-		UPDATE promises SET accepted = $1 
+		UPDATE promise SET accepted = $1 
 			WHERE id = $2
 		RETURNING id, author, receiver, description, deposit, pastdue, receiver_img_url, author_img_url, accepted;`
 	pastdue := time.Time{}
 	err = db.Connection.QueryRow(sql, sol.Accepted, sol.Promise_id).Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 	p.Pastdue = pastdue.Unix()
+	return
+}
+
+func (db *DBHandler) IsPromiseAccepted(id int) (isAccepted bool, err error) {
+	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND accepted <> 0);`
+	err = db.Connection.QueryRow(sql, id).Scan(&isAccepted)
 	return
 }
