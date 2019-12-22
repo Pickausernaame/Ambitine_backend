@@ -54,6 +54,8 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 
 	token, err := instance.DB.GetUserToken(p.Receiver)
 
+	fmt.Print(p.Receiver, " token: \n", token, "\n\n")
+
 	if err != nil {
 		fmt.Println("Unable to sget notifications :", err)
 		c.Status(400)
