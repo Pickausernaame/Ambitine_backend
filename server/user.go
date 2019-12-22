@@ -7,7 +7,8 @@ import (
 	"os"
 	"io"
 	"strconv"
-	
+
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -74,7 +75,9 @@ func (instance *App) GetUserBalance(c *gin.Context) {
 
 	_, balance, _ := instance.WM.CheckBalance(addr)
 
-	c.JSON(200, gin.H{"balance": balance} )
+	usdBalance := kanzler.EtherPerUsd() * balance.Float64()
+
+	c.JSON(200, gin.H{"balance": usdBalance} )
 }
 
 func (instance *App) SignInHand(c *gin.Context) {
