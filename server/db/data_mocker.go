@@ -78,7 +78,7 @@ func (m *Mocker) Mock() {
 	privateKey = "f7ea4e300c90742decc44f65b1d7a5a7308ed799f08b6140d69e0bcd9d448b29"
 	address = "0x668cbE895A9A2C24421530d919d2B34B337272fB"
 	m.createUser(oleg_full, privateKey, address)
-	
+
 	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
@@ -92,7 +92,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Do this feed right now",
 		Pastdue:        1576417777,
-		Deposit:        1000,
+		Deposit:        12,
 		Accepted:       0,
 	}
 

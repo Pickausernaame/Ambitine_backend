@@ -1,6 +1,7 @@
 package db
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
@@ -141,14 +142,17 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 }
 
 func (db *DBHandler) IsUserReceiverOfPromise(nickname string, id int) (exist bool, err error) {
+	fmt.Println(nickname, id)
 	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND receiver = $2);`
+
 	err = db.Connection.QueryRow(sql, id, nickname).Scan(&exist)
+	fmt.Println(exist)
 	return
 }
 
 func (db *DBHandler) UpdatePromiseStatus(sol models.Solution) (p models.Promise, err error) {
 	sql := `
-		UPDATE promises SET accepted = $1 
+		UPDATE promise SET accepted = $1 
 			WHERE id = $2
 		RETURNING id, author, receiver, description, deposit, pastdue, receiver_img_url, author_img_url, accepted;`
 	pastdue := time.Time{}
