@@ -137,3 +137,12 @@ func (db *DBHandler) GetUserToken(nickname string) (token string, err error) {
 	err = db.Connection.QueryRow(sql, nickname).Scan(&token)
 	return
 }
+
+func (db *DBHandler) UpdateUserToken(nickname string, token string) (err error) {
+	sql := `
+		UPDATE users SET "token" = $2
+		WHERE nickname = $1; 
+	`
+	_, err = db.Connection.Exec(sql, nickname, token)
+	return
+}

@@ -34,6 +34,8 @@ func (instance *App) SignInHand(c *gin.Context) {
 		return
 	}
 
+	err = instance.DB.UpdateUserToken(loginUser.Nickname, loginUser.Token)
+
 	fmt.Print(loginUser.Nickname, " token: \n", loginUser.Token, "\n\n")
 
 	id, err := instance.DB.GetUserIdByNicknameAndPassword(loginUser)
