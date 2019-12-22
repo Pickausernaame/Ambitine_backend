@@ -11,41 +11,6 @@ type DBHandler struct {
 	Connection *pgx.ConnPool
 }
 
-func (db *DBHandler) ResetDB() (err error) {
-	sql := `
-		CREATE EXTENSION IF NOT EXISTS CITEXT;
-
-		DROP TABLE IF EXISTS "users" CASCADE;
-		DROP TABLE IF EXISTS "promise" CASCADE;
-		
-		CREATE TABLE "users" (
-			"id" BIGSERIAL PRIMARY KEY,
-			"email" citext NOT NULL,
-			"nickname" citext UNIQUE,	
-			"password" text NOT NULL,
-			"fullname" text,
-			"about" text,
-			"imgurl" text,
-			"token" text DEFAULT 'abs'
-		);
-
-		CREATE TABLE "promise" (
-			"id" BIGSERIAL PRIMARY KEY,
-			"author" citext NOT NULL,
-			"receiver" citext NOT NULL,
-			"receiver_img_url" text NOT NULL,
-			"author_img_url" text NOT NULL,
-			"description" text,
-			"deposit" integer,
-			"pastdue" TIMESTAMP,
-			"accepted" int
-		);
-	`
-	_, err = db.Connection.Exec(sql)
-
-	fmt.Println("After exec")
-	return
-}
 func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	sql := `
 		SELECT id 
