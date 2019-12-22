@@ -26,9 +26,6 @@ jobs:
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker rm ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker-compose up --build -d"
 
-
-
-
 workflows:
   version: 2
   workflow:

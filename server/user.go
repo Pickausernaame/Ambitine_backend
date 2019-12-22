@@ -34,6 +34,8 @@ func (instance *App) SignInHand(c *gin.Context) {
 		return
 	}
 
+	fmt.Print(newUser.Nickname, " token: \n", newUser.Token, "\n\n")
+
 	id, err := instance.DB.GetUserIdByNicknameAndPassword(loginUser)
 
 	if err != nil {
@@ -100,10 +102,6 @@ func (instance *App) GetReceiverPromises(c *gin.Context) {
 	c.JSON(200, ps)
 }
 
-func (instance *App) CreateNewPromise(c *gin.Context) {
-
-}
-
 func (instance *App) SignUpHand(c *gin.Context) {
 
 	newUser := models.SignUpUserStruct{}
@@ -116,6 +114,8 @@ func (instance *App) SignUpHand(c *gin.Context) {
 		c.Status(400)
 		return
 	}
+
+	fmt.Print(newUser.Nickname, " token: \n", newUser.Token, "\n\n")
 
 	err = instance.DB.InsertNewUser(newUser)
 
