@@ -49,12 +49,13 @@ func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct, private string, ad
 			password,
 			token,
 			private,
-			address
+			address,
+			imgurl
 		)
-		VALUES ($1, $2, $3, $4, $5, $6)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING nickname;
 	`
-
+	default_img := "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg"
 	err = db.Connection.QueryRow(sql,
 		u.Nickname,
 		u.Email,
@@ -62,7 +63,46 @@ func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct, private string, ad
 		u.Token,
 		private,
 		address,
+		default_img,
 	).Scan(&u.Nickname)
+	return
+}
+
+func (db *DBHandler) GetUserInfo(id int) (u models.UserInfo, err error) {
+	const (
+		ACCEPTED   = 1
+		PROCESSING = 0
+		DECLINED   = -1
+	)
+
+	sql := `SELECT 
+				nickname,
+				imgurl,
+				address  FROM "users" 
+			WHERE id = $1;
+	`
+
+	err = db.Connection.QueryRow(sql, id).Scan(&u.Nickname, &u.ImgUrl, &u.Wallet)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	sql = `
+		SELECT COUNT(*) FROM promise
+		WHERE author = $1 AND accepted = $2;
+	`
+	err = db.Connection.QueryRow(sql, u.Nickname, ACCEPTED).Scan(&u.Accepted)
+	if err != nil {
+		return
+	}
+	err = db.Connection.QueryRow(sql, u.Nickname, PROCESSING).Scan(&u.Processing)
+	if err != nil {
+		return
+	}
+	err = db.Connection.QueryRow(sql, u.Nickname, DECLINED).Scan(&u.Declined)
+	if err != nil {
+		return
+	}
 	return
 }
 

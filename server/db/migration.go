@@ -16,7 +16,7 @@ func (db *DBHandler) ResetDB() (err error) {
 			"password" text NOT NULL,
 			"fullname" text,
 			"about" text,
-			"imgurl" text,
+			"imgurl" text ,
 			"token" text DEFAULT 'abs',
 			"private" citext NOT NULL,
 			"address" citext NOT NULL

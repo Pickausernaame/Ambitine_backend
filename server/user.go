@@ -152,6 +152,17 @@ func (instance *App) SignUpHand(c *gin.Context) {
 	c.Status(201)
 }
 
+func (instance *App) UserInfo(c *gin.Context) {
+	id, _ := c.Get("id")
+	u, err := instance.DB.GetUserInfo(int(id.(float64)))
+	if err != nil {
+		fmt.Println("Getting user's info error: ", err)
+		return
+	}
+	c.JSON(200, u)
+	return
+}
+
 func (instance *App) GetAllUsers(c *gin.Context) {
 	id, _ := c.Get("id")
 	users, err := instance.DB.GetUsers(int(id.(float64)), "-")

@@ -32,6 +32,7 @@ func (m *Mocker) Mock() {
 		Email:    "ya_eb@gmail.com",
 		Password: "bmstu",
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
+		ImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 	}
 	m.createUser(evv)
 
@@ -39,6 +40,7 @@ func (m *Mocker) Mock() {
 		Nickname: "ntn",
 		Email:    "ebaboba@gmail.com",
 		Password: "1488",
+		ImgUrl:   "https://avatars0.githubusercontent.com/u/31803194?s=460&v=4",
 	}
 	m.createUser(ntn)
 

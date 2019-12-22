@@ -17,6 +17,7 @@ type SignUpUserStruct struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
 	Token    string `json:"token"`
+	ImgUrl   string
 }
 
 type SignInUserStruct struct {
@@ -40,6 +41,16 @@ type Promise struct {
 	Deposit       int    `json:"deposit"`
 	Accepted      int    `json:"accepted"`
 	Expires       string `json:"expires"`
+}
+
+type UserInfo struct {
+	Nickname   string `json:"username"`
+	ImgUrl     string `json:"img_url"`
+	Accepted   int    `json:"accepted_count"`
+	Declined   int    `json:"declined_count"`
+	Processing int    `json:"processing_count"`
+	Balance    int    `json:"balance"`
+	Wallet     string `json:"wallet"`
 }
 
 // type Notification struct {
