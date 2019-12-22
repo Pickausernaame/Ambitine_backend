@@ -161,6 +161,8 @@ func (instance *App) UserInfo(c *gin.Context) {
 		fmt.Println("Getting user's info error: ", err)
 		return
 	}
+
+	_, u.Balance, _ = instance.WM.CheckBalance(u.Wallet)
 	c.JSON(200, u)
 	return
 }

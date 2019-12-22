@@ -26,6 +26,14 @@ func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	return nil, id
 }
 
+func (db *DBHandler) GetAddressById(id int) (address string, err error) {
+	sql := `
+		SELECT address FROM users WHERE i = $1;
+`
+	err = db.Connection.QueryRow(sql, id).Scan(&address)
+	return
+}
+
 func (db *DBHandler) GetUserIdByNicknameAndPassword(u models.SignInUserStruct) (id int, err error) {
 
 	sql := `

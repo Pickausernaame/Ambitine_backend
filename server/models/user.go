@@ -1,5 +1,7 @@
 package models
 
+import "math/big"
+
 type UserStruct struct {
 	Nickname string `json:"nickname"`
 	Email    string `json:"email"`
@@ -43,13 +45,13 @@ type Promise struct {
 }
 
 type UserInfo struct {
-	Nickname   string `json:"username"`
-	ImgUrl     string `json:"img_url"`
-	Accepted   int    `json:"accepted_count"`
-	Declined   int    `json:"declined_count"`
-	Processing int    `json:"processing_count"`
-	Balance    int    `json:"balance"`
-	Wallet     string `json:"wallet"`
+	Nickname   string     `json:"username"`
+	ImgUrl     string     `json:"img_url"`
+	Accepted   int        `json:"accepted_count"`
+	Declined   int        `json:"declined_count"`
+	Processing int        `json:"processing_count"`
+	Balance    *big.Float `json:"balance"`
+	Wallet     string     `json:"wallet"`
 }
 
 // type Notification struct {
