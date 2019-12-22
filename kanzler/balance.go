@@ -4,9 +4,11 @@ import (
 	"context"
 	"crypto/ecdsa"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
+	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
@@ -14,16 +16,78 @@ import (
 	"math/big"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 const (
-	EthereumNetwork = "https://ropsten.infura.io"
+	EthereumNetwork        = "https://ropsten.infura.io"
+	ETH_EXCHANGE_RATE_LINK = "https://api.coinmarketcap.com/v1/ticker/ethereum/"
+
 	EvvTestedWallet = "0x66623A091684C70d3B6fdc5a1222C448B5b3B365"
 	NtnTestedWallet = "0xc903EB80d685091Da87ab2ffD10A594A0EAd6522"
-	CLIENT          = "0xbE34A96D650F318d85c6584d376930012A6d1F78"
+	PRIVATE_KEY_NTN = "e9ef28ce8d86c134564c3b9c0ea2d4180d59a645e186cceb84fbfb7b6638d07b"
+
+	CREATED_PRIVATE_KEY = "8c291af4304e84fb5f7221ed5c3e147566b4b94022fc38c5c33e374be8683944"
+	CREATED_ADRESS      = "0xe5b7E4070a7Ebd127eEff3a8C1c71f4ae55d516A"
+
+	ETH       = 1000000000000000000
+	GAS_LIMIT = 21000
 )
 
 var client *ethclient.Client
+
+func private_to_public(privateKey *ecdsa.PrivateKey) (fromAddress common.Address, err error) {
+	publicKey := privateKey.Public()
+	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
+	if !ok {
+		err = errors.New("Cannot assert type: publicKey is not of type *ecdsa.PublicKey")
+		return
+	}
+	fromAddress = crypto.PubkeyToAddress(*publicKeyECDSA)
+	return
+}
+
+func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (err error) {
+	privateKey, err := crypto.HexToECDSA(fromPrivateKey)
+	if err != nil {
+		return
+	}
+
+	fromAddress, err := private_to_public(privateKey)
+	if err != nil {
+		return
+	}
+	nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
+	if err != nil {
+		return
+	}
+	final_amount := int64(amount * ETH)
+	value := big.NewInt(final_amount)
+	gasLimit := uint64(GAS_LIMIT)
+	gasPrice, err := client.SuggestGasPrice(context.Background())
+	if err != nil {
+		return
+	}
+
+	var data []byte
+	tx := types.NewTransaction(nonce, common.HexToAddress(toAddress), value, gasLimit, gasPrice, data)
+
+	chainID, err := client.NetworkID(context.Background())
+	if err != nil {
+		return
+	}
+
+	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainID), privateKey)
+	if err != nil {
+		return
+	}
+
+	err = client.SendTransaction(context.Background(), signedTx)
+	if err != nil {
+		return
+	}
+	return nil
+}
 
 func EtherPerUsd() float64 {
 
@@ -31,13 +95,12 @@ func EtherPerUsd() float64 {
 		Usd string `json:"price_usd"`
 	}
 
-	const ether_link = "https://api.coinmarketcap.com/v1/ticker/ethereum/"
-	const usd_link = "https://free.currconv.com/api/v7/convert?q=USD_RUB&compact=ultra&apiKey=60350c5cceac35a4ca7e"
-	resp, err := http.Get(ether_link)
+	resp, err := http.Get(ETH_EXCHANGE_RATE_LINK)
 	if err != nil {
 		fmt.Println("We have some error in getting exchange rate ETH / USD ", err)
 		return -1
 	}
+
 	var rate []eth_to_usd
 	err = json.NewDecoder(resp.Body).Decode(&rate)
 	if err != nil {
@@ -48,28 +111,25 @@ func EtherPerUsd() float64 {
 	return usd_rate
 }
 
-func CreateWallet() string {
-	privateKey, err := crypto.GenerateKey()
+func CreateWallet() (privateKey string, address string, err error) {
+	privateKeyECDSA, err := crypto.GenerateKey()
 	if err != nil {
-		log.Fatal(err)
+		return
 	}
 
-	privateKeyBytes := crypto.FromECDSA(privateKey)
-	fmt.Println(hexutil.Encode(privateKeyBytes)[2:]) // fad9c8855b740a0b7ed4c221dbad0f33a83a49cad6b3fe8d5817ac83d38b6a19
+	privateKeyBytes := crypto.FromECDSA(privateKeyECDSA)
+	privateKey = hexutil.Encode(privateKeyBytes)[2:]
 
-	publicKey := privateKey.Public()
+	publicKey := privateKeyECDSA.Public()
 	publicKeyECDSA, ok := publicKey.(*ecdsa.PublicKey)
 	if !ok {
-		log.Fatal("cannot assert type: publicKey is not of type *ecdsa.PublicKey")
+		err = errors.New("Cannot assert type: publicKey is not of type *ecdsa.PublicKey")
+		return
 	}
 
-	publicKeyBytes := crypto.FromECDSAPub(publicKeyECDSA)
-	fmt.Println(hexutil.Encode(publicKeyBytes)[4:]) // 9a7df67f79246283fdc93af76d4f8cdd62c4886e8cd870944e817dd0b97934fdd7719d0810951e03418205868a5c1b40b192451367f28e0088dd75e15de40c05
+	address = crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
 
-	address := crypto.PubkeyToAddress(*publicKeyECDSA).Hex()
-	fmt.Println(address) // 0x96216849c49358B10257cb55b28eA603c874b05E
-
-	return address
+	return privateKey, address, nil
 }
 
 func BlockchainClientInit(netAddress string) (connectionErr error) {
@@ -100,14 +160,29 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	balance, avalBalance, err := CheckBalance(EvvTestedWallet)
-	fmt.Println(balance, avalBalance, err)
+	_, avalBalance, err := CheckBalance(EvvTestedWallet)
+	//fmt.Println(balance, avalBalance, err)
 
-	//client := CreateWallet()
-	balance, avalBalance, err = CheckBalance(CLIENT)
-	fmt.Println(balance, avalBalance, err)
+	//privateKey, adress := CreateWallet()
+	//fmt.Println(privateKey)
+	//fmt.Println(adress)
 
-	fmt.Println(EtherPerUsd())
+	//balance, avalBalance, err = CheckBalance(CLIENT)
+	//fmt.Println(balance, avalBalance, err)
+
+	MakeTransaction(PRIVATE_KEY_NTN, CREATED_ADRESS, 0.1)
+	time.Sleep(60 * time.Second)
+	_, avalBalance, err = CheckBalance(CREATED_ADRESS)
+	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH FROM NTN", avalBalance)
+	_, avalBalance, err = CheckBalance(NtnTestedWallet)
+	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH TO CREATED_WALLET", avalBalance)
+
+	MakeTransaction(CREATED_PRIVATE_KEY, NtnTestedWallet, 0.1)
+	time.Sleep(90 * time.Second)
+	_, avalBalance, err = CheckBalance(CREATED_ADRESS)
+	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH TO NTN", avalBalance)
+	_, avalBalance, err = CheckBalance(NtnTestedWallet)
+	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH FROM CREATED_WALLET", avalBalance)
 
 	//client, err := ethclient.Dial("https://ropsten.infura.io")
 
