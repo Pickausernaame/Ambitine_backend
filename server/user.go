@@ -63,7 +63,6 @@ func (instance *App) Logout(c *gin.Context) {
 
 func (instance *App) GetAuthorPromises(c *gin.Context) {
 	id, _ := c.Get("id")
-
 	nickname, err := instance.DB.GetNicknameById(int(id.(float64)))
 	if err != nil {
 		fmt.Println("Getting nickname error: ", nickname)
@@ -125,7 +124,14 @@ func (instance *App) SignUpHand(c *gin.Context) {
 
 	fmt.Print(newUser.Nickname, " token: \n", newUser.Token, "\n\n")
 
-	err = instance.DB.InsertNewUser(newUser)
+	privateKey, address, err := instance.WM.CreateWallet()
+	if err != nil {
+		fmt.Println("Unable to create new wallet:", err)
+		c.Status(409)
+		return
+	}
+
+	err = instance.DB.InsertNewUser(newUser, privateKey, address)
 
 	if err != nil {
 		fmt.Println("Unable to insert new user to database:", err)
@@ -142,7 +148,7 @@ func (instance *App) SignUpHand(c *gin.Context) {
 	}
 
 	sessionId := instance.createSessionId(id)
-	c.SetCookie("session_id", sessionId, 3600, "/p", "", false, false)
+	c.SetCookie("session_id", sessionId, 3600, "/", "", false, false)
 	c.Status(201)
 }
 

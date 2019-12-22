@@ -1,4 +1,4 @@
-package main
+package kanzler
 
 import (
 	"context"
@@ -11,12 +11,10 @@ import (
 	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
-	"log"
 	"math"
 	"math/big"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 const (
@@ -34,7 +32,15 @@ const (
 	GAS_LIMIT = 21000
 )
 
-var client *ethclient.Client
+type WalletManager struct {
+	client *ethclient.Client
+}
+
+func New() (w *WalletManager, err error) {
+	w = &WalletManager{}
+	w.client, err = w.BlockchainClientInit(EthereumNetwork)
+	return
+}
 
 func private_to_public(privateKey *ecdsa.PrivateKey) (fromAddress common.Address, err error) {
 	publicKey := privateKey.Public()
@@ -47,7 +53,7 @@ func private_to_public(privateKey *ecdsa.PrivateKey) (fromAddress common.Address
 	return
 }
 
-func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (err error) {
+func (wm *WalletManager) MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (err error) {
 	privateKey, err := crypto.HexToECDSA(fromPrivateKey)
 	if err != nil {
 		return
@@ -57,14 +63,14 @@ func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (e
 	if err != nil {
 		return
 	}
-	nonce, err := client.PendingNonceAt(context.Background(), fromAddress)
+	nonce, err := wm.client.PendingNonceAt(context.Background(), fromAddress)
 	if err != nil {
 		return
 	}
 	final_amount := int64(amount * ETH)
 	value := big.NewInt(final_amount)
 	gasLimit := uint64(GAS_LIMIT)
-	gasPrice, err := client.SuggestGasPrice(context.Background())
+	gasPrice, err := wm.client.SuggestGasPrice(context.Background())
 	if err != nil {
 		return
 	}
@@ -72,7 +78,7 @@ func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (e
 	var data []byte
 	tx := types.NewTransaction(nonce, common.HexToAddress(toAddress), value, gasLimit, gasPrice, data)
 
-	chainID, err := client.NetworkID(context.Background())
+	chainID, err := wm.client.NetworkID(context.Background())
 	if err != nil {
 		return
 	}
@@ -82,7 +88,7 @@ func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (e
 		return
 	}
 
-	err = client.SendTransaction(context.Background(), signedTx)
+	err = wm.client.SendTransaction(context.Background(), signedTx)
 	if err != nil {
 		return
 	}
@@ -90,7 +96,6 @@ func MakeTransaction(fromPrivateKey string, toAddress string, amount float64) (e
 }
 
 func EtherPerUsd() float64 {
-
 	type eth_to_usd struct {
 		Usd string `json:"price_usd"`
 	}
@@ -111,7 +116,7 @@ func EtherPerUsd() float64 {
 	return usd_rate
 }
 
-func CreateWallet() (privateKey string, address string, err error) {
+func (wm *WalletManager) CreateWallet() (privateKey string, address string, err error) {
 	privateKeyECDSA, err := crypto.GenerateKey()
 	if err != nil {
 		return
@@ -132,7 +137,7 @@ func CreateWallet() (privateKey string, address string, err error) {
 	return privateKey, address, nil
 }
 
-func BlockchainClientInit(netAddress string) (connectionErr error) {
+func (wm *WalletManager) BlockchainClientInit(netAddress string) (client *ethclient.Client, connectionErr error) {
 	client, connectionErr = ethclient.Dial(netAddress)
 	return
 }
@@ -144,48 +149,48 @@ func BigIntConvert(value *big.Int) (convertedValue *big.Float) {
 	return
 }
 
-func CheckBalance(walletAddress string) (*big.Float, *big.Float, error) {
+func (wm *WalletManager) CheckBalance(walletAddress string) (*big.Float, *big.Float, error) {
 	account := common.HexToAddress(walletAddress)
-	currentIntBalance, err := client.BalanceAt(context.Background(), account, nil)
+	currentIntBalance, err := wm.client.BalanceAt(context.Background(), account, nil)
 	if err != nil {
 		return nil, nil, err
 	}
-	pendingIntBalance, err := client.PendingBalanceAt(context.Background(), account)
+	pendingIntBalance, err := wm.client.PendingBalanceAt(context.Background(), account)
 
 	return BigIntConvert(pendingIntBalance), BigIntConvert(currentIntBalance), err
 }
 
-func main() {
-	err := BlockchainClientInit(EthereumNetwork)
-	if err != nil {
-		log.Fatal(err)
-	}
-	_, avalBalance, err := CheckBalance(EvvTestedWallet)
-	//fmt.Println(balance, avalBalance, err)
-
-	//privateKey, adress := CreateWallet()
-	//fmt.Println(privateKey)
-	//fmt.Println(adress)
-
-	//balance, avalBalance, err = CheckBalance(CLIENT)
-	//fmt.Println(balance, avalBalance, err)
-
-	MakeTransaction(PRIVATE_KEY_NTN, CREATED_ADRESS, 0.1)
-	time.Sleep(60 * time.Second)
-	_, avalBalance, err = CheckBalance(CREATED_ADRESS)
-	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH FROM NTN", avalBalance)
-	_, avalBalance, err = CheckBalance(NtnTestedWallet)
-	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH TO CREATED_WALLET", avalBalance)
-
-	MakeTransaction(CREATED_PRIVATE_KEY, NtnTestedWallet, 0.1)
-	time.Sleep(90 * time.Second)
-	_, avalBalance, err = CheckBalance(CREATED_ADRESS)
-	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH TO NTN", avalBalance)
-	_, avalBalance, err = CheckBalance(NtnTestedWallet)
-	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH FROM CREATED_WALLET", avalBalance)
-
-	//client, err := ethclient.Dial("https://ropsten.infura.io")
-
-	//pendingBalance, err := client.PendingBalanceAt(context.Background(), account)
-	//fmt.Println(pendingBalance) // 25729324269165216042
-}
+//func main() {
+//	wm, err := New()
+//	if err != nil {
+//		log.Fatal(err)
+//	}
+//	_, avalBalance, err := wm.CheckBalance(EvvTestedWallet)
+//	//fmt.Println(balance, avalBalance, err)
+//
+//	//privateKey, adress := CreateWallet()
+//	//fmt.Println(privateKey)
+//	//fmt.Println(adress)
+//
+//	//balance, avalBalance, err = CheckBalance(CLIENT)
+//	//fmt.Println(balance, avalBalance, err)
+//
+//	wm.MakeTransaction(PRIVATE_KEY_NTN, CREATED_ADRESS, 0.1)
+//	time.Sleep(60 * time.Second)
+//	_, avalBalance, err = wm.CheckBalance(CREATED_ADRESS)
+//	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH FROM NTN", avalBalance)
+//	_, avalBalance, err = wm.CheckBalance(NtnTestedWallet)
+//	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH TO CREATED_WALLET", avalBalance)
+//
+//	wm.MakeTransaction(CREATED_PRIVATE_KEY, NtnTestedWallet, 0.1)
+//	time.Sleep(90 * time.Second)
+//	_, avalBalance, err = wm.CheckBalance(CREATED_ADRESS)
+//	fmt.Println("BALANCE OF CREATED WALLET AFTER TRANSACTION OF 0.1 ETH TO NTN", avalBalance)
+//	_, avalBalance, err = wm.CheckBalance(NtnTestedWallet)
+//	fmt.Println("BALANCE OF NTN_WALLET AFTER TRANSACTION OF 0.1 ETH FROM CREATED_WALLET", avalBalance)
+//
+//	//client, err := ethclient.Dial("https://ropsten.infura.io")
+//
+//	//pendingBalance, err := client.PendingBalanceAt(context.Background(), account)
+//	//fmt.Println(pendingBalance) // 25729324269165216042
+//}

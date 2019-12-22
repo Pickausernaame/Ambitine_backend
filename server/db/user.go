@@ -11,43 +11,6 @@ type DBHandler struct {
 	Connection *pgx.ConnPool
 }
 
-func (db *DBHandler) ResetDB() (err error) {
-	sql := `
-		CREATE EXTENSION IF NOT EXISTS CITEXT;
-
-		DROP TABLE IF EXISTS "users" CASCADE;
-		DROP TABLE IF EXISTS "promise" CASCADE;
-		
-		CREATE TABLE "users" (
-			"id" BIGSERIAL PRIMARY KEY,
-			"email" citext NOT NULL,
-			"nickname" citext UNIQUE,	
-			"password" text NOT NULL,
-			"fullname" text,
-			"about" text,
-			"imgurl" text,
-			"token" text DEFAULT 'abs'
-		);
-
-		CREATE TABLE "promise" (
-			"id" BIGSERIAL PRIMARY KEY,
-			"author" citext NOT NULL,
-			"receiver" citext NOT NULL,
-			"reciver_img_url" text NOT NULL,
-			"author_img_url" text NOT NULL,
-			"description" text,
-			"deposit" integer,
-			"pastdue" TIMESTAMP,
-			"imgurl" text,
-			"accepted" int
-		);
-	`
-	_, err = db.Connection.Exec(sql)
-
-	fmt.Println("After exec")
-	return
-}
-
 func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	sql := `
 		SELECT id 
@@ -78,15 +41,17 @@ func (db *DBHandler) GetUserIdByNicknameAndPassword(u models.SignInUserStruct) (
 }
 
 // Кладем нового юзера в БД, возвращаем никнейм
-func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct) (err error) {
+func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct, private string, address string) (err error) {
 	sql := `
 		INSERT INTO "users" (
 			nickname, 
 			email, 
 			password,
-			token
+			token,
+			private,
+			address
 		)
-		VALUES ($1, $2, $3, $4)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING nickname;
 	`
 
@@ -95,6 +60,8 @@ func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct) (err error) {
 		u.Email,
 		u.Password,
 		u.Token,
+		private,
+		address,
 	).Scan(&u.Nickname)
 	return
 }

@@ -2,16 +2,23 @@ package db
 
 import (
 	"fmt"
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 )
 
 type Mocker struct {
 	DB *DBHandler
+	WM *kanzler.WalletManager
 }
 
 func (m *Mocker) createUser(u models.SignUpUserStruct) {
-	fmt.Println(m.DB.InsertNewUser(u))
+	privateKey, address, err := m.WM.CreateWallet()
+	if err != nil {
+		fmt.Println("Unable to create new wallet:", err)
+		return
+	}
+	fmt.Println(m.DB.InsertNewUser(u, privateKey, address))
 }
 
 func (m *Mocker) createPromise(p models.Promise) {
