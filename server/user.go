@@ -28,6 +28,8 @@ func (instance *App) SignInHand(c *gin.Context) {
 	decoder.DisallowUnknownFields()
 	err := decoder.Decode(&loginUser)
 
+	fmt.Println("Login:\n", loginUser)
+
 	if err != nil {
 		fmt.Println("Unable to decode SignIn request:", err)
 		c.Status(400)
@@ -122,7 +124,7 @@ func (instance *App) SignUpHand(c *gin.Context) {
 		return
 	}
 
-	fmt.Print(newUser.Nickname, " token: \n", newUser.Token, "\n\n")
+	fmt.Println("Signup:\n", newUser)
 
 	privateKey, address, err := instance.WM.CreateWallet()
 	if err != nil {

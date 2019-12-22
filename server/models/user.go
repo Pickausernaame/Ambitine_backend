@@ -32,15 +32,14 @@ type AutoComplete struct {
 }
 
 type Promise struct {
-	Author        string `json:"author_username"`
-	Receiver      string `json:"reciever_username"`
-	ReciverImgUrl string `json:"reciver_img_url"`
-	AuthorImgUrl  string `json:"author_img_url"`
-	Description   string `json:"promise_description"`
-	Pastdue       int64  `json:"pastdue"`
-	Deposit       int    `json:"deposit"`
-	Accepted      int    `json:"accepted"`
-	Expires       string `json:"expires"`
+	Author         string `json:"author_username"`
+	Receiver       string `json:"receiver_username"`
+	AuthorImgUrl   string `json:"author_img_url"`
+	ReceiverImgUrl string `json:"receiver_img_url"`
+	Description    string `json:"promise_description"`
+	Pastdue        int64  `json:"pastdue"`
+	Deposit        int    `json:"deposit"`
+	Accepted       int    `json:"accepted"`
 }
 
 type UserInfo struct {
