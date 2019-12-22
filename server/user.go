@@ -9,10 +9,6 @@ import (
 	"os"
 	"strconv"
 
-<<<<<<< HEAD
-	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
-=======
->>>>>>> d72182e96f4e4bb5fb719282e1cb430b85a3f82a
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"

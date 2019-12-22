@@ -1,0 +1,30 @@
+module github.com/Pickausernaame/Ambitine_backend
+
+go 1.13
+
+require (
+	github.com/StackExchange/wmi v0.0.0-20190523213315-cbe66965904d // indirect
+	github.com/VictoriaMetrics/fastcache v1.5.4 // indirect
+	github.com/aristanetworks/goarista v0.0.0-20191206003309-5d8d36c240c9 // indirect
+	github.com/btcsuite/btcd v0.20.1-beta // indirect
+	github.com/deckarep/golang-set v1.7.1 // indirect
+	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/elastic/gosigar v0.10.5 // indirect
+	github.com/ethereum/go-ethereum v1.9.9
+	github.com/gin-contrib/static v0.0.0-20191128031702-f81c604d8ac2
+	github.com/gin-gonic/gin v1.5.0
+	github.com/go-ole/go-ole v1.2.4 // indirect
+	github.com/go-playground/universal-translator v0.17.0 // indirect
+	github.com/gorilla/websocket v1.4.1 // indirect
+	github.com/jackc/pgx v3.6.0+incompatible
+	github.com/json-iterator/go v1.1.9 // indirect
+	github.com/leodido/go-urn v1.2.0 // indirect
+	github.com/mattn/go-isatty v0.0.11 // indirect
+	github.com/rs/cors v1.7.0 // indirect
+	github.com/rs/xhandler v0.0.0-20170707052532-1eb70cf1520d // indirect
+	golang.org/x/crypto v0.0.0-20191219195013-becbf705a915 // indirect
+	golang.org/x/net v0.0.0-20191209160850-c0dbc17a3553 // indirect
+	golang.org/x/sys v0.0.0-20191220220014-0732a990476f // indirect
+	gopkg.in/go-playground/validator.v9 v9.30.2 // indirect
+	gopkg.in/yaml.v2 v2.2.7 // indirect
+)
