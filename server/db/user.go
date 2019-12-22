@@ -11,6 +11,16 @@ type DBHandler struct {
 	Connection *pgx.ConnPool
 }
 
+
+func (db *DBHandler) UpdateUserImgUrl(id int, url string) (err error) {
+	sql := `
+		UPDATE imgurl SET imgurl = $2 
+			WHERE id = $1;
+	`
+	_, err = db.Connection.Exec(sql, id, url)
+	return
+}
+
 func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	sql := `
 		SELECT id 

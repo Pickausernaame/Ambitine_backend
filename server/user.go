@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
-
+	"os"
+	"io"
+	"strconv"
+	
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -20,6 +23,43 @@ func HelloFunc(c *gin.Context) {
 }
 
 func (instance *App) UploadImg(c *gin.Context) {
+	err := c.Request.ParseMultipartForm(32 << 20)
+	
+	if err != nil {
+		fmt.Println("Upload error: ", err)
+		c.Status(400)
+		return
+	}
+
+	file, _, err := c.Request.FormFile("avatar")
+	if err != nil {
+		fmt.Println("Upload error: ", err)
+		c.Status(400)
+		return
+	}
+	
+	defer file.Close()
+	id, _ := c.Get("id")
+
+	picpath := "./avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
+	f, err := os.OpenFile(picpath, os.O_WRONLY|os.O_CREATE, 0666)
+	if err != nil {
+		fmt.Println("Upload error: ", err)
+		c.Status(400)
+		return
+	}
+
+	ImgUrl := "http://35.228.98.103:9090/avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
+	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
+	if err != nil {
+		fmt.Println("Upload error: ", err)
+		c.Status(400)
+		return
+	}
+
+	c.Status(200)
+	defer f.Close()
+	io.Copy(f, file)
 }
 
 func (instance *App) GetUserBalance(c *gin.Context) {
