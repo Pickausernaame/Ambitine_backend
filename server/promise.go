@@ -4,10 +4,10 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"net/http"
-
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func (instance *App) SendNotification(p models.Promise, token string) (err error) {
@@ -117,4 +117,93 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 	}
 
 	c.Status(201)
+}
+
+func (instance *App) Solution(c *gin.Context) {
+	sol := models.Solution{}
+
+	decoder := json.NewDecoder(c.Request.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&sol)
+
+	if err != nil {
+		fmt.Println("Unable to decode Solution request:", err)
+		c.Status(400)
+		return
+	}
+
+	//todo Проверить что ты автор
+	id, _ := c.Get("id")
+
+	nickname, err := instance.DB.GetNicknameById(int(id.(float64)))
+	if err != nil {
+		fmt.Println("Unable to get nickname by id from cookie:", err)
+		c.Status(400)
+		return
+	}
+	exist, err := instance.DB.IsUserReceiverOfPromise(nickname, int(id.(float64)))
+	if !exist || err != nil {
+		if err != nil {
+			fmt.Println("Unable to check exist:", err)
+		} else {
+			fmt.Println("This user is not author of promise")
+		}
+		c.Status(400)
+		return
+	}
+	if sol.Accepted == 1 {
+		_, err := instance.DB.UpdatePromiseStatus(sol)
+		if err != nil {
+			fmt.Println("Unable to change promise status:", err)
+			c.Status(400)
+			return
+		}
+		c.Status(200)
+		return
+	} else if sol.Accepted == -1 {
+
+		p, err := instance.DB.GetPromisesById(sol.Promise_id)
+		if err != nil {
+			fmt.Println("Unable to get promise by ID:", err)
+			c.Status(400)
+			return
+		}
+		from, err := instance.DB.GetPrivateByNickname(p.Author)
+		if err != nil {
+			fmt.Println("Unable to get private key by nickname:", err)
+			c.Status(400)
+			return
+		}
+		fromWallet, err := instance.DB.GetAddressByNickname(p.Author)
+		if err != nil {
+			fmt.Println("Unable to get address of wallet by nickname:", err)
+			c.Status(400)
+			return
+		}
+		to, err := instance.DB.GetAddressByNickname(p.Receiver)
+		if err != nil {
+			fmt.Println("Unable to get address of wallet by nickname:", err)
+			c.Status(400)
+			return
+		}
+
+		_, balance, _ := instance.WM.CheckBalance(fromWallet)
+		bal, _ := balance.Float64()
+		bal = bal * kanzler.EtherPerUsd()
+		if bal < p.Deposit {
+			c.Status(408)
+			return
+		} else {
+			instance.WM.MakeTransaction(from, to, p.Deposit)
+		}
+		_, err = instance.DB.UpdatePromiseStatus(sol)
+		if err != nil {
+			fmt.Println("Unable to change promise status:", err)
+			c.Status(400)
+			return
+		}
+		c.Status(200)
+		return
+	}
+
 }

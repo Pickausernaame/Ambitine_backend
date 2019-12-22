@@ -32,6 +32,7 @@ func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 	sql := `
 		SELECT 
+			"id",
 			"author", 
 			"receiver", 
 			"description",
@@ -47,7 +48,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 	rows, err := db.Connection.Query(sql)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
@@ -60,6 +61,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedPromise, err error) {
 	sql := `
 		SELECT 
+			"id",
 			"author", 
 			"receiver", 
 			"description",
@@ -76,7 +78,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 	rows, err := db.Connection.Query(sql, author)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
@@ -86,9 +88,32 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 	return promise, nil
 }
 
+func (db *DBHandler) GetPromisesById(id int) (p models.Promise, err error) {
+	sql := `
+		SELECT 
+			"id",
+			"author", 
+			"receiver", 
+			"description",
+			"deposit",
+			"pastdue",
+			"receiver_img_url",
+			"author_img_url",
+			"accepted"
+		FROM "promise"
+		WHERE "id" = $1;
+`
+	// LIMIT $2 OFFSET $3
+	pastdue := time.Time{}
+	err = db.Connection.QueryRow(sql, id).Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+	p.Pastdue = pastdue.Unix()
+	return
+}
+
 func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.FeedPromise, err error) {
 	sql := `
 		SELECT 
+			"id",
 			"author", 
 			"receiver", 
 			"description",
@@ -105,7 +130,7 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 	rows, err := db.Connection.Query(sql, receiver)
 	for rows.Next() {
 		var p models.Promise
-		err = rows.Scan(&p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
 		if err != nil {
 			return nil, err
 		}
@@ -113,4 +138,21 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 		promise = append(promise, p)
 	}
 	return promise, nil
+}
+
+func (db *DBHandler) IsUserReceiverOfPromise(nickname string, id int) (exist bool, err error) {
+	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND receiver = $2);`
+	err = db.Connection.QueryRow(sql, id, nickname).Scan(&exist)
+	return
+}
+
+func (db *DBHandler) UpdatePromiseStatus(sol models.Solution) (p models.Promise, err error) {
+	sql := `
+		UPDATE promises SET accepted = $1 
+			WHERE id = $2
+		RETURNING id, author, receiver, description, deposit, pastdue, receiver_img_url, author_img_url, accepted;`
+	pastdue := time.Time{}
+	err = db.Connection.QueryRow(sql, sol.Accepted, sol.Promise_id).Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.ReceiverImgUrl, &p.AuthorImgUrl, &p.Accepted)
+	p.Pastdue = pastdue.Unix()
+	return
 }

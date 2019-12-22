@@ -13,14 +13,13 @@ type Mocker struct {
 	WM *kanzler.WalletManager
 }
 
-func (m *Mocker) createUser(u models.SignUpUserStruct) {
-	privateKey, address, err := m.WM.CreateWallet()
-	if err != nil {
-		fmt.Println("Unable to create new wallet:", err)
-		return
-	}
-	var n string
-	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address).Scan(&n))
+func (m *Mocker) createUser(u models.SignUpUserStruct, privateKey string, address string) {
+	//privateKey, address, err := m.WM.CreateWallet()
+	//if err != nil {
+	//	fmt.Println("Unable to create new wallet:", err)
+	//	return
+	//}
+	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address))
 }
 
 func (m *Mocker) createPromise(p models.Promise) {
@@ -39,21 +38,27 @@ func (m *Mocker) Mock() {
 		Password: "bmstu",
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
 	}
-	m.createUser(evv)
+	privateKey := "2ebf2ba43c108f76b387a522ab18f7dfd5e3c1daacedefa89e0b83bfc2db5015"
+	address := "0x67057856B8527Af81Ef3802e64eFEB1a97C14D30"
+	m.createUser(evv, privateKey, address)
 
 	ntn := models.SignUpUserStruct{
 		Nickname: "ntn",
 		Email:    "ebaboba@gmail.com",
 		Password: "1488",
 	}
-	m.createUser(ntn)
+	privateKey = "d14cade251eeddee89f7bd24a56f5fc2d58ad791b456eac599bcb5798cdd5fce"
+	address = "0xDeA087aFdd4aE37902f626EAd264eE982D78Dc6a"
+	m.createUser(ntn, privateKey, address)
 
 	tim := models.SignUpUserStruct{
 		Nickname: "tim",
 		Email:    "kazik@mail.ru",
 		Password: "urus",
 	}
-	m.createUser(tim)
+	privateKey = "f38057c879e9aedc33d5823c15ab2640496afed059f3781ef708df4577e945b2"
+	address = "0x7F51DCbdBdb4BB0A8a10387B5Fc3A9405F47a03f"
+	m.createUser(tim, privateKey, address)
 
 	oleg := models.SignUpUserStruct{
 		Nickname: "gel0",
@@ -61,20 +66,24 @@ func (m *Mocker) Mock() {
 		Password: "qwerty",
 		Token:    "cFptjzyMPD4:APA91bHQktFeKjbnX7Se0pKt5Mdf94vIarRY02ctbune2kj59Tfe1OqdbUPfcnVUGvl0iof2KcSKtDfy2l0ad8Pj4FZIGTq-RQ3MXrWzwjyy8anuXtrW2Z3QPp6-RJExs1gb4lJf2zgx",
 	}
-	m.createUser(oleg)
+	privateKey = "630e0cee6c70243c85655ff39bf8ba2822356df78f223db374589a5a53f265eb"
+	address = "0x34f2361235dFa60d20571cC059Ecf53ed02AA05e"
+	m.createUser(oleg, privateKey, address)
 
 	oleg_full := models.SignUpUserStruct{
 		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
 		Email:    "lolo@ya.ru",
 		Password: "DROIDEK",
 	}
-	m.createUser(oleg_full)
-
+	privateKey = "f7ea4e300c90742decc44f65b1d7a5a7308ed799f08b6140d69e0bcd9d448b29"
+	address = "0x668cbE895A9A2C24421530d919d2B34B337272fB"
+	m.createUser(oleg_full, privateKey, address)
+	
+	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("tim", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	p := models.Promise{
 		Author:         "evv",
