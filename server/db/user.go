@@ -46,7 +46,6 @@ func (db *DBHandler) ResetDB() (err error) {
 	fmt.Println("After exec")
 	return
 }
-
 func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	sql := `
 		SELECT id 
@@ -77,15 +76,17 @@ func (db *DBHandler) GetUserIdByNicknameAndPassword(u models.SignInUserStruct) (
 }
 
 // Кладем нового юзера в БД, возвращаем никнейм
-func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct) (err error) {
+func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct, private string, address string) (err error) {
 	sql := `
 		INSERT INTO "users" (
 			nickname, 
 			email, 
 			password,
-			token
+			token,
+			private,
+			address
 		)
-		VALUES ($1, $2, $3, $4)
+		VALUES ($1, $2, $3, $4, $5, $6)
 		RETURNING nickname;
 	`
 
@@ -94,6 +95,8 @@ func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct) (err error) {
 		u.Email,
 		u.Password,
 		u.Token,
+		private,
+		address,
 	).Scan(&u.Nickname)
 	return
 }

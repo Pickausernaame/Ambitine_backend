@@ -3,6 +3,8 @@ package server
 import (
 	"errors"
 	"fmt"
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
+	"log"
 	"os"
 	"strconv"
 
@@ -24,6 +26,7 @@ const (
 type App struct {
 	Router *gin.Engine
 	DB     *db.DBHandler
+	WM     *kanzler.WalletManager
 }
 
 func (instance *App) initializeRoutes() {
@@ -34,7 +37,7 @@ func (instance *App) initializeRoutes() {
 	api := instance.Router.Group("/api")
 	{
 		// api.GET("/hello", instance.HelloFunc)
-		//api.GET("/get_promises", middleware.AuthMiddleware(instance.GetPromises))
+
 		api.GET("/get_export_promises", middleware.AuthMiddleware(instance.GetAuthorPromises))
 		api.GET("/get_import_promises", middleware.AuthMiddleware(instance.GetReceiverPromises))
 
@@ -57,7 +60,14 @@ func New() *App {
 
 	a.Router.Use(gin.Recovery())
 	a.Router.Use(gin.Logger())
-	_ = a.InitDB()
+	err := a.InitDB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	a.WM, err = kanzler.New()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	return &a
 }
@@ -133,7 +143,7 @@ func (instance *App) InitDB() (err error) {
 		}
 
 		fmt.Println("Before mock")
-		mocker := db.Mocker{DB: instance.DB}
+		mocker := db.Mocker{DB: instance.DB, WM: instance.WM}
 		mocker.Mock()
 	}
 	// ##################################################
