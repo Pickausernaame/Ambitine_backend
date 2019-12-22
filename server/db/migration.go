@@ -29,7 +29,7 @@ func (db *DBHandler) ResetDB() (err error) {
 			"receiver_img_url" text NOT NULL,
 			"author_img_url" text NOT NULL,
 			"description" text,
-			"deposit" bigint,
+			"deposit" float,
 			"pastdue" TIMESTAMP,
 			"imgurl" text,
 			"accepted" int

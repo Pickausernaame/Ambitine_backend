@@ -19,6 +19,24 @@ func HelloFunc(c *gin.Context) {
 	c.JSON(200, res)
 }
 
+func (instance *App) UploadImg(c *gin.Context) {
+}
+
+func (instance *App) GetUserBalance(c *gin.Context) {
+	id, _ := c.Get("id")
+	addr, err := instance.DB.GetAddressById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("Unable to get balance by id:", err)
+		c.Status(400)
+		return
+	}
+
+	_, balance, _ := instance.WM.CheckBalance(addr)
+
+	c.JSON(200, gin.H{"balance": balance} )
+}
+
 func (instance *App) SignInHand(c *gin.Context) {
 	var (
 		loginUser models.SignInUserStruct

@@ -52,7 +52,7 @@ func (db *DBHandler) GetUserIdByNicknameAndPassword(u models.SignInUserStruct) (
 func (db *DBHandler) InsertNewUser(u models.SignUpUserStruct, private string, address string) (err error) {
 	sql := `
 		INSERT INTO "users" (
-			nickname, 
+			"nickname", 
 			email, 
 			password,
 			token,

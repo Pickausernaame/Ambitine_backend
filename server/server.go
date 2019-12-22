@@ -42,15 +42,17 @@ func (instance *App) initializeRoutes() {
 		api.GET("/get_import_promises", middleware.AuthMiddleware(instance.GetReceiverPromises))
 		api.GET("/user_info", middleware.AuthMiddleware(instance.UserInfo))
 
-		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
+		api.GET("/get_balance", middleware.AuthMiddleware(instance.GetUserBalance))
 
 		api.GET("/users_autocomplete", middleware.AuthMiddleware(instance.GetAllUsers))
 
 		api.POST("/signin", instance.SignInHand)
 		api.POST("/signup", instance.SignUpHand)
 
+		api.POST("/img_upload", instance.UploadImg)
+
+		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
 		api.POST("/logout", middleware.AuthMiddleware(instance.Logout))
-		api.POST("/new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
 	}
 }
 

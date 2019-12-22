@@ -19,7 +19,8 @@ func (m *Mocker) createUser(u models.SignUpUserStruct) {
 		fmt.Println("Unable to create new wallet:", err)
 		return
 	}
-	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address))
+	var n string
+	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address).Scan(&n))
 }
 
 func (m *Mocker) createPromise(p models.Promise) {
@@ -39,7 +40,6 @@ func (m *Mocker) Mock() {
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
 	}
 	m.createUser(evv)
-	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	ntn := models.SignUpUserStruct{
 		Nickname: "ntn",
@@ -47,7 +47,6 @@ func (m *Mocker) Mock() {
 		Password: "1488",
 	}
 	m.createUser(ntn)
-	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	tim := models.SignUpUserStruct{
 		Nickname: "tim",
@@ -55,7 +54,6 @@ func (m *Mocker) Mock() {
 		Password: "urus",
 	}
 	m.createUser(tim)
-	m.setUserAvatar("tim", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	oleg := models.SignUpUserStruct{
 		Nickname: "gel0",
@@ -64,7 +62,6 @@ func (m *Mocker) Mock() {
 		Token:    "cFptjzyMPD4:APA91bHQktFeKjbnX7Se0pKt5Mdf94vIarRY02ctbune2kj59Tfe1OqdbUPfcnVUGvl0iof2KcSKtDfy2l0ad8Pj4FZIGTq-RQ3MXrWzwjyy8anuXtrW2Z3QPp6-RJExs1gb4lJf2zgx",
 	}
 	m.createUser(oleg)
-	m.setUserAvatar("oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	oleg_full := models.SignUpUserStruct{
 		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
@@ -72,6 +69,11 @@ func (m *Mocker) Mock() {
 		Password: "DROIDEK",
 	}
 	m.createUser(oleg_full)
+
+	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	m.setUserAvatar("tim", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	m.setUserAvatar("oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	p := models.Promise{
