@@ -26,7 +26,7 @@ func (db *DBHandler) ResetDB() (err error) {
 			"id" BIGSERIAL PRIMARY KEY,
 			"author" citext NOT NULL,
 			"receiver" citext NOT NULL,
-			"reciver_img_url" text NOT NULL,
+			"receiver_img_url" text NOT NULL,
 			"author_img_url" text NOT NULL,
 			"description" text,
 			"deposit" integer,
