@@ -154,6 +154,15 @@ func (db *DBHandler) GetUserToken(nickname string) (token string, err error) {
 	return
 }
 
+func (db *DBHandler) SetUsetImgUrl(nickname string, url string) (err error) {
+	sql := `
+		UPDATE "users" SET imgurl = $2
+		WHERE nickname = $1; 
+	`
+	_, err = db.Connection.Exec(sql, nickname, url)
+	return
+}
+
 func (db *DBHandler) UpdateUserToken(nickname string, token string) (err error) {
 	sql := `
 		UPDATE "users" SET token = $2

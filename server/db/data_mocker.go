@@ -2,6 +2,7 @@ package db
 
 import (
 	"fmt"
+
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
@@ -25,6 +26,10 @@ func (m *Mocker) createPromise(p models.Promise) {
 	fmt.Println(m.DB.SetNewPromise(p))
 }
 
+func (m *Mocker) setUserAvatar(n string, u string) {
+	fmt.Println(m.DB.SetUsetImgUrl(n, u))
+}
+
 func (m *Mocker) Mock() {
 
 	evv := models.SignUpUserStruct{
@@ -32,17 +37,17 @@ func (m *Mocker) Mock() {
 		Email:    "ya_eb@gmail.com",
 		Password: "bmstu",
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
-		ImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 	}
 	m.createUser(evv)
+	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	ntn := models.SignUpUserStruct{
 		Nickname: "ntn",
 		Email:    "ebaboba@gmail.com",
 		Password: "1488",
-		ImgUrl:   "https://avatars0.githubusercontent.com/u/31803194?s=460&v=4",
 	}
 	m.createUser(ntn)
+	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	tim := models.SignUpUserStruct{
 		Nickname: "tim",
@@ -50,6 +55,7 @@ func (m *Mocker) Mock() {
 		Password: "urus",
 	}
 	m.createUser(tim)
+	m.setUserAvatar("tim", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	oleg := models.SignUpUserStruct{
 		Nickname: "gel0",
@@ -58,6 +64,7 @@ func (m *Mocker) Mock() {
 		Token:    "cFptjzyMPD4:APA91bHQktFeKjbnX7Se0pKt5Mdf94vIarRY02ctbune2kj59Tfe1OqdbUPfcnVUGvl0iof2KcSKtDfy2l0ad8Pj4FZIGTq-RQ3MXrWzwjyy8anuXtrW2Z3QPp6-RJExs1gb4lJf2zgx",
 	}
 	m.createUser(oleg)
+	m.setUserAvatar("oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	oleg_full := models.SignUpUserStruct{
 		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
@@ -65,6 +72,7 @@ func (m *Mocker) Mock() {
 		Password: "DROIDEK",
 	}
 	m.createUser(oleg_full)
+	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	p := models.Promise{
 		Author:         "evv",
