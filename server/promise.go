@@ -70,6 +70,8 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
+	fmt.Println(p)
+
 	err = instance.DB.SetNewPromise(p)
 
 	if err != nil {
