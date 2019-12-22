@@ -66,7 +66,7 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 	balance, _ := floatBalance.Float64()
 	fmt.Println("Promise deposite: ", p.Deposit*kanzler.EtherPerUsd())
 	fmt.Println("user balance: ", balance*kanzler.EtherPerUsd())
-	if err != nil || p.Deposit <= balance || p.Deposit <= 0.0 {
+	if err != nil || p.Deposit > balance || p.Deposit <= 0.0 {
 		fmt.Println("Deposit is: ", p.Deposit, "\nBalance is: ", balance, "\n\n")
 		fmt.Println("Unable to get balance by wallet addres, or user set wrong balance:", err)
 		c.Status(400)
