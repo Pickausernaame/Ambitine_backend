@@ -42,7 +42,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 	defer file.Close()
 	id, _ := c.Get("id")
 
-	picpath := "./avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
+	picpath := "./static/avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
 	f, err := os.OpenFile(picpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("Upload error: ", err)
@@ -75,7 +75,8 @@ func (instance *App) GetUserBalance(c *gin.Context) {
 
 	_, balance, _ := instance.WM.CheckBalance(addr)
 
-	usdBalance := kanzler.EtherPerUsd() * balance.Float64()
+	ethBalance, _ := balance.Float64()
+	usdBalance := kanzler.EtherPerUsd() * ethBalance
 
 	c.JSON(200, gin.H{"balance": usdBalance} )
 }

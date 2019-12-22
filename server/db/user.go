@@ -14,7 +14,7 @@ type DBHandler struct {
 
 func (db *DBHandler) UpdateUserImgUrl(id int, url string) (err error) {
 	sql := `
-		UPDATE imgurl SET imgurl = $2 
+		UPDATE "users" SET imgurl = $2 
 			WHERE id = $1;
 	`
 	_, err = db.Connection.Exec(sql, id, url)
