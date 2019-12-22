@@ -1,7 +1,5 @@
 version: '3'
 services:
-
-
   postgres:
     image: postgres:10
     container_name: ambitine_db
@@ -18,7 +16,6 @@ services:
     ports:
       - "8088:8088"
 
-
   ambitine:
     container_name: ambitine
     build: .
@@ -32,3 +29,4 @@ services:
       P_PORT: "${DB_PORT}"
     depends_on:
         - postgres
+        

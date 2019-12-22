@@ -100,10 +100,6 @@ func (instance *App) GetReceiverPromises(c *gin.Context) {
 	c.JSON(200, ps)
 }
 
-func (instance *App) CreateNewPromise(c *gin.Context) {
-
-}
-
 func (instance *App) SignUpHand(c *gin.Context) {
 
 	newUser := models.SignUpUserStruct{}
