@@ -24,7 +24,7 @@ func (instance *App) SendNotification(p models.Promise, token string) (err error
 		}`)
 
 	r := bytes.NewReader(data)
-	_, err = http.Post("http://gorush:8088/api/push", "application/json", r)
+	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
 
 	return
 }
