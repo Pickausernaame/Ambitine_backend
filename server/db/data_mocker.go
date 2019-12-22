@@ -105,7 +105,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Okay we try do the best",
 		Pastdue:        1588417777,
-		Deposit:        23000,
+		Deposit:        23,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -117,7 +117,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Lets get my honey, bro",
 		Pastdue:        1688417777,
-		Deposit:        230,
+		Deposit:        23,
 		Accepted:       0,
 	}
 
@@ -130,7 +130,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Subscribe for GGG !",
 		Pastdue:        1788417777,
-		Deposit:        29000,
+		Deposit:        29,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -142,7 +142,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Lets do something great!",
 		Pastdue:        1888417777,
-		Deposit:        5300000,
+		Deposit:        5.3,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -154,7 +154,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Lets go in mumu!",
 		Pastdue:        1818417777,
-		Deposit:        300232100,
+		Deposit:        30,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -166,7 +166,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "Я, бл***, в своём познании настолько преисполнился, что я как будто бы уже 100 триллионов миллиардов лет, бл***, проживаю на триллионах и триллионах таких же планет, понимаешь? Как эта Земля. Мне уже этот мир абсолютно понятен, и я здесь ищу только одного: покоя, умиротворения и вот этой гармонии от слияния с бесконечно вечным.",
 		Pastdue:        1828417777,
-		Deposit:        300231000,
+		Deposit:        3,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -178,7 +178,7 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "CREATE NEW MEMES PLS",
 		Pastdue:        1928417777,
-		Deposit:        30230,
+		Deposit:        3.2,
 		Accepted:       0,
 	}
 	m.createPromise(p)
@@ -190,9 +190,104 @@ func (m *Mocker) Mock() {
 		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
 		Description:    "CREATE NEW MEMES PLS",
 		Pastdue:        1428417777,
-		Deposit:        30034000,
+		Deposit:        3.9,
 		Accepted:       0,
 	}
-
 	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "evv",
+		Receiver:       "tim",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "FALLING DOWN",
+		Pastdue:        1428417777,
+		Deposit:        3.1,
+		Accepted:       -1,
+	}
+	m.createPromise(p)
+	p = models.Promise{
+		Author:         "evv",
+		Receiver:       "gelo",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "GDE MOI GENGIIII",
+		Pastdue:        1528417777,
+		Deposit:        30034000,
+		Accepted:       -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "evv",
+		Receiver:       "ntn",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "Cool weekends",
+		Pastdue:        1438417777,
+		Deposit:        30034000,
+		Accepted:       1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "evv",
+		Receiver:       "tim",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "GDE MOI SHPAK",
+		Pastdue:        1638417777,
+		Deposit:        30034000,
+		Accepted:       1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "ntn",
+		Receiver:       "evv",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "GO V VORONEZ",
+		Pastdue:        1618417777,
+		Deposit:        30034000,
+		Accepted:       1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "ntn",
+		Receiver:       "evv",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "GO V MINSK",
+		Pastdue:        1318417777,
+		Deposit:        30034000,
+		Accepted:       -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "tim",
+		Receiver:       "evv",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "POBOREMSYA",
+		Pastdue:        1378417777,
+		Deposit:        30034000,
+		Accepted:       1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:         "tim",
+		Receiver:       "evv",
+		ReceiverImgUrl: "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		AuthorImgUrl:   "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg",
+		Description:    "POEBEMSYA",
+		Pastdue:        1478417777,
+		Deposit:        30034000,
+		Accepted:       -1,
+	}
+	m.createPromise(p)
+
 }

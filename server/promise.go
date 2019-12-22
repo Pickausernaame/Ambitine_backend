@@ -152,6 +152,13 @@ func (instance *App) Solution(c *gin.Context) {
 		c.Status(400)
 		return
 	}
+	isAccepted, err := instance.DB.IsPromiseAccepted(sol.Promise_id)
+	if isAccepted {
+		fmt.Println("Promise is already accepted:", err)
+		c.Status(400)
+		return
+	}
+
 	if sol.Accepted == 1 {
 		_, err := instance.DB.UpdatePromiseStatus(sol)
 		if err != nil {
