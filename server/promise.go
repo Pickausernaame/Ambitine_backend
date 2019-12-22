@@ -54,6 +54,24 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
+	addr, err := instance.DB.GetAddressById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("Unable to get wallet adress by id :", err)
+		c.Status(400)
+		return
+	}
+
+	_, floatBalance, err := instance.WM.CheckBalance(addr)
+	balance, _ := floatBalance.Float64()
+
+	if err != nil || p.Deposit <= balance || p.Deposit <= 0.0 {
+		fmt.Println("Deposit is: ", p.Deposit, "\nBalance is: ", balance, "\n\n")
+		fmt.Println("Unable to get balance by wallet addres, or user set wrong balance:", err)
+		c.Status(400)
+		return
+	}
+
 	p.AuthorImgUrl, err = instance.DB.GetImgUrlByNickname(p.Author)
 
 	if err != nil {

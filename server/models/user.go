@@ -33,17 +33,6 @@ type AutoComplete struct {
 	Img      string `json:"img_url"`
 }
 
-type Promise struct {
-	Author         string `json:"author_username"`
-	Receiver       string `json:"receiver_username"`
-	AuthorImgUrl   string `json:"author_img_url"`
-	ReceiverImgUrl string `json:"receiver_img_url"`
-	Description    string `json:"promise_description"`
-	Pastdue        int64  `json:"pastdue"`
-	Deposit        int    `json:"deposit"`
-	Accepted       int    `json:"accepted"`
-}
-
 type UserInfo struct {
 	Nickname   string     `json:"username"`
 	ImgUrl     string     `json:"img_url"`

@@ -19,15 +19,15 @@ func (m *Mocker) createUser(u models.SignUpUserStruct) {
 		fmt.Println("Unable to create new wallet:", err)
 		return
 	}
-	fmt.Println(m.DB.InsertNewUser(u, privateKey, address))
+	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address))
 }
 
 func (m *Mocker) createPromise(p models.Promise) {
-	fmt.Println(m.DB.SetNewPromise(p))
+	fmt.Println("promise: ", m.DB.SetNewPromise(p))
 }
 
 func (m *Mocker) setUserAvatar(n string, u string) {
-	fmt.Println(m.DB.SetUsetImgUrl(n, u))
+	fmt.Println("imgurl: ", m.DB.SetUserImgUrl(n, u))
 }
 
 func (m *Mocker) Mock() {

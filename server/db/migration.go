@@ -16,7 +16,7 @@ func (db *DBHandler) ResetDB() (err error) {
 			"password" text NOT NULL,
 			"fullname" text,
 			"about" text,
-			"imgurl" text ,
+			"imgurl" text,
 			"token" text DEFAULT 'abs',
 			"private" citext NOT NULL,
 			"address" citext NOT NULL
@@ -29,7 +29,7 @@ func (db *DBHandler) ResetDB() (err error) {
 			"receiver_img_url" text NOT NULL,
 			"author_img_url" text NOT NULL,
 			"description" text,
-			"deposit" integer,
+			"deposit" bigint,
 			"pastdue" TIMESTAMP,
 			"imgurl" text,
 			"accepted" int

@@ -28,7 +28,7 @@ func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 
 func (db *DBHandler) GetAddressById(id int) (address string, err error) {
 	sql := `
-		SELECT address FROM users WHERE i = $1;
+		SELECT address FROM users WHERE id = $1;
 `
 	err = db.Connection.QueryRow(sql, id).Scan(&address)
 	return
@@ -162,7 +162,7 @@ func (db *DBHandler) GetUserToken(nickname string) (token string, err error) {
 	return
 }
 
-func (db *DBHandler) SetUsetImgUrl(nickname string, url string) (err error) {
+func (db *DBHandler) SetUserImgUrl(nickname string, url string) (err error) {
 	sql := `
 		UPDATE "users" SET imgurl = $2
 		WHERE nickname = $1; 
