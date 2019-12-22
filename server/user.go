@@ -3,6 +3,7 @@ package server
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 	"io"
 	"io/ioutil"
 	"os"
@@ -223,6 +224,7 @@ func (instance *App) UserInfo(c *gin.Context) {
 
 	_, balance, _ := instance.WM.CheckBalance(u.Wallet)
 	u.Balance, _ = balance.Float64()
+	u.Balance = u.Balance * kanzler.EtherPerUsd()
 	fmt.Println(u)
 	c.JSON(200, u)
 	return
