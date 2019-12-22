@@ -34,7 +34,7 @@ func (instance *App) SignInHand(c *gin.Context) {
 		return
 	}
 
-	fmt.Print(newUser.Nickname, " token: \n", newUser.Token, "\n\n")
+	fmt.Print(loginUser.Nickname, " token: \n", loginUser.Token, "\n\n")
 
 	id, err := instance.DB.GetUserIdByNicknameAndPassword(loginUser)
 
