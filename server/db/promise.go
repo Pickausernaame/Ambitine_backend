@@ -140,8 +140,8 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 	return promise, nil
 }
 
-func (db *DBHandler) IsUserAuthorOfPromise(nickname string, id int) (exist bool, err error) {
-	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND author = $2);`
+func (db *DBHandler) IsUserReceiverOfPromise(nickname string, id int) (exist bool, err error) {
+	sql := `SELECT EXISTS (SELECT true FROM promise WHERE id = $1 AND receiver = $2);`
 	err = db.Connection.QueryRow(sql, id, nickname).Scan(&exist)
 	return
 }

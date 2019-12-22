@@ -141,7 +141,7 @@ func (instance *App) Solution(c *gin.Context) {
 		c.Status(400)
 		return
 	}
-	exist, err := instance.DB.IsUserAuthorOfPromise(nickname, int(id.(float64)))
+	exist, err := instance.DB.IsUserReceiverOfPromise(nickname, int(id.(float64)))
 	if !exist || err != nil {
 		if err != nil {
 			fmt.Println("Unable to check exist:", err)
