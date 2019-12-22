@@ -43,6 +43,7 @@ func (instance *App) initializeRoutes() {
 		api.GET("/user_info", middleware.AuthMiddleware(instance.UserInfo))
 
 		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
+		api.POST("/solution", middleware.AuthMiddleware(instance.Solution))
 
 		api.GET("/users_autocomplete", middleware.AuthMiddleware(instance.GetAllUsers))
 

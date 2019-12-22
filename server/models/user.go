@@ -43,6 +43,11 @@ type UserInfo struct {
 	Wallet     string     `json:"wallet"`
 }
 
+type Solution struct {
+	Accepted   int `json:"accepted"`
+	Promise_id int `json:"id"`
+}
+
 // type Notification struct {
 // 	Author       string `json:"author_username"`
 // 	Receiver     string `json:"reciever_username"`

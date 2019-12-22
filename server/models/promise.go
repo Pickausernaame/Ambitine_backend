@@ -1,6 +1,7 @@
 package models
 
 type Promise struct {
+	Id             int     `json:"id"`
 	Author         string  `json:"author_username"`
 	Receiver       string  `json:"receiver_username"`
 	AuthorImgUrl   string  `json:"author_img_url"`

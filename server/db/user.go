@@ -34,6 +34,20 @@ func (db *DBHandler) GetAddressById(id int) (address string, err error) {
 	return
 }
 
+func (db *DBHandler) GetAddressByNickname(nickname string) (address string, err error) {
+	sql := `
+		SELECT address FROM users WHERE nickname = $1;
+`
+	err = db.Connection.QueryRow(sql, nickname).Scan(&address)
+	return
+}
+
+func (db *DBHandler) GetPrivateByNickname(nickname string) (privateKey string, err error) {
+	sql := `SELECT private FROM users WHERE nickname = $1;`
+	err = db.Connection.QueryRow(sql, nickname).Scan(&privateKey)
+	return
+}
+
 func (db *DBHandler) GetUserIdByNicknameAndPassword(u models.SignInUserStruct) (id int, err error) {
 
 	sql := `
