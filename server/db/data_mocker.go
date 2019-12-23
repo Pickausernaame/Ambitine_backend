@@ -80,10 +80,10 @@ func (m *Mocker) Mock() {
 	m.createUser(oleg_full, privateKey, address)
 
 	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("Vladimir", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/031_girl_avatar_profile_woman_shirt-512.png")
-	m.setUserAvatar("Antony", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/038_girl_avatar_profile_woman_shirt-512.png")
-	m.setUserAvatar("Temirlan", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/034_man_profile_boy_avatar_human_people_smile-512.png")
-	m.setUserAvatar("Oleg", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/031_man_profile_boy_avatar_human_people_smile-512.png")
+	m.setUserAvatar("Vladimir", "http://35.228.98.103:9090/avatars/evv.png")
+	m.setUserAvatar("Antony", "http://35.228.98.103:9090/avatars/ntn.png")
+	m.setUserAvatar("Temirlan", "http://35.228.98.103:9090/avatars/tim.png")
+	m.setUserAvatar("Oleg", "http://35.228.98.103:9090/avatars/olg.png")
 
 
 	// m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
