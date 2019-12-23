@@ -32,43 +32,43 @@ func (m *Mocker) setUserAvatar(n string, u string) {
 
 func (m *Mocker) Mock() {
 
-	evv := models.SignUpUserStruct{
-		Nickname: "evv",
+	Vladimir := models.SignUpUserStruct{
+		Nickname: "Vladimir",
 		Email:    "ya_eb@gmail.com",
 		Password: "bmstu",
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
 	}
 	privateKey := "2ebf2ba43c108f76b387a522ab18f7dfd5e3c1daacedefa89e0b83bfc2db5015"
 	address := "0x67057856B8527Af81Ef3802e64eFEB1a97C14D30"
-	m.createUser(evv, privateKey, address)
+	m.createUser(Vladimir, privateKey, address)
 
-	ntn := models.SignUpUserStruct{
-		Nickname: "ntn",
+	Antony := models.SignUpUserStruct{
+		Nickname: "Antony",
 		Email:    "ebaboba@gmail.com",
 		Password: "1488",
 	}
 	privateKey = "d14cade251eeddee89f7bd24a56f5fc2d58ad791b456eac599bcb5798cdd5fce"
 	address = "0xDeA087aFdd4aE37902f626EAd264eE982D78Dc6a"
-	m.createUser(ntn, privateKey, address)
+	m.createUser(Antony, privateKey, address)
 
-	tim := models.SignUpUserStruct{
-		Nickname: "tim",
+	Temirlan := models.SignUpUserStruct{
+		Nickname: "Temirlan",
 		Email:    "kazik@mail.ru",
 		Password: "urus",
 	}
 	privateKey = "f38057c879e9aedc33d5823c15ab2640496afed059f3781ef708df4577e945b2"
 	address = "0x7F51DCbdBdb4BB0A8a10387B5Fc3A9405F47a03f"
-	m.createUser(tim, privateKey, address)
+	m.createUser(Temirlan, privateKey, address)
 
-	oleg := models.SignUpUserStruct{
-		Nickname: "gel0",
+	Oleg := models.SignUpUserStruct{
+		Nickname: "Oleg",
 		Email:    "lolo@ya.ru",
-		Password: "qwerty",
+		Password: "1234",
 		Token:    "cFptjzyMPD4:APA91bHQktFeKjbnX7Se0pKt5Mdf94vIarRY02ctbune2kj59Tfe1OqdbUPfcnVUGvl0iof2KcSKtDfy2l0ad8Pj4FZIGTq-RQ3MXrWzwjyy8anuXtrW2Z3QPp6-RJExs1gb4lJf2zgx",
 	}
 	privateKey = "630e0cee6c70243c85655ff39bf8ba2822356df78f223db374589a5a53f265eb"
 	address = "0x34f2361235dFa60d20571cC059Ecf53ed02AA05e"
-	m.createUser(oleg, privateKey, address)
+	m.createUser(Oleg, privateKey, address)
 
 	oleg_full := models.SignUpUserStruct{
 		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
@@ -80,16 +80,23 @@ func (m *Mocker) Mock() {
 	m.createUser(oleg_full, privateKey, address)
 
 	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("evv", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("ntn", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("tim", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
-	m.setUserAvatar("gel0", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	m.setUserAvatar("Vladimir", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/031_girl_avatar_profile_woman_shirt-512.png")
+	m.setUserAvatar("Antony", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/038_girl_avatar_profile_woman_shirt-512.png")
+	m.setUserAvatar("Temirlan", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/034_man_profile_boy_avatar_human_people_smile-512.png")
+	m.setUserAvatar("Oleg", "https://cdn2.iconfinder.com/data/icons/circle-avatars-1/128/031_man_profile_boy_avatar_human_people_smile-512.png")
+
+
+	// m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	// m.setUserAvatar("Vladimir", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	// m.setUserAvatar("Antony", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	// m.setUserAvatar("Temirlan", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	// m.setUserAvatar("Oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+	// m.setUserAvatar("Oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	p := models.Promise{
-		Author:         "evv",
-		Receiver:       "ntn",
-		Description:    "Do this feed right now",
+		Author:         "Vladimir",
+		Receiver:       "Antony",
+		Description:    "Сделать фид обещаний прямо сейчас",
 		Pastdue:        1576417777,
 		Deposit:        12,
 		Accepted:       0,
@@ -98,9 +105,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "tim",
-		Description:    "Okay we try do the best",
+		Author:         "Vladimir",
+		Receiver:       "Temirlan",
+		Description:    "Настроить апи кошелька, сделать хэндлер на адрес",
 		Pastdue:        1588417777,
 		Deposit:        23,
 		Accepted:       0,
@@ -108,9 +115,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "gel0",
-		Receiver:       "ntn",
-		Description:    "Lets get my honey, bro",
+		Author:         "Oleg",
+		Receiver:       "Antony",
+		Description:    "Настроить работу уведомлений в фоне",
 		Pastdue:        1688417777,
 		Deposit:        23,
 		Accepted:       0,
@@ -119,9 +126,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "tim",
-		Receiver:       "ntn",
-		Description:    "Subscribe for GGG !",
+		Author:         "Temirlan",
+		Receiver:       "Antony",
+		Description:    "Показать танец живота, дать двоечку мамбетам",
 		Pastdue:        1788417777,
 		Deposit:        29,
 		Accepted:       0,
@@ -129,9 +136,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "gel0",
-		Description:    "Lets do something great!",
+		Author:         "Vladimir",
+		Receiver:       "Oleg",
+		Description:    "Исправить орфографические ошибки в JSON запросах на бэк",
 		Pastdue:        1888417777,
 		Deposit:        5.3,
 		Accepted:       0,
@@ -139,9 +146,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "gel0",
-		Receiver:       "evv",
-		Description:    "Lets go in mumu!",
+		Author:         "Oleg",
+		Receiver:       "Vladimir",
+		Description:    "Исправить орфографическте ошибки, изменить поля модели, написать хэндлер нотификаций",
 		Pastdue:        1818417777,
 		Deposit:        30,
 		Accepted:       0,
@@ -149,8 +156,8 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "tim",
-		Receiver:       "evv",
+		Author:         "Temirlan",
+		Receiver:       "Vladimir",
 		Description:    "Я, бл***, в своём познании настолько преисполнился, что я как будто бы уже 100 триллионов миллиардов лет, бл***, проживаю на триллионах и триллионах таких же планет, понимаешь? Как эта Земля. Мне уже этот мир абсолютно понятен, и я здесь ищу только одного: покоя, умиротворения и вот этой гармонии от слияния с бесконечно вечным.",
 		Pastdue:        1828417777,
 		Deposit:        3,
@@ -159,9 +166,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "ntn",
-		Receiver:       "evv",
-		Description:    "CREATE NEW MEMES PLS",
+		Author:         "Antony",
+		Receiver:       "Vladimir",
+		Description:    "Выбрать, что заказать им и что сказать нам",
 		Pastdue:        1928417777,
 		Deposit:        3.2,
 		Accepted:       0,
@@ -169,9 +176,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "ntn",
-		Receiver:       "evv",
-		Description:    "CREATE NEW MEMES PLS",
+		Author:         "Antony",
+		Receiver:       "Vladimir",
+		Description:    "Стать самым свежим в школе, у",
 		Pastdue:        1428417777,
 		Deposit:        3.9,
 		Accepted:       0,
@@ -179,18 +186,18 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "tim",
-		Description:    "FALLING DOWN",
+		Author:         "Vladimir",
+		Receiver:       "Temirlan",
+		Description:    "Выучить наизусть все песни моргенштерна",
 		Pastdue:        1428417777,
 		Deposit:        3.1,
 		Accepted:       -1,
 	}
 	m.createPromise(p)
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "gel0",
-		Description:    "GDE MOI GENGIIII",
+		Author:         "Vladimir",
+		Receiver:       "Oleg",
+		Description:    "Не приставать больше ночью и не снимать сторис в инсту",
 		Pastdue:        1528417777,
 		Deposit:        30034000,
 		Accepted:       -1,
@@ -198,9 +205,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "ntn",
-		Description:    "Cool weekends",
+		Author:         "Vladimir",
+		Receiver:       "Antony",
+		Description:    "Хорошо провести эти выходные",
 		Pastdue:        1438417777,
 		Deposit:        30034000,
 		Accepted:       1,
@@ -208,9 +215,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "evv",
-		Receiver:       "tim",
-		Description:    "GDE MOI SHPAK",
+		Author:         "Vladimir",
+		Receiver:       "Temirlan",
+		Description:    "Сконнектиться на счет сета кук",
 		Pastdue:        1638417777,
 		Deposit:        30034000,
 		Accepted:       1,
@@ -218,9 +225,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "ntn",
-		Receiver:       "evv",
-		Description:    "GO V VORONEZ",
+		Author:         "Antony",
+		Receiver:       "Oleg",
+		Description:    "Сдать курсач до нового года",
 		Pastdue:        1618417777,
 		Deposit:        30034000,
 		Accepted:       1,
@@ -228,9 +235,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "ntn",
-		Receiver:       "evv",
-		Description:    "GO V MINSK",
+		Author:         "Antony",
+		Receiver:       "Vladimir",
+		Description:    "Провести бой с тенью или игру с самим собой",
 		Pastdue:        1318417777,
 		Deposit:        30034000,
 		Accepted:       -1,
@@ -238,9 +245,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "tim",
-		Receiver:       "evv",
-		Description:    "POBOREMSYA",
+		Author:         "Temirlan",
+		Receiver:       "Vladimir",
+		Description:    "Больше не кусать во время борьбы за руку (кусать животом можно)",
 		Pastdue:        1378417777,
 		Deposit:        30034000,
 		Accepted:       1,
@@ -248,12 +255,12 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "tim",
-		Receiver:       "evv",
-		Description:    "POEBEMSYA",
+		Author:         "Oleg",
+		Receiver:       "Vladimir",
+		Description:    "Написать нормальные моки для юзеров и промисовы",
 		Pastdue:        1478417777,
 		Deposit:        30034000,
-		Accepted:       -1,
+		Accepted:       1,
 	}
 	m.createPromise(p)
 
