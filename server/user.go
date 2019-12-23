@@ -85,7 +85,7 @@ func (instance *App) GetUserBalance(c *gin.Context) {
 	ethBalance, _ := balance.Float64()
 	usdBalance := kanzler.EtherPerUsd() * ethBalance
 
-	c.JSON(200, gin.H{"balance": usdBalance} )
+	c.JSON(200, gin.H{"balance": usdBalance})
 }
 
 func (instance *App) SignInHand(c *gin.Context) {
@@ -234,7 +234,13 @@ func (instance *App) UserInfo(c *gin.Context) {
 		return
 	}
 
-	_, balance, _ := instance.WM.CheckBalance(u.Wallet)
+	_, balance, err := instance.WM.CheckBalance(u.Wallet)
+	if err != nil {
+		fmt.Println("Getting user's balance error: ", err)
+		c.Status(409)
+		return
+	}
+
 	u.Balance, _ = balance.Float64()
 	u.Balance = u.Balance * kanzler.EtherPerUsd()
 	fmt.Println(u)
