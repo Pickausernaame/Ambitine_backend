@@ -85,7 +85,6 @@ func (m *Mocker) Mock() {
 	m.setUserAvatar("Temirlan", "http://35.228.98.103:9090/avatars/tim.png")
 	m.setUserAvatar("Oleg", "http://35.228.98.103:9090/avatars/olg.png")
 
-
 	// m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	// m.setUserAvatar("Vladimir", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	// m.setUserAvatar("Antony", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
@@ -94,173 +93,173 @@ func (m *Mocker) Mock() {
 	// m.setUserAvatar("Oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 
 	p := models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Antony",
-		Description:    "Сделать фид обещаний прямо сейчас",
-		Pastdue:        1576417777,
-		Deposit:        12,
-		Accepted:       0,
+		Author:      "Vladimir",
+		Receiver:    "Antony",
+		Description: "Сделать фид обещаний прямо сейчас",
+		Pastdue:     1766517792,
+		Deposit:     12,
+		Accepted:    0,
 	}
 
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Temirlan",
-		Description:    "Настроить апи кошелька, сделать хэндлер на адрес",
-		Pastdue:        1588417777,
-		Deposit:        23,
-		Accepted:       0,
+		Author:      "Vladimir",
+		Receiver:    "Temirlan",
+		Description: "Настроить апи кошелька, сделать хэндлер на адрес",
+		Pastdue:     1766517792,
+		Deposit:     23,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Oleg",
-		Receiver:       "Antony",
-		Description:    "Настроить работу уведомлений в фоне",
-		Pastdue:        1688417777,
-		Deposit:        23,
-		Accepted:       0,
+		Author:      "Oleg",
+		Receiver:    "Antony",
+		Description: "Настроить работу уведомлений в фоне",
+		Pastdue:     1766517792,
+		Deposit:     23,
+		Accepted:    0,
 	}
 
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Temirlan",
-		Receiver:       "Antony",
-		Description:    "Показать танец живота, дать двоечку мамбетам",
-		Pastdue:        1788417777,
-		Deposit:        29,
-		Accepted:       0,
+		Author:      "Temirlan",
+		Receiver:    "Antony",
+		Description: "Показать танец живота, дать двоечку мамбетам",
+		Pastdue:     1766517792,
+		Deposit:     29,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Oleg",
-		Description:    "Исправить орфографические ошибки в JSON запросах на бэк",
-		Pastdue:        1888417777,
-		Deposit:        5.3,
-		Accepted:       0,
+		Author:      "Vladimir",
+		Receiver:    "Oleg",
+		Description: "Исправить орфографические ошибки в JSON запросах на бэк",
+		Pastdue:     1766517792,
+		Deposit:     5.3,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Oleg",
-		Receiver:       "Vladimir",
-		Description:    "Исправить орфографическте ошибки, изменить поля модели, написать хэндлер нотификаций",
-		Pastdue:        1818417777,
-		Deposit:        30,
-		Accepted:       0,
+		Author:      "Oleg",
+		Receiver:    "Vladimir",
+		Description: "Исправить орфографическте ошибки, изменить поля модели, написать хэндлер нотификаций",
+		Pastdue:     1766517792,
+		Deposit:     30,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Oleg",
-		Description:    "Посмотреть список любимых фильмов и чекнуть их оценки на кинопоиске",
-		Pastdue:        1828417777,
-		Deposit:        3,
-		Accepted:       0,
+		Author:      "Vladimir",
+		Receiver:    "Oleg",
+		Description: "Посмотреть список любимых фильмов и чекнуть их оценки на кинопоиске",
+		Pastdue:     1766517792,
+		Deposit:     3,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Antony",
-		Receiver:       "Vladimir",
-		Description:    "Выбрать, что заказать им и что сказать нам",
-		Pastdue:        1928417777,
-		Deposit:        3.2,
-		Accepted:       0,
+		Author:      "Antony",
+		Receiver:    "Vladimir",
+		Description: "Выбрать, что заказать им и что сказать нам",
+		Pastdue:     1766517792,
+		Deposit:     3.2,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Antony",
-		Receiver:       "Vladimir",
-		Description:    "Стать самым свежим в школе, у",
-		Pastdue:        1428417777,
-		Deposit:        3.9,
-		Accepted:       0,
+		Author:      "Antony",
+		Receiver:    "Vladimir",
+		Description: "Стать самым свежим в школе, у",
+		Pastdue:     1766517792,
+		Deposit:     3.9,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Temirlan",
-		Description:    "Выучить наизусть все песни моргенштерна",
-		Pastdue:        1428417777,
-		Deposit:        3.1,
-		Accepted:       -1,
+		Author:      "Vladimir",
+		Receiver:    "Temirlan",
+		Description: "Выучить наизусть все песни моргенштерна",
+		Pastdue:     1766517792,
+		Deposit:     3.1,
+		Accepted:    -1,
 	}
 	m.createPromise(p)
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Oleg",
-		Description:    "Не приставать больше ночью и не снимать сторис в инсту",
-		Pastdue:        1528417777,
-		Deposit:        2,
-		Accepted:       -1,
-	}
-	m.createPromise(p)
-
-	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Antony",
-		Description:    "Хорошо провести эти выходные",
-		Pastdue:        1438417777,
-		Deposit:        17,
-		Accepted:       1,
+		Author:      "Vladimir",
+		Receiver:    "Oleg",
+		Description: "Не приставать больше ночью и не снимать сторис в инсту",
+		Pastdue:     1766517792,
+		Deposit:     2,
+		Accepted:    -1,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Vladimir",
-		Receiver:       "Temirlan",
-		Description:    "Сконнектиться на счет сета кук",
-		Pastdue:        1638417777,
-		Deposit:        25,
-		Accepted:       1,
+		Author:      "Vladimir",
+		Receiver:    "Antony",
+		Description: "Хорошо провести эти выходные",
+		Pastdue:     1766517792,
+		Deposit:     17,
+		Accepted:    1,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Antony",
-		Receiver:       "Oleg",
-		Description:    "Сдать курсач до нового года",
-		Pastdue:        1618417777,
-		Deposit:        44,
-		Accepted:       1,
+		Author:      "Vladimir",
+		Receiver:    "Temirlan",
+		Description: "Сконнектиться на счет сета кук",
+		Pastdue:     1766517792,
+		Deposit:     25,
+		Accepted:    1,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Antony",
-		Receiver:       "Vladimir",
-		Description:    "Провести бой с тенью или игру с самим собой",
-		Pastdue:        1318417777,
-		Deposit:        150,
-		Accepted:       -1,
+		Author:      "Antony",
+		Receiver:    "Oleg",
+		Description: "Сдать курсач до нового года",
+		Pastdue:     1766517792,
+		Deposit:     44,
+		Accepted:    1,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Temirlan",
-		Receiver:       "Vladimir",
-		Description:    "Больше не кусать во время борьбы за руку (кусать животом можно)",
-		Pastdue:        1378417777,
-		Deposit:        170,
-		Accepted:       1,
+		Author:      "Antony",
+		Receiver:    "Vladimir",
+		Description: "Провести бой с тенью или игру с самим собой",
+		Pastdue:     1766517792,
+		Deposit:     150,
+		Accepted:    -1,
 	}
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Oleg",
-		Receiver:       "Vladimir",
-		Description:    "Написать нормальные моки для юзеров и промисовы",
-		Pastdue:        1478417777,
-		Deposit:        26,
-		Accepted:       1,
+		Author:      "Temirlan",
+		Receiver:    "Vladimir",
+		Description: "Больше не кусать во время борьбы за руку (кусать животом можно)",
+		Pastdue:     1766517792,
+		Deposit:     170,
+		Accepted:    1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Oleg",
+		Receiver:    "Vladimir",
+		Description: "Написать нормальные моки для юзеров и промисовы",
+		Pastdue:     1766517792,
+		Deposit:     26,
+		Accepted:    1,
 	}
 	m.createPromise(p)
 
