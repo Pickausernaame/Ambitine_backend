@@ -96,7 +96,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Antony",
 		Description: "Сделать фид обещаний прямо сейчас",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000000,
 		Deposit:     12,
 		Accepted:    0,
 	}
@@ -107,7 +107,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Temirlan",
 		Description: "Настроить апи кошелька, сделать хэндлер на адрес",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     23,
 		Accepted:    0,
 	}
@@ -117,7 +117,7 @@ func (m *Mocker) Mock() {
 		Author:      "Oleg",
 		Receiver:    "Antony",
 		Description: "Настроить работу уведомлений в фоне",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     23,
 		Accepted:    0,
 	}
@@ -128,7 +128,7 @@ func (m *Mocker) Mock() {
 		Author:      "Temirlan",
 		Receiver:    "Antony",
 		Description: "Показать танец живота, дать двоечку мамбетам",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     29,
 		Accepted:    0,
 	}
@@ -138,7 +138,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Oleg",
 		Description: "Исправить орфографические ошибки в JSON запросах на бэк",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     5.3,
 		Accepted:    0,
 	}
@@ -148,7 +148,7 @@ func (m *Mocker) Mock() {
 		Author:      "Oleg",
 		Receiver:    "Vladimir",
 		Description: "Исправить орфографическте ошибки, изменить поля модели, написать хэндлер нотификаций",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     30,
 		Accepted:    0,
 	}
@@ -158,7 +158,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Oleg",
 		Description: "Посмотреть список любимых фильмов и чекнуть их оценки на кинопоиске",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     3,
 		Accepted:    0,
 	}
@@ -168,7 +168,7 @@ func (m *Mocker) Mock() {
 		Author:      "Antony",
 		Receiver:    "Vladimir",
 		Description: "Выбрать, что заказать им и что сказать нам",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     3.2,
 		Accepted:    0,
 	}
@@ -178,7 +178,7 @@ func (m *Mocker) Mock() {
 		Author:      "Antony",
 		Receiver:    "Vladimir",
 		Description: "Стать самым свежим в школе, у",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     3.9,
 		Accepted:    0,
 	}
@@ -188,7 +188,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Temirlan",
 		Description: "Выучить наизусть все песни моргенштерна",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     3.1,
 		Accepted:    -1,
 	}
@@ -197,7 +197,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Oleg",
 		Description: "Не приставать больше ночью и не снимать сторис в инсту",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     2,
 		Accepted:    -1,
 	}
@@ -207,7 +207,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Antony",
 		Description: "Хорошо провести эти выходные",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     17,
 		Accepted:    1,
 	}
@@ -217,7 +217,7 @@ func (m *Mocker) Mock() {
 		Author:      "Vladimir",
 		Receiver:    "Temirlan",
 		Description: "Сконнектиться на счет сета кук",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     25,
 		Accepted:    1,
 	}
@@ -227,7 +227,7 @@ func (m *Mocker) Mock() {
 		Author:      "Antony",
 		Receiver:    "Oleg",
 		Description: "Сдать курсач до нового года",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     44,
 		Accepted:    1,
 	}
@@ -237,7 +237,7 @@ func (m *Mocker) Mock() {
 		Author:      "Antony",
 		Receiver:    "Vladimir",
 		Description: "Провести бой с тенью или игру с самим собой",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     150,
 		Accepted:    -1,
 	}
@@ -247,7 +247,7 @@ func (m *Mocker) Mock() {
 		Author:      "Temirlan",
 		Receiver:    "Vladimir",
 		Description: "Больше не кусать во время борьбы за руку (кусать животом можно)",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     170,
 		Accepted:    1,
 	}
@@ -257,7 +257,7 @@ func (m *Mocker) Mock() {
 		Author:      "Oleg",
 		Receiver:    "Vladimir",
 		Description: "Написать нормальные моки для юзеров и промисовы",
-		Pastdue:     1766517792,
+		Pastdue:     1577118780000,
 		Deposit:     26,
 		Accepted:    1,
 	}
