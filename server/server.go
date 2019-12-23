@@ -50,7 +50,7 @@ func (instance *App) initializeRoutes() {
 		api.POST("/signin", instance.SignInHand)
 		api.POST("/signup", instance.SignUpHand)
 
-		api.POST("/img_upload", middleware.AuthMiddleware(instance.UploadImg))
+		api.POST("/img_upload", instance.UploadImg)
 		
 		api.POST("/solution", middleware.AuthMiddleware(instance.Solution))
 		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
