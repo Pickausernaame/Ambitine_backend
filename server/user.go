@@ -58,6 +58,13 @@ func (instance *App) UploadImg(c *gin.Context) {
 		return
 	}
 
+	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
+	if err != nil {
+		fmt.Println("Upload to update promises imgs: ", err)
+		c.Status(400)
+		return
+	}
+
 	c.Status(200)
 	defer f.Close()
 	io.Copy(f, file)
@@ -141,6 +148,7 @@ func (instance *App) GetAuthorPromises(c *gin.Context) {
 		return
 	}
 	if len(ps) == 0 {
+		fmt.Println("Can't find any promises: ", err)
 		c.Status(404)
 		return
 	}
@@ -166,6 +174,7 @@ func (instance *App) GetReceiverPromises(c *gin.Context) {
 	}
 	fmt.Println(ps)
 	if len(ps) == 0 {
+		fmt.Println("Can't find any promise in db: ", err)
 		c.Status(404)
 		return
 	}

@@ -10,6 +10,44 @@ import (
 	"net/http"
 )
 
+func (instance *App) SendAcceptNotification(p models.Promise, token string) (err error) {
+	data := []byte(`
+		{
+			"notifications": [
+				{
+					"tokens": ["` + token + `"],
+					"platform": 2,
+					"title": "Your promis was accepted!",
+					"message": "` + `Congratulations!` + p.Receiver + ` was accepted your promise ` + p.Description + `.\n"
+				}
+			]
+		}`)
+
+	r := bytes.NewReader(data)
+	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
+
+	return
+}
+
+func (instance *App) SendDeclineNotification(p models.Promise, token string) (err error) {
+	data := []byte(`
+		{
+			"notifications": [
+				{
+					"tokens": ["` + token + `"],
+					"platform": 2,
+					"title": "Your promis was declined.",
+					"message": "` + p.Receiver + ` was declined your promise ` + p.Description + `.\n"
+				}
+			]
+		}`)
+
+	r := bytes.NewReader(data)
+	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
+
+	return
+}
+
 func (instance *App) SendNotification(p models.Promise, token string) (err error) {
 	data := []byte(`
 		{
@@ -72,21 +110,21 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
-	p.AuthorImgUrl, err = instance.DB.GetImgUrlByNickname(p.Author)
+	// p.AuthorImgUrl, err = instance.DB.GetImgUrlByNickname(p.Author)
 
-	if err != nil {
-		fmt.Println("Unable to get authorImgUrl by nickname :", err)
-		c.Status(400)
-		return
-	}
+	// if err != nil {
+	// 	fmt.Println("Unable to get authorImgUrl by nickname :", err)
+	// 	c.Status(400)
+	// 	return
+	// }
 
-	p.ReceiverImgUrl, err = instance.DB.GetImgUrlByNickname(p.Receiver)
+	// p.ReceiverImgUrl, err = instance.DB.GetImgUrlByNickname(p.Receiver)
 
-	if err != nil {
-		fmt.Println("Unable to get authorImgUrl by nickname :", err)
-		c.Status(400)
-		return
-	}
+	// if err != nil {
+	// 	fmt.Println("Unable to get authorImgUrl by nickname :", err)
+	// 	c.Status(400)
+	// 	return
+	// }
 
 	fmt.Println(p)
 
@@ -160,12 +198,30 @@ func (instance *App) Solution(c *gin.Context) {
 	}
 
 	if sol.Accepted == 1 {
-		_, err := instance.DB.UpdatePromiseStatus(sol)
+		p, err := instance.DB.UpdatePromiseStatus(sol)
 		if err != nil {
 			fmt.Println("Unable to change promise status:", err)
 			c.Status(400)
 			return
 		}
+
+		token, err := instance.DB.GetUserToken(p.Author)
+
+		if err != nil {
+			fmt.Println("Unable send get user token:", err)
+			c.Status(400)
+			return
+		}
+
+		err = instance.SendAcceptNotification(p, token)
+
+		if err != nil {
+			fmt.Println("Unable send notofication:", err)
+			c.Status(400)
+			return
+		}
+
+
 		c.Status(200)
 		return
 	} else if sol.Accepted == -1 {
@@ -220,6 +276,17 @@ func (instance *App) Solution(c *gin.Context) {
 			c.Status(400)
 			return
 		}
+
+		token, err := instance.DB.GetUserToken(p.Author)
+
+		if err != nil {
+			fmt.Println("Unable send get user token:", err)
+			c.Status(400)
+			return
+		}
+
+		err = instance.SendDeclineNotification(p, token)
+
 		c.Status(200)
 		return
 	}
