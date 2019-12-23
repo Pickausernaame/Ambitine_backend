@@ -19,7 +19,7 @@ func (db *DBHandler) SetNewPromise(promise models.Promise) (err error) {
 		)
 		VALUES ($1, $2, $3, $4, $5, $6);
 	`
-	pastdue := time.Unix(promise.Pastdue, 0)
+	pastdue := time.Unix(promise.Pastdue/1000, 0)
 
 	_, err = db.Connection.Query(sql, promise.Author, promise.Receiver,
 		promise.Description, promise.Deposit,
@@ -51,7 +51,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
-	
+
 	for i, _ := range promise {
 		promise[i].AuthorImgUrl, err = db.GetImgUrlByNickname(promise[i].Author)
 		promise[i].ReceiverImgUrl, err = db.GetImgUrlByNickname(promise[i].Receiver)
