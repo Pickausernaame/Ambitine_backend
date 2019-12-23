@@ -10,60 +10,8 @@ import (
 	"net/http"
 )
 
-func (instance *App) SendAcceptNotification(p models.Promise, token string) (err error) {
-	data := []byte(`
-		{
-			"notifications": [
-				{
-					"tokens": ["` + token + `"],
-					"platform": 2,
-					"title": "Your promis was accepted!",
-					"message": "` + `Congratulations!` + p.Receiver + ` was accepted your promise ` + p.Description + `.\n"
-				}
-			]
-		}`)
-
-	r := bytes.NewReader(data)
-	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
-
-	fmt.Println("Notification Accept debug:\n", p, "\n", token)
-
-	return
-}
-
-func (instance *App) SendDeclineNotification(p models.Promise, token string) (err error) {
-	data := []byte(`
-		{
-			"notifications": [
-				{
-					"tokens": ["` + token + `"],
-					"platform": 2,
-					"title": "Your promis was declined.",
-					"message": "` + p.Receiver + ` was declined your promise ` + p.Description + `.\n"
-				}
-			]
-		}`)
-
-	r := bytes.NewReader(data)
-	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
-
-	fmt.Println("Notification Decline debug:\n", p, "\n", token)
-
-	return
-}
-
-func (instance *App) SendNotification(p models.Promise, token string) (err error) {
-	data := []byte(`
-		{
-			"notifications": [
-				{
-					"tokens": ["` + token + `"],
-					"platform": 2,
-					"title": "` + p.Author + " promesed you that:" + `",
-					"message": "` + p.Description + `"
-				}
-			]
-		}`)
+func (instance *App) SendNotification(notification string, p models.Promise, token string) (err error) {
+	data := []byte(notification)
 
 	fmt.Println("Notification debug:\n", p, "\n", token)
 
@@ -153,7 +101,18 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
-	err = instance.SendNotification(p, token)
+	err = instance.SendNotification(
+		`{
+			"notifications": [
+				{
+					"tokens": ["` + token + `"],
+					"platform": 2,
+					"title": "` + p.Author + " promesed you that:" + `",
+					"message": "` + p.Description + `"
+				}
+			]
+		}`,
+		p, token)
 
 	if err != nil {
 		fmt.Println("Unable to send notifications :", err)
@@ -220,7 +179,18 @@ func (instance *App) Solution(c *gin.Context) {
 			return
 		}
 
-		err = instance.SendAcceptNotification(p, token)
+		err = instance.SendNotification(`
+		{
+			"notifications": [
+				{
+					"tokens": ["` + token + `"],
+					"platform": 2,
+					"title": "Your promis was accepted!",
+					"message": "` + `Congratulations!` + p.Receiver + ` was accepted your promise ` + p.Description + `.\n"
+				}
+			]
+		}`,
+		p, token)
 
 		if err != nil {
 			fmt.Println("Unable send notofication:", err)
@@ -292,7 +262,18 @@ func (instance *App) Solution(c *gin.Context) {
 			return
 		}
 
-		err = instance.SendDeclineNotification(p, token)
+		err = instance.SendNotification(`
+		{
+			"notifications": [
+				{
+					"tokens": ["` + token + `"],
+					"platform": 2,
+					"title": "Your promis was declined.",
+					"message": "` + p.Receiver + ` was declined your promise ` + p.Description + `.\n"
+				}
+			]
+		}`,
+		p, token)
 
 		c.Status(200)
 		return

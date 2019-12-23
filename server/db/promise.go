@@ -51,11 +51,12 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
-
-	for _, p := range promise {
-		p.AuthorImgUrl, err = db.GetImgUrlByNickname(p.Author)
-		p.ReceiverImgUrl, err = db.GetImgUrlByNickname(p.Receiver)
+	
+	for i, _ := range promise {
+		promise[i].AuthorImgUrl, err = db.GetImgUrlByNickname(promise[i].Author)
+		promise[i].ReceiverImgUrl, err = db.GetImgUrlByNickname(promise[i].Receiver)
 		if err != nil {
+			fmt.Println("Unable to get img_urls from db: ", err)
 			return nil, err
 		}
 	}
@@ -115,10 +116,11 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 		return nil, err1
 	}
 
-	for _, p := range promise {
-		p.AuthorImgUrl, err = db.GetImgUrlByNickname(p.Author)
-		p.ReceiverImgUrl, err = db.GetImgUrlByNickname(p.Receiver)
+	for i, _ := range promise {
+		promise[i].AuthorImgUrl, err = db.GetImgUrlByNickname(promise[i].Author)
+		promise[i].ReceiverImgUrl, err = db.GetImgUrlByNickname(promise[i].Receiver)
 		if err != nil {
+			fmt.Println("Unable to get img_urls from db: ", err)
 			return nil, err
 		}
 	}
