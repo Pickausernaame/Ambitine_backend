@@ -156,9 +156,9 @@ func (m *Mocker) Mock() {
 	m.createPromise(p)
 
 	p = models.Promise{
-		Author:         "Temirlan",
-		Receiver:       "Vladimir",
-		Description:    "Я, бл***, в своём познании настолько преисполнился, что я как будто бы уже 100 триллионов миллиардов лет, бл***, проживаю на триллионах и триллионах таких же планет, понимаешь? Как эта Земля. Мне уже этот мир абсолютно понятен, и я здесь ищу только одного: покоя, умиротворения и вот этой гармонии от слияния с бесконечно вечным.",
+		Author:         "Vladimir",
+		Receiver:       "Oleg",
+		Description:    "Посмотреть список любимых фильмов и чекнуть их оценки на кинопоиске",
 		Pastdue:        1828417777,
 		Deposit:        3,
 		Accepted:       0,
@@ -199,7 +199,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Oleg",
 		Description:    "Не приставать больше ночью и не снимать сторис в инсту",
 		Pastdue:        1528417777,
-		Deposit:        30034000,
+		Deposit:        2,
 		Accepted:       -1,
 	}
 	m.createPromise(p)
@@ -209,7 +209,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Antony",
 		Description:    "Хорошо провести эти выходные",
 		Pastdue:        1438417777,
-		Deposit:        30034000,
+		Deposit:        17,
 		Accepted:       1,
 	}
 	m.createPromise(p)
@@ -219,7 +219,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Temirlan",
 		Description:    "Сконнектиться на счет сета кук",
 		Pastdue:        1638417777,
-		Deposit:        30034000,
+		Deposit:        25,
 		Accepted:       1,
 	}
 	m.createPromise(p)
@@ -229,7 +229,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Oleg",
 		Description:    "Сдать курсач до нового года",
 		Pastdue:        1618417777,
-		Deposit:        30034000,
+		Deposit:        44,
 		Accepted:       1,
 	}
 	m.createPromise(p)
@@ -239,7 +239,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Vladimir",
 		Description:    "Провести бой с тенью или игру с самим собой",
 		Pastdue:        1318417777,
-		Deposit:        30034000,
+		Deposit:        150,
 		Accepted:       -1,
 	}
 	m.createPromise(p)
@@ -249,7 +249,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Vladimir",
 		Description:    "Больше не кусать во время борьбы за руку (кусать животом можно)",
 		Pastdue:        1378417777,
-		Deposit:        30034000,
+		Deposit:        170,
 		Accepted:       1,
 	}
 	m.createPromise(p)
@@ -259,7 +259,7 @@ func (m *Mocker) Mock() {
 		Receiver:       "Vladimir",
 		Description:    "Написать нормальные моки для юзеров и промисовы",
 		Pastdue:        1478417777,
-		Deposit:        30034000,
+		Deposit:        26,
 		Accepted:       1,
 	}
 	m.createPromise(p)
