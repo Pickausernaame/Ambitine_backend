@@ -26,6 +26,8 @@ func (instance *App) SendAcceptNotification(p models.Promise, token string) (err
 	r := bytes.NewReader(data)
 	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
 
+	fmt.Println("Notification Accept debug:\n", p, "\n", token)
+
 	return
 }
 
@@ -45,6 +47,8 @@ func (instance *App) SendDeclineNotification(p models.Promise, token string) (er
 	r := bytes.NewReader(data)
 	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
 
+	fmt.Println("Notification Decline debug:\n", p, "\n", token)
+
 	return
 }
 
@@ -60,6 +64,8 @@ func (instance *App) SendNotification(p models.Promise, token string) (err error
 				}
 			]
 		}`)
+
+	fmt.Println("Notification debug:\n", p, "\n", token)
 
 	r := bytes.NewReader(data)
 	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
