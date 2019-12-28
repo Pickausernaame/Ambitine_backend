@@ -8,7 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"strconv"
-	"http"
+	"net/http"
 	"bytes"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
