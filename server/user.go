@@ -18,6 +18,45 @@ type Hello struct {
 	Msg string `json:"msg"`
 }
 
+
+func SendNotify(c *gin.Context) {
+	var n models.Notify
+
+	decoder := json.NewDecoder(c.Request.Body)
+	decoder.DisallowUnknownFields()
+	err := decoder.Decode(&n)
+
+	if err != nil {
+		fmt.Println("Unable to decode Notify request:", err)
+		c.Status(400)
+		return
+	}
+
+	tocken, err:= instance.DB.GetUserToken(n.Nickname)
+
+	if err != nil {
+		fmt.Println("Unable to get user tocken:", err)
+		c.Status(400)
+		return
+	}
+
+	notifyBody := `{
+		"notifications": [
+			{
+				"tokens": ["` + token + `"],
+				"platform": 2,
+				"title": "` + n.Title + " promesed you that:" + `",
+				"message": "` + n.Message + `"
+			}
+		]
+	}`
+	
+	data := []byte(notifyBody)
+
+	r := bytes.NewReader(data)
+	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
+}
+
 func HelloFunc(c *gin.Context) {
 	res := Hello{Msg: "Hi, my dear  friend!!!"}
 	c.JSON(200, res)

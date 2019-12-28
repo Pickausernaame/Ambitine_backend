@@ -55,6 +55,8 @@ func (instance *App) initializeRoutes() {
 		api.POST("/solution", middleware.AuthMiddleware(instance.Solution))
 		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
 		api.POST("/logout", middleware.AuthMiddleware(instance.Logout))
+
+		api.POST("/notify", instance.SendNotify)
 	}
 }
 

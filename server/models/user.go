@@ -12,6 +12,12 @@ type UserStruct struct {
 	Token    string `json:"token"`
 }
 
+type Notify struct {
+	Title string `json:"title"`
+	Messege string `json:"messege"`
+	Nickname string `json:"nickname"`
+}
+
 type SignUpUserStruct struct {
 	Nickname string `json:"nickname"`
 	Email    string `json:"email"`
