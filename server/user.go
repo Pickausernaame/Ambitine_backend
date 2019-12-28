@@ -21,7 +21,7 @@ type Hello struct {
 }
 
 
-func SendNotify(c *gin.Context) {
+func (instance *App) SendNotify(c *gin.Context) {
 	var n models.Notify
 
 	decoder := json.NewDecoder(c.Request.Body)
@@ -34,7 +34,7 @@ func SendNotify(c *gin.Context) {
 		return
 	}
 
-	tocken, err:= instance.DB.GetUserToken(n.Nickname)
+	token, err:= instance.DB.GetUserToken(n.Nickname)
 
 	if err != nil {
 		fmt.Println("Unable to get user tocken:", err)
@@ -48,7 +48,7 @@ func SendNotify(c *gin.Context) {
 				"tokens": ["` + token + `"],
 				"platform": 2,
 				"title": "` + n.Title + " promesed you that:" + `",
-				"message": "` + n.Message + `"
+				"message": "` + n.Messege + `"
 			}
 		]
 	}`
