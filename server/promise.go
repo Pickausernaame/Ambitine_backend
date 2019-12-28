@@ -11,7 +11,7 @@ import (
 )
 
 func (instance *App) SendNotify(text string, token string) (err error) {
-	data := []byte(notification)f
+	data := []byte(notification)
 	r := bytes.NewReader(data)
 	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
 
