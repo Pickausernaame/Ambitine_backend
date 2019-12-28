@@ -10,13 +10,13 @@ import (
 	"net/http"
 )
 
-func (instance *App) SendNotify(text string, token string) (err error) {
-	data := []byte(notification)
-	r := bytes.NewReader(data)
-	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
+// func (instance *App) SendNotify(text string) (err error) {
+// 	data := []byte(text)
+// 	r := bytes.NewReader(data)
+// 	_, err = http.Post("http://35.228.98.103:8088/api/push", "application/json", r)
 
-	return
-}
+// 	return
+// }
 
 func (instance *App) SendNotification(notification string, p models.Promise, token string) (err error) {
 	data := []byte(notification)
