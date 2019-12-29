@@ -47,7 +47,7 @@ func (instance *App) SendNotify(c *gin.Context) {
 			{
 				"tokens": ["` + token + `"],
 				"platform": 2,
-				"title": "` + n.Title + " promesed you that:" + `",
+				"title": "` + n.Title + `",
 				"message": "` + n.Messege + `"
 			}
 		]
