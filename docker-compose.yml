@@ -27,6 +27,8 @@ services:
       P_PASSWORD: "${DB_PASS}"
       P_DB: "${DB_NAME}"
       P_PORT: "${DB_PORT}"
+      INFURA_KEY: "${INFURA_KEY}"
+
     depends_on:
         - postgres
         

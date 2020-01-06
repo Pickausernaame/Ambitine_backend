@@ -1,15 +1,15 @@
 package server
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 	"io"
 	"io/ioutil"
+	"net/http"
 	"os"
 	"strconv"
-	"net/http"
-	"bytes"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
@@ -19,7 +19,6 @@ import (
 type Hello struct {
 	Msg string `json:"msg"`
 }
-
 
 func (instance *App) SendNotify(c *gin.Context) {
 	var n models.Notify
@@ -34,7 +33,7 @@ func (instance *App) SendNotify(c *gin.Context) {
 		return
 	}
 
-	token, err:= instance.DB.GetUserToken(n.Nickname)
+	token, err := instance.DB.GetUserToken(n.Nickname)
 
 	if err != nil {
 		fmt.Println("Unable to get user tocken:", err)
@@ -52,7 +51,7 @@ func (instance *App) SendNotify(c *gin.Context) {
 			}
 		]
 	}`
-	
+
 	data := []byte(notifyBody)
 
 	r := bytes.NewReader(data)
@@ -174,6 +173,7 @@ func (instance *App) Logout(c *gin.Context) {
 }
 
 func (instance *App) GetAuthorPromises(c *gin.Context) {
+
 	id, _ := c.Get("id")
 	nickname, err := instance.DB.GetNicknameById(int(id.(float64)))
 	if err != nil {
@@ -181,6 +181,7 @@ func (instance *App) GetAuthorPromises(c *gin.Context) {
 		c.Status(404)
 		return
 	}
+
 	fmt.Println(nickname)
 	ps, err := instance.DB.GetPromisesByAuthor(nickname)
 	if err != nil {

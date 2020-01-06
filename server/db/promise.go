@@ -42,6 +42,7 @@ func (db *DBHandler) GetAllPromises() (promise models.FeedPromise, err error) {
 `
 	pastdue := time.Time{}
 	rows, err := db.Connection.Query(sql)
+	defer rows.Close()
 	for rows.Next() {
 		var p models.Promise
 		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.Accepted)
@@ -80,6 +81,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 	// LIMIT $2 OFFSET $3
 	pastdue := time.Time{}
 	rows, err1 := db.Connection.Query(sql, author)
+
 	for rows.Next() {
 		var p models.Promise
 		err1 = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.Accepted)
@@ -89,6 +91,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
+	rows.Close()
 	sql = `
 		SELECT 
 			"id",
@@ -102,6 +105,7 @@ func (db *DBHandler) GetPromisesByAuthor(author string) (promise models.FeedProm
 		WHERE author = $1 and accepted <> 0 ORDER BY pastdue ASC;
 	`
 	rows, err2 := db.Connection.Query(sql, author)
+	defer rows.Close()
 	for rows.Next() {
 		var p models.Promise
 		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.Accepted)
@@ -173,6 +177,7 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 		p.Pastdue = pastdue.Unix()
 		promise = append(promise, p)
 	}
+	rows.Close()
 	sql = `
 		SELECT 
 			"id",
@@ -187,6 +192,7 @@ func (db *DBHandler) GetPromisesByReceiver(receiver string) (promise models.Feed
 	`
 
 	rows, err2 := db.Connection.Query(sql, receiver)
+	defer rows.Close()
 	for rows.Next() {
 		var p models.Promise
 		err = rows.Scan(&p.Id, &p.Author, &p.Receiver, &p.Description, &p.Deposit, &pastdue, &p.Accepted)

@@ -14,10 +14,13 @@ import (
 	"math"
 	"math/big"
 	"net/http"
+	"os"
 	"strconv"
 )
 
 const (
+	KEY = "INFURA_KEY"
+
 	EthereumNetwork        = "https://ropsten.infura.io"
 	ETH_EXCHANGE_RATE_LINK = "https://api.coinmarketcap.com/v1/ticker/ethereum/"
 
@@ -38,7 +41,11 @@ type WalletManager struct {
 
 func New() (w *WalletManager, err error) {
 	w = &WalletManager{}
-	w.client, err = w.BlockchainClientInit(EthereumNetwork)
+	key, exist := os.LookupEnv(KEY)
+	if !exist {
+		return nil, errors.New("Cant find pub key for ether network")
+	}
+	w.client, err = w.BlockchainClientInit(EthereumNetwork + "/v3/" + key)
 	return
 }
 
