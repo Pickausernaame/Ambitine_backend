@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"time"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
 	"github.com/dgrijalva/jwt-go"
@@ -90,7 +91,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 		return
 	}
 
-	ImgUrl := "http://35.228.98.103:9090/avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
+	ImgUrl := "http://35.228.98.103:9090/avatars/img" + strconv.Itoa(int(id.(float64))) + time.Now().String() + ".jpeg"
 	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
 	if err != nil {
 		fmt.Println("Upload error: ", err)
@@ -98,12 +99,12 @@ func (instance *App) UploadImg(c *gin.Context) {
 		return
 	}
 
-	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
-	if err != nil {
-		fmt.Println("Upload to update promises imgs: ", err)
-		c.Status(400)
-		return
-	}
+	//err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
+	//if err != nil {
+	//	fmt.Println("Upload to update promises imgs: ", err)
+	//	c.Status(400)
+	//	return
+	//}
 
 	c.Status(200)
 	defer f.Close()
