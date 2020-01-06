@@ -83,7 +83,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 	defer file.Close()
 	id, _ := c.Get("id")
 
-	picpath := "./static/avatars/img" + strconv.Itoa(int(id.(float64))) + ".jpeg"
+	picpath := "./static/avatars/img" + strconv.Itoa(int(id.(float64))) + time.Now().String() + ".jpeg"
 	f, err := os.OpenFile(picpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("Upload error: ", err)
@@ -92,6 +92,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 	}
 
 	ImgUrl := "http://35.228.98.103:9090/avatars/img" + strconv.Itoa(int(id.(float64))) + time.Now().String() + ".jpeg"
+
 	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
 	if err != nil {
 		fmt.Println("Upload error: ", err)
@@ -100,6 +101,7 @@ func (instance *App) UploadImg(c *gin.Context) {
 	}
 
 	//err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
+	//
 	//if err != nil {
 	//	fmt.Println("Upload to update promises imgs: ", err)
 	//	c.Status(400)
