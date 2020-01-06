@@ -20,7 +20,7 @@ import (
 
 const (
 	KEY                 = "INFURA_KEY"
-	EthereumRealNetwork = "https://etherscan.io/"
+	EthereumRealNetwork = "https://mainnet.infura.io/"
 	EthereumTestNetwork = "https://ropsten.infura.io"
 
 	ETH_EXCHANGE_RATE_LINK = "https://api.coinmarketcap.com/v1/ticker/ethereum/"
