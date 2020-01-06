@@ -1,13 +1,13 @@
 version: 2
 jobs:
   build:
-      docker:
-        - image: circleci/golang:1.12
-      working_directory: ~/Ambitine
-      steps:
-        - checkout
-        - run: go get -v -u
-        #- run: go run main.go
+    docker:
+      - image: circleci/golang:1.12
+    working_directory: ~/Ambitine
+    steps:
+      - checkout
+      - run: go get -v -u
+      #- run: go run main.go
 
   deploy:
     machine:
@@ -16,8 +16,8 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-            fingerprints:
-              - "43:57:31:94:df:f1:77:18:ed:2b:73:16:41:b8:ec:7c"
+          fingerprints:
+            - "43:57:31:94:df:f1:77:18:ed:2b:73:16:41:b8:ec:7c"
       - run:
           name: Deploy Over SSH
           command: |
@@ -25,7 +25,8 @@ jobs:
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker stop ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker rm ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker-compose up --build -d"
-
+            ssh ntn@35.228.98.103 "echo "y" | sudo docker container prune"
+            ssh ntn@35.228.98.103 "echo "y" | sudo docker image prune"
 workflows:
   version: 2
   workflow:

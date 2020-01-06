@@ -1,7 +1,5 @@
 package db
 
-import "fmt"
-
 func (db *DBHandler) ResetDB() (err error) {
 	sql := `
 		CREATE EXTENSION IF NOT EXISTS CITEXT;
@@ -35,6 +33,6 @@ func (db *DBHandler) ResetDB() (err error) {
 	`
 	_, err = db.Connection.Exec(sql)
 
-	fmt.Println("After exec")
+	//fmt.Println("After exec")
 	return
 }

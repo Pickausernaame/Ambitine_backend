@@ -19,9 +19,10 @@ import (
 )
 
 const (
-	KEY = "INFURA_KEY"
+	KEY                 = "INFURA_KEY"
+	EthereumRealNetwork = "https://etherscan.io/"
+	EthereumTestNetwork = "https://ropsten.infura.io"
 
-	EthereumNetwork        = "https://ropsten.infura.io"
 	ETH_EXCHANGE_RATE_LINK = "https://api.coinmarketcap.com/v1/ticker/ethereum/"
 
 	EvvTestedWallet = "0x66623A091684C70d3B6fdc5a1222C448B5b3B365"
@@ -40,12 +41,25 @@ type WalletManager struct {
 }
 
 func New() (w *WalletManager, err error) {
+
+	state, exist := os.LookupEnv("STATE")
+	if !exist {
+		state = "debug"
+	}
+	fmt.Println("STATE OF BUILD: ###", state, "###")
 	w = &WalletManager{}
 	key, exist := os.LookupEnv(KEY)
 	if !exist {
 		return nil, errors.New("Cant find pub key for ether network")
 	}
-	w.client, err = w.BlockchainClientInit(EthereumNetwork + "/v3/" + key)
+	if state == "debug" {
+		w.client, err = w.BlockchainClientInit(EthereumTestNetwork + "/v3/" + key)
+	} else if state == "prod" {
+		w.client, err = w.BlockchainClientInit(EthereumRealNetwork + "/v3/" + key)
+	} else {
+		return nil, errors.New("Have not state flag")
+	}
+
 	return
 }
 

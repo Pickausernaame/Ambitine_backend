@@ -28,7 +28,8 @@ services:
       P_DB: "${DB_NAME}"
       P_PORT: "${DB_PORT}"
       INFURA_KEY: "${INFURA_KEY}"
-
+      #STATE: "debug"
+      STATE: "prod"
     depends_on:
         - postgres
         

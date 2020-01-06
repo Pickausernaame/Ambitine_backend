@@ -1,11 +1,28 @@
 package db
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/models"
+)
+
+const (
+	REAL_PRIVATE1 = "d1d3c8e1e89e38553d745c5e3eaca431a70bcf368f3b41697850cf26c6acb199"
+	REAL_ADRESS1  = "0x0d43bB78be45cD511f110C40371d0826f8494aF9"
+
+	REAL_PRIVATE2 = "459edb08fde808b9da7b3df79974e59544e7f072f997ab4637eba3d763cd3619"
+	REAL_ADRESS2  = "0x1c2f77a9678A72613ad61c9867ec1E0fA4b61999"
+
+	REAL_PRIVATE3 = "6ec8542e3e6226ca6b2256a7c8d076616415aae6f78086e32911fbc59060ab88"
+	REAL_ADRESS3  = "0x5738E0746B515CA27Ad9a24c60F72661660d33Bc"
+
+	REAL_PRIVATE4 = "4fd9d12e5e85a4351559d08d45060a527a03de613de5e419bfe23b8e3f4dbdf2"
+	REAL_ADRESS4  = "0xBbFf721bE0d602A84414a22F4eBB886b361BA3C3"
+
+	REAL_PRIVATE5 = "3d6ae8b13b180abe5f524a8b7b0d31e3c41cb6f06b4d07bab3989058ea7c8700"
+	REAL_ADRESS5  = "0x3358b8E5152BF2Bcb11D82ccd61c01455BB00c32"
 )
 
 type Mocker struct {
@@ -14,32 +31,41 @@ type Mocker struct {
 }
 
 func (m *Mocker) createUser(u models.SignUpUserStruct, privateKey string, address string) {
-	//privateKey, address, err := m.WM.CreateWallet()
-	//if err != nil {
-	//	fmt.Println("Unable to create new wallet:", err)
-	//	return
-	//}
-	fmt.Println("user: ", m.DB.InsertNewUser(u, privateKey, address))
+	m.DB.InsertNewUser(u, privateKey, address)
+	//fmt.Println("user: ", err)
 }
 
 func (m *Mocker) createPromise(p models.Promise) {
-	fmt.Println("promise: ", m.DB.SetNewPromise(p))
+	m.DB.SetNewPromise(p)
+	//fmt.Println("promise: ", )
 }
 
 func (m *Mocker) setUserAvatar(n string, u string) {
-	fmt.Println("imgurl: ", m.DB.SetUserImgUrl(n, u))
+	m.DB.SetUserImgUrl(n, u)
+	//fmt.Println("imgurl: ", err)
 }
 
 func (m *Mocker) Mock() {
-
+	state, exist := os.LookupEnv("STATE")
+	if !exist {
+		state = "debug"
+	}
 	Vladimir := models.SignUpUserStruct{
 		Nickname: "Vladimir",
 		Email:    "ya_eb@gmail.com",
 		Password: "bmstu",
 		Token:    "cbgsAcfQr7U:APA91bG7cjJtpEJtogtrEza0uferz6qwOnC2PHZi0Sg6d9J7qCH-jJ5kWbS59p8hJ2fXTLh2FzBmcE3tVmOY-ArdmG1HohD9NMXB-qtujQlGdzuvZqclks51IhHSKAaNanFO7N3UWP0c",
 	}
-	privateKey := "2ebf2ba43c108f76b387a522ab18f7dfd5e3c1daacedefa89e0b83bfc2db5015"
-	address := "0x67057856B8527Af81Ef3802e64eFEB1a97C14D30"
+	privateKey := ""
+	address := ""
+	if state == "debug" {
+		privateKey = "2ebf2ba43c108f76b387a522ab18f7dfd5e3c1daacedefa89e0b83bfc2db5015"
+		address = "0x67057856B8527Af81Ef3802e64eFEB1a97C14D30"
+	} else if state == "prod" {
+		privateKey = REAL_PRIVATE1
+		address = REAL_ADRESS1
+	}
+
 	m.createUser(Vladimir, privateKey, address)
 
 	Antony := models.SignUpUserStruct{
@@ -47,8 +73,14 @@ func (m *Mocker) Mock() {
 		Email:    "ebaboba@gmail.com",
 		Password: "1488",
 	}
-	privateKey = "d14cade251eeddee89f7bd24a56f5fc2d58ad791b456eac599bcb5798cdd5fce"
-	address = "0xDeA087aFdd4aE37902f626EAd264eE982D78Dc6a"
+	if state == "debug" {
+		privateKey = "d14cade251eeddee89f7bd24a56f5fc2d58ad791b456eac599bcb5798cdd5fce"
+		address = "0xDeA087aFdd4aE37902f626EAd264eE982D78Dc6a"
+	} else if state == "prod" {
+		privateKey = REAL_PRIVATE2
+		address = REAL_ADRESS2
+	}
+
 	m.createUser(Antony, privateKey, address)
 
 	Temirlan := models.SignUpUserStruct{
@@ -56,8 +88,13 @@ func (m *Mocker) Mock() {
 		Email:    "kazik@mail.ru",
 		Password: "urus",
 	}
-	privateKey = "f38057c879e9aedc33d5823c15ab2640496afed059f3781ef708df4577e945b2"
-	address = "0x7F51DCbdBdb4BB0A8a10387B5Fc3A9405F47a03f"
+	if state == "debug" {
+		privateKey = "f38057c879e9aedc33d5823c15ab2640496afed059f3781ef708df4577e945b2"
+		address = "0x7F51DCbdBdb4BB0A8a10387B5Fc3A9405F47a03f"
+	} else if state == "prod" {
+		privateKey = REAL_PRIVATE3
+		address = REAL_ADRESS3
+	}
 	m.createUser(Temirlan, privateKey, address)
 
 	Oleg := models.SignUpUserStruct{
@@ -66,8 +103,13 @@ func (m *Mocker) Mock() {
 		Password: "1234",
 		Token:    "cFptjzyMPD4:APA91bHQktFeKjbnX7Se0pKt5Mdf94vIarRY02ctbune2kj59Tfe1OqdbUPfcnVUGvl0iof2KcSKtDfy2l0ad8Pj4FZIGTq-RQ3MXrWzwjyy8anuXtrW2Z3QPp6-RJExs1gb4lJf2zgx",
 	}
-	privateKey = "630e0cee6c70243c85655ff39bf8ba2822356df78f223db374589a5a53f265eb"
-	address = "0x34f2361235dFa60d20571cC059Ecf53ed02AA05e"
+	if state == "debug" {
+		privateKey = "630e0cee6c70243c85655ff39bf8ba2822356df78f223db374589a5a53f265eb"
+		address = "0x34f2361235dFa60d20571cC059Ecf53ed02AA05e"
+	} else if state == "prod" {
+		privateKey = REAL_PRIVATE4
+		address = REAL_ADRESS4
+	}
 	m.createUser(Oleg, privateKey, address)
 
 	oleg_full := models.SignUpUserStruct{
@@ -75,8 +117,13 @@ func (m *Mocker) Mock() {
 		Email:    "lolo@ya.ru",
 		Password: "DROIDEK",
 	}
-	privateKey = "f7ea4e300c90742decc44f65b1d7a5a7308ed799f08b6140d69e0bcd9d448b29"
-	address = "0x668cbE895A9A2C24421530d919d2B34B337272fB"
+	if state == "debug" {
+		privateKey = "f7ea4e300c90742decc44f65b1d7a5a7308ed799f08b6140d69e0bcd9d448b29"
+		address = "0x668cbE895A9A2C24421530d919d2B34B337272fB"
+	} else if state == "prod" {
+		privateKey = REAL_PRIVATE5
+		address = REAL_ADRESS5
+	}
 	m.createUser(oleg_full, privateKey, address)
 
 	m.setUserAvatar("OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")

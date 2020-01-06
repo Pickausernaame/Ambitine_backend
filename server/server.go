@@ -8,8 +8,8 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/gin-contrib/static"
 	"github.com/Pickausernaame/Ambitine_backend/server/middleware"
+	"github.com/gin-contrib/static"
 
 	db "github.com/Pickausernaame/Ambitine_backend/server/db"
 	"github.com/gin-gonic/gin"
@@ -51,7 +51,7 @@ func (instance *App) initializeRoutes() {
 		api.POST("/signup", instance.SignUpHand)
 
 		api.POST("/img_upload", middleware.AuthMiddleware(instance.UploadImg))
-		
+
 		api.POST("/solution", middleware.AuthMiddleware(instance.Solution))
 		api.POST("/set_new_promise", middleware.AuthMiddleware(instance.CreateNewPromise))
 		api.POST("/logout", middleware.AuthMiddleware(instance.Logout))
@@ -139,7 +139,7 @@ func (instance *App) InitDB() (err error) {
 
 	instance.DB = &db.DBHandler{Connection: conn}
 
-	fmt.Println("Before reset")
+	//fmt.Println("Before reset")
 
 	// ##################################################
 	{
@@ -149,12 +149,12 @@ func (instance *App) InitDB() (err error) {
 			return err
 		}
 
-		fmt.Println("Before mock")
+		//fmt.Println("Before mock")
 		mocker := db.Mocker{DB: instance.DB, WM: instance.WM}
 		mocker.Mock()
 	}
 	// ##################################################
-	fmt.Println("After reset")
+	//fmt.Println("After reset")
 	return nil
 }
 
