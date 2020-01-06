@@ -25,8 +25,8 @@ jobs:
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker stop ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker rm ambitine || true"
             ssh ntn@35.228.98.103 "cd Ambitine_backend; sudo docker-compose up --build -d"
-            ssh ntn@35.228.98.103 "sudo docker container prune -y"
-            ssh ntn@35.228.98.103 "sudo docker image prune -y"
+            ssh ntn@35.228.98.103 "y | sudo docker container prune"
+            ssh ntn@35.228.98.103 "y | sudo docker image prune"
 
 workflows:
   version: 2
