@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -91,7 +92,30 @@ func (instance *App) UploadImg(c *gin.Context) {
 		c.Status(400)
 		return
 	}
-
+
+	ImgUrl := "http://35.228.98.103:9090/avatars/img" + imgFileName + ".jpeg"
+
+	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
+	if err != nil {
+		fmt.Println("Upload error: ", err)
+		c.Status(400)
+		return
+	}
+
+	c.Status(200)
+	defer f.Close()
+	io.Copy(f, file)
+}
+
+func (instance *App) GetUserBalance(c *gin.Context) {
+	id, _ := c.Get("id")
+	addr, err := instance.DB.GetAddressById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("Unable to get balance by id:", err)
+		c.Status(400)
+		return
+	}
 
 	_, balance, _ := instance.WM.CheckBalance(addr)
 
