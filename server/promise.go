@@ -44,12 +44,32 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		return
 	}
 
+	if p.Author == p.Receiver {
+		fmt.Println("Similar promise author and receiver")
+		c.Status(409)
+		return
+	}
+
+	if p.Receiver == "" {
+		fmt.Println("Promise receiver is empty")
+		c.Status(409)
+		return
+	}
+
 	id, _ := c.Get("id")
 
 	p.Author, err = instance.DB.GetNicknameById(int(id.(float64)))
 
 	if err != nil {
 		fmt.Println("Unable to get promise author nickname by id :", err)
+		c.Status(400)
+		return
+	}
+
+	err, _ = instance.DB.CheckUserExist(p.Receiver)
+
+	if err != nil {
+		fmt.Println("Unable to find receive by nickname :", err)
 		c.Status(400)
 		return
 	}
@@ -113,10 +133,10 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		`{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
-					"title": "` + p.Author + " promesed you that:" + `",
-					"message": "` + p.Description + `"
+					"title": "`+p.Author+" promesed you that:"+`",
+					"message": "`+p.Description+`"
 				}
 			]
 		}`,
@@ -164,6 +184,7 @@ func (instance *App) Solution(c *gin.Context) {
 		c.Status(400)
 		return
 	}
+
 	isAccepted, err := instance.DB.IsPromiseAccepted(sol.Promise_id)
 	if isAccepted {
 		fmt.Println("Promise is already accepted:", err)
@@ -191,21 +212,20 @@ func (instance *App) Solution(c *gin.Context) {
 		{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
 					"title": "Your promis was accepted!",
-					"message": "` + `Congratulations!` + p.Receiver + ` was accepted your promise ` + p.Description + `.\n"
+					"message": "`+`Congratulations!`+p.Receiver+` was accepted your promise `+p.Description+`.\n"
 				}
 			]
 		}`,
-		p, token)
+			p, token)
 
 		if err != nil {
 			fmt.Println("Unable send notofication:", err)
 			c.Status(400)
 			return
 		}
-
 
 		c.Status(200)
 		return
@@ -274,14 +294,14 @@ func (instance *App) Solution(c *gin.Context) {
 		{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
 					"title": "Your promis was declined.",
-					"message": "` + p.Receiver + ` was declined your promise ` + p.Description + `.\n"
+					"message": "`+p.Receiver+` was declined your promise `+p.Description+`.\n"
 				}
 			]
 		}`,
-		p, token)
+			p, token)
 
 		c.Status(200)
 		return

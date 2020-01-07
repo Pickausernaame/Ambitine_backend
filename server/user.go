@@ -83,45 +83,16 @@ func (instance *App) UploadImg(c *gin.Context) {
 	defer file.Close()
 	id, _ := c.Get("id")
 
-	picpath := "./static/avatars/img" + strconv.Itoa(int(id.(float64))) + strconv.Itoa(int(time.Now().Unix())) + ".jpeg"
+	imgFileName := strconv.Itoa(int(id.(float64))) + strconv.Itoa(int(time.Now().Unix()))
+
+	picpath := "./static/avatars/img" + imgFileName + ".jpeg"
 	f, err := os.OpenFile(picpath, os.O_WRONLY|os.O_CREATE, 0666)
 	if err != nil {
 		fmt.Println("Upload error: ", err)
 		c.Status(400)
 		return
 	}
-
-	ImgUrl := "http://35.228.98.103:9090/avatars/img" + strconv.Itoa(int(id.(float64))) + strconv.Itoa(int(time.Now().Unix())) + ".jpeg"
-
-	err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
-	if err != nil {
-		fmt.Println("Upload error: ", err)
-		c.Status(400)
-		return
-	}
-
-	//err = instance.DB.UpdateUserImgUrl(int(id.(float64)), ImgUrl)
-	//
-	//if err != nil {
-	//	fmt.Println("Upload to update promises imgs: ", err)
-	//	c.Status(400)
-	//	return
-	//}
-
-	c.Status(200)
-	defer f.Close()
-	io.Copy(f, file)
-}
-
-func (instance *App) GetUserBalance(c *gin.Context) {
-	id, _ := c.Get("id")
-	addr, err := instance.DB.GetAddressById(int(id.(float64)))
-
-	if err != nil {
-		fmt.Println("Unable to get balance by id:", err)
-		c.Status(400)
-		return
-	}
+
 
 	_, balance, _ := instance.WM.CheckBalance(addr)
 
