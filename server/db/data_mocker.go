@@ -2,6 +2,7 @@ package db
 
 import (
 	"os"
+	"strconv"
 
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
 
@@ -24,6 +25,33 @@ const (
 	REAL_PRIVATE5 = "3d6ae8b13b180abe5f524a8b7b0d31e3c41cb6f06b4d07bab3989058ea7c8700"
 	REAL_ADRESS5  = "0x3358b8E5152BF2Bcb11D82ccd61c01455BB00c32"
 )
+
+var accs string[] {
+TEST_ACC_PRIVATE_0 = "77853e6575809ba64bf7e896e1a7ecf6e51a4da32198b3a7354caf0e92a88391"
+TEST_ACC_ADRESS_0 = "0x8a7A329644399275D41bd9aF572c999871Fa4c43"
+TEST_ACC_PRIVATE_1 = "20d25e9b976c415f1c0e77bed5d477dab85ec53ad8d3d6034f29eaa981a6c26b"
+TEST_ACC_ADRESS_1 = "0x94C65dA01dB33161484A7935613Ac41E87C6a184"
+TEST_ACC_PRIVATE_2 = "e9713f5333a5ab1372847986b08779c0a7eb396d70006d26648aca7555601394"
+TEST_ACC_ADRESS_2 = "0xf1348eCD62B480CC7cE60aF8E75A17259c297B00"
+TEST_ACC_PRIVATE_3 = "31a83cc6cf3786b569c2cede2dc8c74a49ed42f9372f1ec77e5f63ea17b1c800"
+TEST_ACC_ADRESS_3 = "0x1cAa4A6903B071D40b194B2421B93B8c79e99510"
+TEST_ACC_PRIVATE_4 = "50fdb1d11af6e182a18e77477b14a85376067b1988c7fe4940014d62efefc6d4"
+TEST_ACC_ADRESS_4 = "0x91F18bE1409FD8E2f59f7b933124902A7b3772F8"
+TEST_ACC_PRIVATE_5 = "43f3917359208f97a4ab2a9ab4bc6df7cb9ad6f2d53ebc01f61c819b901eb625"
+TEST_ACC_ADRESS_5 = "0xFe0e4bd6CD42ab9f5e0ADdE5170dCD05bDc739D3"
+TEST_ACC_PRIVATE_6 = "7be5c0b5832391805ed51929056c83e6856465914bcfc78c77eaf3cdbb8726b5"
+TEST_ACC_ADRESS_6 = "0x4108c4bB9E0F7597c2e30Ed32ED4BCbc90DA3Bf9"
+TEST_ACC_PRIVATE_7 = "7f4aca6145b710745b8482b54d2d92c820bd92570851f67eaec2558eb3fedd36"
+TEST_ACC_ADRESS_7 = "0xdb116bAb03b08D85FD84c26cB778B5D32be0E30D"
+TEST_ACC_PRIVATE_8 = "24106ad8f4981a4051202a4fab0159c2a14a7d83a84a1c6a121b54f591fe9e5f"
+TEST_ACC_ADRESS_8 = "0x549b9ab2bB792ED165Bb4003C0dD521514C27204"
+TEST_ACC_PRIVATE_9 = "acd302a20fa330de2c09527a944b396c4b32d1feb6e9ca6e7d19499f2c6f0422"
+TEST_ACC_ADRESS_9 = "0x805Ab9Ce265ACfb8E83EaB9dc33AE521B14350E3"
+}
+
+var addrs string[] {
+	
+}
 
 type Mocker struct {
 	DB *DBHandler
@@ -138,6 +166,40 @@ func (m *Mocker) Mock() {
 	// m.setUserAvatar("Temirlan", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	// m.setUserAvatar("Oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
 	// m.setUserAvatar("Oleg", "https://i.kym-cdn.com/photos/images/newsfeed/001/504/739/5c0.jpg")
+
+	// Presentation mock accs:
+
+	Viagra := models.SignUpUserStruct{
+		Nickname: "Viagra",
+		Email:    "dev@viagra.org",
+		Password: "1337",
+	}
+
+	m.createUser(Viagra, privateKey, address)
+
+	for i := 0; i < 10; i++ {
+		nickname := "testAcc" + strconv.Itoa(i)
+		email := nickname + "viagra.org"
+
+		presTestAcc := models.SignUpUserStruct{
+			Nickname: nickname,
+			Email:    email,
+			Password: "1337",
+		}
+
+		m.createUser(presTestAcc, privateKey, address)
+
+		p := models.Promise{
+			Author:      "Viagra",
+			Receiver:    nickname,
+			Description: "Сделать фид обещаний прямо сейчас",
+			Pastdue:     1766517792000,
+			Deposit:     10,
+			Accepted:    0,
+		}
+	
+		m.createPromise(p)
+	}
 
 	p := models.Promise{
 		Author:      "Vladimir",
