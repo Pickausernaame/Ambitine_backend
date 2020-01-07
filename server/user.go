@@ -198,6 +198,19 @@ func (instance *App) GetAuthorPromises(c *gin.Context) {
 		return
 	}
 	fmt.Println(ps)
+	dept := 0.
+	for _, p := range ps {
+		if p.Accepted == 0 {
+			dept = dept + p.Deposit
+		}
+	}
+	fmt.Println(dept)
+	err = instance.DB.UpdateDeptById(int(id.(float64)), dept)
+	if err != nil {
+		fmt.Println("Updating debt by id err: ", err)
+		c.Status(405)
+		return
+	}
 	c.JSON(200, ps)
 }
 
@@ -287,7 +300,7 @@ func (instance *App) UserInfo(c *gin.Context) {
 	}
 
 	u.Balance, _ = balance.Float64()
-	u.Balance = u.Balance * kanzler.EtherPerUsd()
+	u.Balance = u.Balance*kanzler.EtherPerUsd() - u.Debt
 	fmt.Println(u)
 	c.JSON(200, u)
 	return

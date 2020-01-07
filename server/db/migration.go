@@ -17,7 +17,8 @@ func (db *DBHandler) ResetDB() (err error) {
 			"imgurl" text,
 			"token" text DEFAULT 'abs',
 			"private" citext NOT NULL,
-			"address" citext NOT NULL
+			"address" citext NOT NULL, 
+			"debt"	double precision DEFAULT 0
 		);
 
 		CREATE TABLE "promise" (

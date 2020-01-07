@@ -11,7 +11,6 @@ type DBHandler struct {
 	Connection *pgx.ConnPool
 }
 
-
 func (db *DBHandler) UpdateUserImgUrl(id int, url string) (err error) {
 	sql := `
 		UPDATE "users" SET imgurl = $2 
@@ -34,6 +33,21 @@ func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	}
 
 	return nil, id
+}
+
+func (db *DBHandler) GetDebtById(id int) (address float64, err error) {
+	sql := `SELECT debt FROM users WHERE id = $1;`
+
+	err = db.Connection.QueryRow(sql, id).Scan(&address)
+	return
+}
+
+func (db *DBHandler) UpdateDeptById(id int, dept float64) (err error) {
+	sql := `UPDATE "users" SET debt = $2 
+				WHERE id = $1;`
+
+	_, err = db.Connection.Exec(sql, id, dept)
+	return
 }
 
 func (db *DBHandler) GetAddressById(id int) (address string, err error) {
@@ -110,15 +124,18 @@ func (db *DBHandler) GetUserInfo(id int) (u models.UserInfo, err error) {
 	sql := `SELECT 
 				nickname,
 				imgurl,
-				address  FROM "users" 
+				address,
+				debt
+				FROM "users" 
 			WHERE id = $1;
 	`
 
-	err = db.Connection.QueryRow(sql, id).Scan(&u.Nickname, &u.ImgUrl, &u.Wallet)
+	err = db.Connection.QueryRow(sql, id).Scan(&u.Nickname, &u.ImgUrl, &u.Wallet, &u.Debt)
 	if err != nil {
 		fmt.Println(err)
 		return
 	}
+
 	sql = `
 		SELECT COUNT(*) FROM promise
 		WHERE author = $1 AND accepted = $2;

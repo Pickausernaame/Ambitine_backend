@@ -13,8 +13,8 @@ type UserStruct struct {
 }
 
 type Notify struct {
-	Title string `json:"title"`
-	Messege string `json:"messege"`
+	Title    string `json:"title"`
+	Messege  string `json:"messege"`
 	Nickname string `json:"nickname"`
 }
 
@@ -44,6 +44,7 @@ type UserInfo struct {
 	Declined         int     `json:"declined_count"`
 	Processing       int     `json:"processing_count"`
 	Balance          float64 `json:"balance"`
+	Debt             float64 `json:"debt"`
 	Wallet           string  `json:"wallet"`
 	AcceptedAmout    float64 `json:"accepted_amount"`
 	DeclinedAmount   float64 `json:"declined_amount"`

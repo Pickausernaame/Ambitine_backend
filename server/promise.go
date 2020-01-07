@@ -63,31 +63,22 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 	}
 
 	_, floatBalance, err := instance.WM.CheckBalance(addr)
+
 	balance, _ := floatBalance.Float64()
+	balance = balance * kanzler.EtherPerUsd()
+	dept, err := instance.DB.GetDebtById(int(id.(float64)))
+
+	balance = balance - dept
+
 	fmt.Println("Promise deposite: ", p.Deposit)
-	fmt.Println("user balance: ", balance*kanzler.EtherPerUsd())
-	if err != nil || p.Deposit > balance*kanzler.EtherPerUsd() || p.Deposit <= 0.0 {
+	fmt.Println("user balance: ", balance)
+
+	if err != nil || p.Deposit > balance || p.Deposit <= 0.0 {
 		fmt.Println("Deposit is: ", p.Deposit, "\nBalance is: ", balance, "\n\n")
 		fmt.Println("Unable to get balance by wallet addres, or user set wrong balance:", err)
-		c.Status(400)
+		c.Status(401)
 		return
 	}
-
-	// p.AuthorImgUrl, err = instance.DB.GetImgUrlByNickname(p.Author)
-
-	// if err != nil {
-	// 	fmt.Println("Unable to get authorImgUrl by nickname :", err)
-	// 	c.Status(400)
-	// 	return
-	// }
-
-	// p.ReceiverImgUrl, err = instance.DB.GetImgUrlByNickname(p.Receiver)
-
-	// if err != nil {
-	// 	fmt.Println("Unable to get authorImgUrl by nickname :", err)
-	// 	c.Status(400)
-	// 	return
-	// }
 
 	fmt.Println(p)
 
@@ -98,9 +89,10 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		c.Status(400)
 		return
 	}
+	dept += p.Deposit + dept
+	err = instance.DB.UpdateDeptById(int(id.(float64)), dept)
 
 	token, err := instance.DB.GetUserToken(p.Receiver)
-
 	fmt.Print(p.Receiver, " token: \n", token, "\n\n")
 
 	if err != nil {
@@ -113,10 +105,10 @@ func (instance *App) CreateNewPromise(c *gin.Context) {
 		`{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
-					"title": "` + p.Author + " promesed you that:" + `",
-					"message": "` + p.Description + `"
+					"title": "`+p.Author+" promesed you that:"+`",
+					"message": "`+p.Description+`"
 				}
 			]
 		}`,
@@ -191,21 +183,20 @@ func (instance *App) Solution(c *gin.Context) {
 		{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
 					"title": "Your promis was accepted!",
-					"message": "` + `Congratulations!` + p.Receiver + ` was accepted your promise ` + p.Description + `.\n"
+					"message": "`+`Congratulations!`+p.Receiver+` was accepted your promise `+p.Description+`.\n"
 				}
 			]
 		}`,
-		p, token)
+			p, token)
 
 		if err != nil {
 			fmt.Println("Unable send notofication:", err)
 			c.Status(400)
 			return
 		}
-
 
 		c.Status(200)
 		return
@@ -244,6 +235,7 @@ func (instance *App) Solution(c *gin.Context) {
 		}
 		bal, _ := balance.Float64()
 		bal = bal * kanzler.EtherPerUsd()
+
 		if bal < p.Deposit {
 			c.Status(408)
 			return
@@ -274,14 +266,14 @@ func (instance *App) Solution(c *gin.Context) {
 		{
 			"notifications": [
 				{
-					"tokens": ["` + token + `"],
+					"tokens": ["`+token+`"],
 					"platform": 2,
 					"title": "Your promis was declined.",
-					"message": "` + p.Receiver + ` was declined your promise ` + p.Description + `.\n"
+					"message": "`+p.Receiver+` was declined your promise `+p.Description+`.\n"
 				}
 			]
 		}`,
-		p, token)
+			p, token)
 
 		c.Status(200)
 		return
