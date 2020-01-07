@@ -236,7 +236,7 @@ func (db *DBHandler) GetUserToken(nickname string) (token string, err error) {
 
 func (db *DBHandler) RemoveTockenById(id int) (err error) {
 	sql := `
-		UPDATE "users" SET token = "rm"
+		UPDATE "users" SET token = "123"
 		WHERE id = $1; 		
 	`
 
