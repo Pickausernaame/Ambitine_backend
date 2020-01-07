@@ -35,10 +35,24 @@ func (db *DBHandler) CheckUserExist(nickname string) (err error, id int) {
 	return nil, id
 }
 
+func (db *DBHandler) GetDebtByNickname(nickname string) (address float64, err error) {
+	sql := `SELECT debt FROM users WHERE nickname = $1;`
+	err = db.Connection.QueryRow(sql, nickname).Scan(&address)
+	return
+}
+
 func (db *DBHandler) GetDebtById(id int) (address float64, err error) {
 	sql := `SELECT debt FROM users WHERE id = $1;`
 
 	err = db.Connection.QueryRow(sql, id).Scan(&address)
+	return
+}
+
+func (db *DBHandler) UpdateDeptByNickname(nickname string, dept float64) (err error) {
+	sql := `UPDATE "users" SET debt = $2 
+				WHERE nickname = $1;`
+
+	_, err = db.Connection.Exec(sql, nickname, dept)
 	return
 }
 
