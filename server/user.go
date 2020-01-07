@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/Pickausernaame/Ambitine_backend/server/kanzler"
-	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
