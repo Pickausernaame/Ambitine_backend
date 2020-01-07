@@ -166,7 +166,25 @@ func (instance *App) SignInHand(c *gin.Context) {
 }
 
 func (instance *App) Logout(c *gin.Context) {
-	c.Status(666)
+	id, _ := c.Get("id")
+
+	_, err := instance.DB.GetNicknameById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("User does not exist. Id: ", id)
+		c.Status(400)
+		return
+	}
+
+	err = instance.DB.RemoveTockenById(int(id.(float64)))
+
+	if err != nil {
+		fmt.Println("Unable to remove device token form db: ", err)
+		c.Status(400)
+		return
+	}
+
+	c.Status(200)
 }
 
 func (instance *App) GetAuthorPromises(c *gin.Context) {
