@@ -265,7 +265,7 @@ func (instance *App) Solution(c *gin.Context) {
 			return
 		}
 
-		_, balance, err := instance.WM.CheckBalance(fromWallet)
+		balance, _, err := instance.WM.CheckBalance(fromWallet)
 		if err != nil {
 			fmt.Println("Unable to get Balance:", err)
 			c.Status(400)
@@ -322,6 +322,9 @@ func (instance *App) Solution(c *gin.Context) {
 		}
 
 		debt = debt - p.Deposit
+		if debt < 0 {
+			debt = 0
+		}
 
 		err = instance.DB.UpdateDeptByNickname(p.Author, debt)
 		if err != nil {
