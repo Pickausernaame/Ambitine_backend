@@ -218,6 +218,20 @@ func (instance *App) Solution(c *gin.Context) {
 			c.Status(400)
 			return
 		}
+		debt, err := instance.DB.GetDebtById(int(id.(float64)))
+		if err != nil {
+			fmt.Println("Unable to get debt:", err)
+			c.Status(400)
+			return
+		}
+		debt = debt - p.Deposit
+
+		err = instance.DB.UpdateDeptById(int(id.(float64)), debt)
+		if err != nil {
+			fmt.Println("Unable to get debt:", err)
+			c.Status(400)
+			return
+		}
 
 		c.Status(200)
 		return
@@ -295,6 +309,21 @@ func (instance *App) Solution(c *gin.Context) {
 			]
 		}`,
 			p, token)
+
+		debt, err := instance.DB.GetDebtById(int(id.(float64)))
+		if err != nil {
+			fmt.Println("Unable to get debt:", err)
+			c.Status(400)
+			return
+		}
+		debt = debt - p.Deposit
+
+		err = instance.DB.UpdateDeptById(int(id.(float64)), debt)
+		if err != nil {
+			fmt.Println("Unable to get debt:", err)
+			c.Status(400)
+			return
+		}
 
 		c.Status(200)
 		return
