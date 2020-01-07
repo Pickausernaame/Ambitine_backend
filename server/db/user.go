@@ -220,12 +220,32 @@ func (db *DBHandler) GetUserToken(nickname string) (token string, err error) {
 	return
 }
 
+func (db *DBHandler) RemoveTockenById(id int) (err error) {
+	sql := `
+		UPDATE "users" SET token = "rm"
+		WHERE id = $1; 		
+	`
+
+	_, err = db.Connection.Exec(sql, id)
+	return
+}
+
 func (db *DBHandler) SetUserImgUrl(nickname string, url string) (err error) {
 	sql := `
 		UPDATE "users" SET imgurl = $2
 		WHERE nickname = $1; 
 	`
 	_, err = db.Connection.Exec(sql, nickname, url)
+	return
+}
+
+func (db *DBHandler) GetUserTokensByNickname(nickname string) (tokens []string, err error) {
+	sql := `
+		UPDATE "users" SET token = $2
+		WHERE nickname = $1; 
+	`
+	_, err = db.Connection.Exec(sql)
+
 	return
 }
 
