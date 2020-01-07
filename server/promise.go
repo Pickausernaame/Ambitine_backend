@@ -218,23 +218,26 @@ func (instance *App) Solution(c *gin.Context) {
 			c.Status(400)
 			return
 		}
-		debt, err := instance.DB.GetDebtById(int(id.(float64)))
+
+		debt, err := instance.DB.GetDebtByNickname(p.Author)
+
 		if err != nil {
 			fmt.Println("Unable to get debt:", err)
 			c.Status(400)
 			return
 		}
+
 		debt = debt - p.Deposit
 
-		err = instance.DB.UpdateDeptById(int(id.(float64)), debt)
+		err = instance.DB.UpdateDeptByNickname(p.Author, debt)
 		if err != nil {
 			fmt.Println("Unable to get debt:", err)
 			c.Status(400)
 			return
 		}
-
 		c.Status(200)
 		return
+
 	} else if sol.Accepted == -1 {
 
 		p, err := instance.DB.GetPromisesById(sol.Promise_id)
@@ -310,15 +313,17 @@ func (instance *App) Solution(c *gin.Context) {
 		}`,
 			p, token)
 
-		debt, err := instance.DB.GetDebtById(int(id.(float64)))
+		debt, err := instance.DB.GetDebtByNickname(p.Author)
+
 		if err != nil {
 			fmt.Println("Unable to get debt:", err)
 			c.Status(400)
 			return
 		}
+
 		debt = debt - p.Deposit
 
-		err = instance.DB.UpdateDeptById(int(id.(float64)), debt)
+		err = instance.DB.UpdateDeptByNickname(p.Author, debt)
 		if err != nil {
 			fmt.Println("Unable to get debt:", err)
 			c.Status(400)
