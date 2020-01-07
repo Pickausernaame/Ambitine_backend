@@ -117,7 +117,7 @@ func (instance *App) GetUserBalance(c *gin.Context) {
 		return
 	}
 
-	_, balance, _ := instance.WM.CheckBalance(addr)
+	balance, _, _ := instance.WM.CheckBalance(addr)
 
 	ethBalance, _ := balance.Float64()
 	usdBalance := kanzler.EtherPerUsd() * ethBalance
@@ -304,7 +304,7 @@ func (instance *App) UserInfo(c *gin.Context) {
 		return
 	}
 
-	_, balance, err := instance.WM.CheckBalance(u.Wallet)
+	balance, _, err := instance.WM.CheckBalance(u.Wallet)
 	if err != nil {
 		fmt.Println("Getting user's balance error: ", err)
 		c.Status(409)
