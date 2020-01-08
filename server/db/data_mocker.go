@@ -420,14 +420,14 @@ func (m *Mocker) Mock() {
 	}
 	m.createPromise(p)
 
-	p = models.Promise{
-		Author:      "Sanek",
-		Receiver:    "Vladimir",
-		Description: "Показать что такое малиновый закат",
-		Pastdue:     1766517791000,
-		Deposit:     29,
-		Accepted:    0,
-	}
-	m.createPromise(p)
+	//p = models.Promise{
+	//	Author:      "Sanek",
+	//	Receiver:    "Vladimir",
+	//	Description: "Показать что такое малиновый закат",
+	//	Pastdue:     1766517791000,
+	//	Deposit:     29,
+	//	Accepted:    0,
+	//}
+	//m.createPromise(p)
 
 }
