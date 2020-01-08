@@ -26,6 +26,11 @@ const (
 	REAL_ADRESS5  = "0x3358b8E5152BF2Bcb11D82ccd61c01455BB00c32"
 )
 
+const (
+	TEST_VIAGRA_PRIVATE = "d3dadaafaec3658c34f602bcb98177cc58acabf65df3ea542cbd90358aadd8f6"
+	TEST_VIAGRA_ADRESS  = "0xC138D32D9b1De2e078A7b8Af887D49Bc33aa295a"
+)
+
 type Mocker struct {
 	DB *DBHandler
 	WM *kanzler.WalletManager
@@ -173,6 +178,9 @@ func (m *Mocker) Mock() {
 		Email:    "dev@viagra.org",
 		Password: "1337",
 	}
+
+	privateKey = TEST_VIAGRA_PRIVATE
+	address = TEST_VIAGRA_ADRESS
 
 	m.createUser(Viagra, privateKey, address)
 
