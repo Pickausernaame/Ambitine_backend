@@ -119,10 +119,11 @@ func (m *Mocker) Mock() {
 	m.createUser(Oleg, privateKey, address)
 
 	oleg_full := models.SignUpUserStruct{
-		Nickname: "OLEG_KRUTO_OZVUCHIVAET_TORGOVYU_FEDERACIU",
+		Nickname: "Sanek",
 		Email:    "lolo@ya.ru",
 		Password: "DROIDEK",
 	}
+
 	if state == "debug" {
 		privateKey = "f7ea4e300c90742decc44f65b1d7a5a7308ed799f08b6140d69e0bcd9d448b29"
 		address = "0x668cbE895A9A2C24421530d919d2B34B337272fB"
@@ -376,6 +377,56 @@ func (m *Mocker) Mock() {
 		Pastdue:     1766517792000,
 		Deposit:     26,
 		Accepted:    1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Sanek",
+		Receiver:    "Vladimir",
+		Description: "Позвонить Маме",
+		Pastdue:     1766517792000,
+		Deposit:     26,
+		Accepted:    -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Sanek",
+		Receiver:    "Antony",
+		Description: "Заказать пиццу",
+		Pastdue:     1766517793000,
+		Deposit:     23,
+		Accepted:    -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Sanek",
+		Receiver:    "Oleg",
+		Description: "Станцевать приват на презентации",
+		Pastdue:     1766517893000,
+		Deposit:     230,
+		Accepted:    -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Sanek",
+		Receiver:    "Temirlan",
+		Description: "Выйграть в армреслинг",
+		Pastdue:     1766518893000,
+		Deposit:     2,
+		Accepted:    -1,
+	}
+	m.createPromise(p)
+
+	p = models.Promise{
+		Author:      "Sanek",
+		Receiver:    "Vladimir",
+		Description: "Показать что такое малиновый закат",
+		Pastdue:     1766517791000,
+		Deposit:     29,
+		Accepted:    0,
 	}
 	m.createPromise(p)
 
