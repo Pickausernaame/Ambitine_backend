@@ -161,7 +161,7 @@ func (instance *App) SignInHand(c *gin.Context) {
 	}
 
 	sessionId := instance.createSessionId(id)
-	c.SetCookie("session_id", sessionId, 3600, "/", "", false, false)
+	c.SetCookie("session_id", sessionId, 99999999999, "/", "", false, false)
 	c.Status(201)
 }
 
